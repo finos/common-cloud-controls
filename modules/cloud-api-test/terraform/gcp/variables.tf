@@ -16,7 +16,7 @@ variable "zone" {
 variable "integration_runner_service_account_email" {
   type        = string
   default     = "gha-deployer@nodal-time-474015-p5.iam.gserviceaccount.com"
-  description = "Service account that runs integration tests in CI (e.g. gha-deployer@PROJECT.iam.gserviceaccount.com). Granted secretAccessor on the fixture secret."
+  description = "Service account that runs integration tests in CI (e.g. gha-deployer@PROJECT.iam.gserviceaccount.com). Granted secretAccessor on the fixture secret and roles/container.admin so GHA TokenRequest matches laptop/EKS/AKS."
 }
 
 variable "webhook_probe_image" {

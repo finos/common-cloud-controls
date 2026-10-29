@@ -183,6 +183,10 @@ func (c *Controller) CheckWebhookRegistration(clusterID string) (map[string]inte
 // SetBackendAvailability scales the probe Deployment up or down and waits until
 // ReadyReplicas / EndpointSlices match the requested availability.
 func (c *Controller) SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error) {
+	return c.setBackendAvailability(clusterID, enabled)
+}
+
+func (c *Controller) setBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error) {
 	if err := c.requireClusterID(clusterID); err != nil {
 		return nil, err
 	}
@@ -325,8 +329,8 @@ func (c *Controller) TearDown() error {
 	_, err := c.SetBackendAvailability(clusterID, true)
 	return err
 }
-func (c *Controller) Start(string) error                { return nil }
-func (c *Controller) Stop(string) error                 { return nil }
+func (c *Controller) Start(string) error { return nil }
+func (c *Controller) Stop(string) error  { return nil }
 func (c *Controller) StartedDetails() ([]generic.StartedResource, error) {
 	return nil, nil
 }

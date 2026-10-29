@@ -25,6 +25,11 @@ var callReportLines []string
 // integrationFailedCount is set by TestCloudAPIIntegration for TestMain exit code.
 var integrationFailedCount int
 
+// VPC CN02 CSV rows use arg1=auto: resolve subnet via SelectPublicSubnetForTest
+// and remember the created ResourceId for Get/Delete.
+var vpcAutoLastSubnetID string
+var vpcAutoLastResourceID string
+
 func TestMain(m *testing.M) {
 	code := m.Run()
 	if len(callReportLines) > 0 {
@@ -108,12 +113,18 @@ func TestCloudAPIIntegration(t *testing.T) {
 			continue
 		}
 		started := time.Now()
-		svc, err := serviceFor(f, services, row.API, row.Identity)
+		rowFactory, err := factoryForRow(f, cloudProvider, cfg, row)
 		var callErr error
 		if err != nil {
 			callErr = err
 		} else {
-			callErr = invokeMethod(svc, cfg, row.Method, row.Args)
+			var svc generic.Service
+			svc, err = serviceFor(rowFactory, services, row.API, row.Identity, row.AccessMethod)
+			if err != nil {
+				callErr = err
+			} else {
+				callErr = invokeMethod(svc, cfg, row.Method, row.Args)
+			}
 		}
 		elapsed := time.Since(started).Seconds()
 		if recordResult(row.ExpectError, callErr != nil, &passed, &failed) {
@@ -184,6 +195,9 @@ func emitCallLine(line string, t *testing.T) {
 
 func formatCallRow(row callRow) string {
 	parts := []string{row.API, row.Method}
+	if am := strings.TrimSpace(row.AccessMethod); am != "" {
+		parts = append(parts, "access_method="+am)
+	}
 	if id := strings.TrimSpace(row.Identity); id != "" {
 		parts = append(parts, "identity="+id)
 	}
@@ -193,6 +207,30 @@ func formatCallRow(row callRow) string {
 	return strings.Join(parts, " ")
 }
 
+func factoryForRow(defaultFactory factory.Factory, provider types.CloudProvider, cfg types.Config, row callRow) (factory.Factory, error) {
+	switch strings.ToLower(strings.TrimSpace(row.AccessMethod)) {
+	case "", "direct":
+		return defaultFactory, nil
+	case "command-invoke":
+		if provider != types.ProviderAzure {
+			return nil, fmt.Errorf("access_method command-invoke is azure-only")
+		}
+		return factory.NewAzureFactory(overlayConfig(cfg, "azure-aks-kube-transport", "command-invoke")), nil
+	default:
+		return nil, fmt.Errorf("unknown access_method %q", row.AccessMethod)
+	}
+}
+
+func overlayConfig(cfg types.Config, key, value string) types.Config {
+	src := cfg.Vars()
+	dst := make(map[string]interface{}, len(src)+1)
+	for k, v := range src {
+		dst[k] = v
+	}
+	dst[key] = value
+	return types.NewConfig(dst)
+}
+
 func formatCallResult(status string, seconds float64, label string, err error) string {
 	if err != nil {
 		return fmt.Sprintf("%-4s  %8.1f  %s  %v\n", status, seconds, label, err)
@@ -200,10 +238,13 @@ func formatCallResult(status string, seconds float64, label string, err error) s
 	return fmt.Sprintf("%-4s  %8.1f  %s\n", status, seconds, label)
 }
 
-func serviceFor(f factory.Factory, cache map[string]generic.Service, api, identity string) (generic.Service, error) {
+func serviceFor(f factory.Factory, cache map[string]generic.Service, api, identity, accessMethod string) (generic.Service, error) {
 	key := api
 	if id := strings.TrimSpace(identity); id != "" {
 		key = api + ":" + id
+	}
+	if am := strings.TrimSpace(accessMethod); am != "" {
+		key = key + "#" + am
 	}
 	if svc, ok := cache[key]; ok {
 		return svc, nil
@@ -228,8 +269,7 @@ func integrationMethodAllowed(row callRow) bool {
 	if !strings.HasPrefix(row.Method, "Delete") {
 		return true
 	}
-	return row.API == "object-storage" &&
-		(row.Method == "DeleteObject" || row.Method == "DeleteBucket")
+	return deleteMethodAllowed(row.API, row.Method)
 }
 
 func invokeMethod(svc generic.Service, cfg types.Config, method string, args []string) error {
@@ -237,13 +277,18 @@ func invokeMethod(svc generic.Service, cfg types.Config, method string, args []s
 	for rv.Kind() == reflect.Interface && !rv.IsNil() {
 		rv = rv.Elem()
 	}
-	mt, ok := rv.Type().MethodByName(method)
-	if !ok {
-		return fmt.Errorf("method %q not found on %s", method, rv.Type())
-	}
 	trimmed := trimArgs(args)
 	for i := range trimmed {
 		trimmed[i] = substituteConfigArg(cfg, trimmed[i])
+	}
+	var err error
+	trimmed, err = resolveVpcAutoArgs(rv, cfg, method, trimmed)
+	if err != nil {
+		return err
+	}
+	mt, ok := rv.Type().MethodByName(method)
+	if !ok {
+		return fmt.Errorf("method %q not found on %s", method, rv.Type())
 	}
 	fnType := mt.Func.Type()
 	want := fnType.NumIn() - 1
@@ -260,7 +305,81 @@ func invokeMethod(svc generic.Service, cfg types.Config, method string, args []s
 		in[i+1] = v
 	}
 	out := mt.Func.Call(in)
+	rememberVpcAutoResult(method, out)
 	return firstError(out)
+}
+
+func resolveVpcAutoArgs(rv reflect.Value, cfg types.Config, method string, args []string) ([]string, error) {
+	if len(args) == 0 || !strings.EqualFold(args[0], "auto") {
+		return args, nil
+	}
+	switch method {
+	case "CreateTestResourceInSubnet":
+		if vpcAutoLastSubnetID != "" {
+			return []string{vpcAutoLastSubnetID}, nil
+		}
+		vpcID := strings.TrimSpace(cfg.Get("resource", "uid"))
+		if vpcID == "" {
+			vpcID = "finos-ccc-integration-vpc"
+		}
+		mt, ok := rv.Type().MethodByName("SelectPublicSubnetForTest")
+		if !ok {
+			return nil, fmt.Errorf("auto CreateTestResourceInSubnet: SelectPublicSubnetForTest not found")
+		}
+		out := mt.Func.Call([]reflect.Value{rv, reflect.ValueOf(vpcID)})
+		if err := firstError(out); err != nil {
+			return nil, fmt.Errorf("auto SelectPublicSubnetForTest: %w", err)
+		}
+		rememberVpcAutoResult("SelectPublicSubnetForTest", out)
+		if vpcAutoLastSubnetID == "" {
+			return nil, fmt.Errorf("auto SelectPublicSubnetForTest: missing SubnetId")
+		}
+		return []string{vpcAutoLastSubnetID}, nil
+	case "GetResourceExternalIpAssignment", "DeleteTestResource":
+		if vpcAutoLastResourceID == "" {
+			return nil, fmt.Errorf("auto %s: no prior CreateTestResourceInSubnet resource", method)
+		}
+		return []string{vpcAutoLastResourceID}, nil
+	default:
+		return args, nil
+	}
+}
+
+func rememberVpcAutoResult(method string, out []reflect.Value) {
+	switch method {
+	case "SelectPublicSubnetForTest", "CreateTestResourceInSubnet", "DeleteTestResource":
+	default:
+		return
+	}
+	if len(out) == 0 || !out[0].IsValid() {
+		return
+	}
+	v := out[0]
+	switch v.Kind() {
+	case reflect.Interface, reflect.Map, reflect.Pointer, reflect.Slice:
+		if v.IsNil() {
+			return
+		}
+	}
+	m, ok := v.Interface().(map[string]interface{})
+	if !ok {
+		return
+	}
+	switch method {
+	case "SelectPublicSubnetForTest":
+		if id := strings.TrimSpace(fmt.Sprintf("%v", m["SubnetId"])); id != "" && id != "<nil>" {
+			vpcAutoLastSubnetID = id
+		}
+	case "CreateTestResourceInSubnet":
+		if id := strings.TrimSpace(fmt.Sprintf("%v", m["ResourceId"])); id != "" && id != "<nil>" {
+			vpcAutoLastResourceID = id
+		}
+		if id := strings.TrimSpace(fmt.Sprintf("%v", m["SubnetId"])); id != "" && id != "<nil>" {
+			vpcAutoLastSubnetID = id
+		}
+	case "DeleteTestResource":
+		vpcAutoLastResourceID = ""
+	}
 }
 
 func coerceArg(typ reflect.Type, raw string) (reflect.Value, error) {

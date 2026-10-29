@@ -105,8 +105,14 @@ func (s *AzureLoggingService) QueryLogs(resourceID, logType string, lookbackMinu
 	case LogTypeAdmin:
 		return s.queryActivityLog(resourceID, lookbackMinutes)
 	case LogTypeDataWrite:
+		if s.kubernetesAuditTarget(resourceID) {
+			return s.queryKubernetesAuditLogs(resourceID, lookbackMinutes, "write")
+		}
 		return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageWrite")
 	case LogTypeDataRead:
+		if s.kubernetesAuditTarget(resourceID) {
+			return s.queryKubernetesAuditLogs(resourceID, lookbackMinutes, "read")
+		}
 		return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageRead")
 	case LogTypeFlow:
 		return s.queryFlowLogs(resourceID, lookbackMinutes)
@@ -147,7 +153,7 @@ func (s *AzureLoggingService) queryActivityLog(resourceID string, lookbackMinute
 				entry.Action = azureGetString(event.OperationName.LocalizedValue)
 			}
 			if event.Status != nil {
-				entry.Result = azureGetString(event.Status.LocalizedValue)
+				entry.Result = normalizeAzureResult(azureGetString(event.Status.LocalizedValue), azureGetString(event.Status.Value))
 			}
 			if event.Caller != nil {
 				entry.Identity = *event.Caller
@@ -273,6 +279,108 @@ func (s *AzureLoggingService) runKQL(workspaceID, kql string) ([]LogEntry, error
 		}
 	}
 	return entries, nil
+}
+
+func (s *AzureLoggingService) kubernetesAuditTarget(resourceID string) bool {
+	if s.config.Get("azure-k8s-audit-table") != "" {
+		return true
+	}
+	serviceType := strings.ToLower(s.config.Get("service-type", "service"))
+	if serviceType == "kubernetes" {
+		return true
+	}
+	cluster := strings.ToLower(strings.TrimSpace(s.config.Get("azure-aks-name", "kubernetes-cluster-name", "resource")))
+	if cluster != "" && strings.Contains(strings.ToLower(resourceID), cluster) {
+		return true
+	}
+	return false
+}
+
+func (s *AzureLoggingService) queryKubernetesAuditLogs(resourceID string, lookbackMinutes int, class string) ([]LogEntry, error) {
+	cfg := s.config.LoggingConfig()
+	workspaceID := cfg.AzureLogAnalyticsWorkspaceID
+	if workspaceID == "" {
+		return nil, fmt.Errorf("azure-log-analytics-workspace-id is required to query Kubernetes audit logs but is not set in config")
+	}
+	cluster := strings.TrimSpace(resourceID)
+	if cluster == "" {
+		cluster = s.config.Get("azure-aks-name", "kubernetes-cluster-name", "resource")
+	}
+	verbFilter := ""
+	switch class {
+	case "write":
+		verbFilter = `| where verb in ("create","update","patch","delete")`
+	case "read":
+		verbFilter = `| where verb in ("get","list","watch")`
+	}
+	table := cfg.AzureKubernetesAuditTable
+	if table == "" {
+		table = "AKSAudit"
+	}
+	kql := fmt.Sprintf(`%s
+| where TimeGenerated >= ago(%dm)
+| where _ResourceId contains '%s' or ClusterName == '%s' or ResourceId contains '%s'
+%s
+| extend result = iff(toint(ResponseStatus.code) >= 400 or ResultType == "Failed", "Failed", "Succeeded")
+| project TimeGenerated, verb, user, result, _ResourceId
+| order by TimeGenerated desc`, table, lookbackMinutes, cluster, cluster, cluster, verbFilter)
+
+	entries, err := s.runKQL(workspaceID, kql)
+	if err != nil && table == "AKSAudit" && cfg.AzureKubernetesAuditTable == "" {
+		fallback := fmt.Sprintf(`AzureDiagnostics
+| where TimeGenerated >= ago(%dm)
+| where Category in ("kube-audit","kube-audit-admin")
+| where ResourceId contains '%s'
+| extend result = iff(ResultType == "Failed" or ResultType == "Error", "Failed", "Succeeded")
+| project TimeGenerated, OperationName, result, ResourceId
+| order by TimeGenerated desc`, lookbackMinutes, cluster)
+		entries, err = s.runKQL(workspaceID, fallback)
+	}
+	if err != nil {
+		return nil, err
+	}
+	for i := range entries {
+		if entries[i].Result == "" {
+			if value := entries[i].Fields["result"]; value != "" {
+				entries[i].Result = normalizeAzureResult(value, "")
+			} else {
+				entries[i].Result = "Succeeded"
+			}
+		} else {
+			entries[i].Result = normalizeAzureResult(entries[i].Result, "")
+		}
+		if entries[i].Action == "" {
+			entries[i].Action = firstNonEmpty(entries[i].Fields["verb"], entries[i].Fields["OperationName"])
+		}
+		if entries[i].Resource == "" {
+			entries[i].Resource = firstNonEmpty(entries[i].Fields["_ResourceId"], entries[i].Fields["ResourceId"], cluster)
+		}
+	}
+	return entries, nil
+}
+
+func normalizeAzureResult(localized, value string) string {
+	raw := strings.TrimSpace(localized)
+	if raw == "" {
+		raw = strings.TrimSpace(value)
+	}
+	switch strings.ToLower(raw) {
+	case "success", "succeeded", "ok":
+		return "Succeeded"
+	case "fail", "failed", "error", "failure":
+		return "Failed"
+	default:
+		return raw
+	}
+}
+
+func firstNonEmpty(values ...string) string {
+	for _, value := range values {
+		if strings.TrimSpace(value) != "" {
+			return value
+		}
+	}
+	return ""
 }
 
 func azureGetString(s *string) string {

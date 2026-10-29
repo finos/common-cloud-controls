@@ -56,7 +56,7 @@ func newAWSService(ctx context.Context, cfg types.Config, awsCfg aws.Config, ide
 		eks:            eks.NewFromConfig(awsCfg),
 		awsCfg:         awsCfg,
 	}
-	service.resolveREST = service.buildRESTConfig
+	service.resolveREST = service.kubeRESTConfig
 	service.endpoint = service.endpointConfig
 	service.region = service.clusterRegion
 	service.updateMetadata = service.updateTags
@@ -96,9 +96,13 @@ func (s *AWSService) endpointConfig(ctx context.Context, clusterID string) (map[
 	if vpc == nil {
 		return nil, fmt.Errorf("EKS cluster %q has no resourcesVpcConfig", clusterID)
 	}
+	public := vpc.EndpointPublicAccess
+	private := vpc.EndpointPrivateAccess
+	cidrs := vpc.PublicAccessCidrs
 	return map[string]interface{}{
-		"PublicAccess": vpc.EndpointPublicAccess, "PrivateAccess": vpc.EndpointPrivateAccess,
-		"AllowedCIDRs": vpc.PublicAccessCidrs, "EndpointHostname": endpointHostname(aws.ToString(output.Cluster.Endpoint)),
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             endpointHostname(aws.ToString(output.Cluster.Endpoint)),
 	}, nil
 }
 
@@ -190,7 +194,10 @@ func (s *AWSService) awsLifecycle() *lifecycle.AWS {
 }
 
 func (s *AWSService) Start(resourceID string) error {
-	return s.awsLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.awsLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *AWSService) Stop(resourceID string) error {
@@ -208,7 +215,7 @@ func (s *AWSService) lifecycleClusterID(resourceID string) string {
 	return strings.TrimSpace(s.config.Get("kubernetes-cluster-name", "resource"))
 }
 
-func (s *AWSService) buildRESTConfig() (*rest.Config, error) {
+func (s *AWSService) kubeRESTConfig() (*rest.Config, error) {
 	output, err := s.describe(s.ctx, "")
 	if err != nil {
 		return nil, err
@@ -217,7 +224,7 @@ func (s *AWSService) buildRESTConfig() (*rest.Config, error) {
 	if cluster.Endpoint == nil || cluster.CertificateAuthority == nil || cluster.CertificateAuthority.Data == nil {
 		return nil, fmt.Errorf("EKS cluster is missing endpoint or certificate authority data")
 	}
-	return config.AWS(s.ctx, s.awsCfg, aws.ToString(cluster.Endpoint), aws.ToString(cluster.CertificateAuthority.Data), aws.ToString(cluster.Name))
+	return config.AWSDirect(s.ctx, s.awsCfg, aws.ToString(cluster.Endpoint), aws.ToString(cluster.CertificateAuthority.Data), aws.ToString(cluster.Name))
 }
 
 func splitConfigList(value string) []string {

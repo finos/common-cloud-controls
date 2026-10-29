@@ -33,3 +33,9 @@ variable "node_locations" {
   description = "Zones for regional cluster node pools. Must be valid zones in var.region (us-east1 has b/c/d, not a)."
   default     = null
 }
+
+variable "integration_runner_service_account_email" {
+  type        = string
+  default     = ""
+  description = "CI runner SA (gha-deployer). Granted roles/container.admin so TokenRequest matches laptop/EKS/AKS."
+}

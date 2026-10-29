@@ -11,14 +11,6 @@ import (
 	messages "github.com/cucumber/messages/go/v21"
 )
 
-type fiveArgumentService struct{}
-
-func (fiveArgumentService) Probe(a, b, c string, port int, protocol string) (map[string]interface{}, error) {
-	return map[string]interface{}{
-		"Arguments": []interface{}{a, b, c, port, protocol},
-	}, nil
-}
-
 func TestCollectFeaturePathsIncludesKubernetesSharedFeatures(t *testing.T) {
 	repoRoot := t.TempDir()
 	featuresRoot := filepath.Join(repoRoot, "modules", "features")
@@ -45,39 +37,13 @@ func TestCollectFeaturePathsIncludesKubernetesSharedFeatures(t *testing.T) {
 	}
 }
 
-func TestCallObjectMethodWithFiveParameters(t *testing.T) {
-	suite := NewTestSuite()
-	suite.Props["service"] = fiveArgumentService{}
-	suite.Props["port"] = 443
-
-	if err := suite.callObjectMethodWithFiveParameters(
-		"{service}",
-		"Probe",
-		"cluster",
-		"source",
-		"destination",
-		"{port}",
-		"tcp",
-	); err != nil {
-		t.Fatalf("five-argument reflective call returned an error: %v", err)
-	}
-	result, ok := suite.Props["result"].(map[string]interface{})
-	if !ok {
-		t.Fatalf("expected map result, got %T (%v)", suite.Props["result"], suite.Props["result"])
-	}
-	want := []interface{}{"cluster", "source", "destination", 443, "tcp"}
-	if got := result["Arguments"]; !slices.Equal(got.([]interface{}), want) {
-		t.Errorf("arguments = %v, want %v", got, want)
-	}
-}
-
 func TestKubernetesFeaturesParse(t *testing.T) {
 	kubernetesPaths, err := filepath.Glob(filepath.Join("..", "features", "kubernetes", "*", "*.feature"))
 	if err != nil {
 		t.Fatalf("glob Kubernetes features: %v", err)
 	}
-	if len(kubernetesPaths) != 42 {
-		t.Fatalf("expected 42 Kubernetes feature files, got %d", len(kubernetesPaths))
+	if len(kubernetesPaths) != 46 {
+		t.Fatalf("expected 46 Kubernetes feature files, got %d", len(kubernetesPaths))
 	}
 	paths := append([]string{}, kubernetesPaths...)
 	for _, pattern := range []string{

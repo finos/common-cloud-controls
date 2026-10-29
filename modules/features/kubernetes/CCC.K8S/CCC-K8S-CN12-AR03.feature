@@ -1,17 +1,14 @@
 @CCC.K8S @CCC.K8S.CN12 @CCC.K8S.CN12.AR03 @PerService @tlp-clear @tlp-green @tlp-amber @tlp-red
 Feature: CCC.K8S.CN12.AR03 - Deny unnecessary workload metadata access
   As a security administrator
-  I want Kubernetes security controls enforced
-  So that managed clusters remain within the approved security boundary
+  I want the assessment limitation recorded explicitly
+  So that automated results do not overstate control coverage
 
   Background:
     Given a cloud api for "{config}" in "api"
-    And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "k8sControlPlane"
 
-  # Requires a dedicated metadata-probe image/Job; deferred until that probe ships.
   @Behavioural @kubernetes @NotTestable
-  Scenario: Deny unnecessary workload metadata access
-    When I call "{k8sControlPlane}" with "AttemptInstanceMetadataAccess" using arguments "{uid}" and "{metadata-probe-selector}"
-    Then "{result}" is an error
-    And I attach "{result}" to the test output as "Instance metadata access probe"
+  Scenario: Deny unnecessary workload metadata access requires evidence outside this automated harness
+    # Honest denial proof needs a dedicated metadata-probe image and Job that
+    # the unmanaged workload path can run from inside the cluster.
+    Then no-op required

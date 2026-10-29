@@ -1011,6 +1011,26 @@ func (s *AzureBlobService) IsDataReplicatedToSeparateLocation(resourceID string)
 	return len(status.Locations) > 1, nil
 }
 
+// IsBucketVersioningEnabled reports whether blob versioning is enabled on the storage account.
+// bucketID is the container name; versioning is a blob-service setting in Azure.
+func (s *AzureBlobService) IsBucketVersioningEnabled(bucketID string) (bool, error) {
+	_ = bucketID
+	cp := s.config.CloudParams()
+	blobServices, err := armstorage.NewBlobServicesClient(cp.AzureSubscriptionID, s.credential, nil)
+	if err != nil {
+		return false, fmt.Errorf("create blob services client: %w", err)
+	}
+	props, err := blobServices.GetServiceProperties(s.ctx, cp.AzureResourceGroup, s.storageAccountName(), nil)
+	if err != nil {
+		return false, fmt.Errorf("get blob service properties: %w", err)
+	}
+	inner := props.BlobServiceProperties.BlobServiceProperties
+	if inner == nil || inner.IsVersioningEnabled == nil {
+		return false, nil
+	}
+	return *inner.IsVersioningEnabled, nil
+}
+
 // ListObjectVersions lists blob versions when versioning is enabled on the storage account.
 func (s *AzureBlobService) ListObjectVersions(bucketID string, objectID string) ([]ObjectVersion, error) {
 	return s.listObjectVersions(bucketID, objectID)

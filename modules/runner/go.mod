@@ -9,7 +9,7 @@ require (
 	github.com/finos/common-cloud-controls/cloud-api v0.0.0
 	github.com/finos/common-cloud-controls/cloud-testing-dsl v0.0.0
 	github.com/finos/common-cloud-controls/reporters v0.0.0
-	github.com/robmoffat/standard-cucumber-steps/go v1.0.5
+	github.com/finos/cucumber-testing-steps/go v1.3.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 

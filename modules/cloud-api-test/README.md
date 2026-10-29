@@ -30,7 +30,7 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 4. Applies `integration_exclusions.csv` to drop entire APIs for the current provider.
 5. Resolves each `api` via `factory.GetServiceAPI` (ambient) or `GetServiceAPIWithIdentity` when `identity` is set, then invokes `method` by reflection.
 6. `expect_error=true` → pass only if the call returns an error; otherwise pass only if it succeeds.
-7. `DeleteObject` / `DeleteBucket` run for `object-storage` only; other `Delete*` methods are skipped.
+7. `DeleteObject` / `DeleteBucket` run for `object-storage`; `DeleteTestResource` is allowed for `vpc` (CN02 cleanup). Other `Delete*` methods are skipped. VPC CN02 rows may use `arg1=auto` to chain SelectPublicSubnet → Create → Get → Delete.
 8. Calls `factory.TearDown()` once at the end.
 9. Writes per-provider results and Go coverage over `modules/cloud-api/...`.
 
@@ -43,14 +43,17 @@ Kubernetes (and later other services) inject `reachability.Prober` from Privatee
 ## CSV format
 
 ```csv
-api,method,cloud,expect_error,identity,arg1,arg2,arg3,arg4,arg5
-serverless-computing,TriggerDataWrite,all,,,finos-ccc-integration-fn-main,,,
-virtual-machines,UpdateResourcePolicy,aws,true,,,,,,
-object-storage,ListBuckets,all,true,test-user-no-access,,,,,
-logging,QueryLogs,all,,,finos-ccc-integration-fn-main,admin,60,,
+api,method,cloud,access_method,expect_error,identity,arg1,arg2,arg3,arg4,arg5
+serverless-computing,TriggerDataWrite,all,,,,finos-ccc-integration-fn-main,,,
+virtual-machines,UpdateResourcePolicy,aws,,true,,,,,,
+object-storage,ListBuckets,all,,true,test-user-no-access,,,,,
+logging,QueryLogs,all,,,,finos-ccc-integration-fn-main,admin,60,,
+kubernetes,GetClusterComponentInventory,all,direct,,,finos-ccc-integration-k8s-main,,,,
+kubernetes,GetClusterComponentInventory,azure,command-invoke,,,finos-ccc-integration-k8s-main,,,,
 ```
 
 - `cloud`: `all` runs on every provider; otherwise only that cloud.
+- `access_method`: constructor overlay for how the Kubernetes client is built. Empty on non-kube APIs. Kubernetes and admission-webhook rows set `direct` (HTTPS to the API FQDN) or, on Azure only, `command-invoke` (ARM `runCommand` / `az aks command invoke`). Do not put `azure-aks-kube-transport` in `privateer-config/azure.yml` — `scale-fixtures` Start would then poll through ARM.
 - `expect_error`: `true` when the call is expected to return an error (denied path, unsupported stub, etc.).
 - `identity`: empty for ambient credentials; otherwise a `test-identities` key such as `test-user-admin` or `test-user-no-access`. Incomplete identities (missing `*_TEST_USER_*` in env / CI `*_ENV` secrets) are a hard **FAIL** and are not treated as a successful `expect_error`.
 - Identity matrix at the end of the CSV is cloud-scoped to **existing** principals: Azure uses kubernetes `GetResourceRegion` (ARM read via AKS Cluster Admin Role — test SPs lack reliable blob data-plane RBAC in CI, so `ListObjects` is not used); AWS object-storage uses `ListObjects`; GCP object-storage uses `ListBuckets`; VM/serverless/secrets/kubernetes identity rows are otherwise aws/gcp; VPC identity is gcp only.
@@ -93,7 +96,7 @@ mkdir -p "$GOCOVERDIR"
 
 The script sets `INTEGRATION_PROVIDER`, sources `environment-config/<cloud>-env.sh` when present, refreshes VM hostnames from the live public IP, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
 
-`./run-integration-tests.sh all` runs aws → azure → gcp (continues on failure) and merges coverage into `coverage-integration-all.out` / `.html`.
+`./run-integration-tests.sh all` runs aws → azure → gcp (continues on failure) and merges coverage into `coverage-integration-all.out` / `.html`. CI uses `merge-provider-coverage.sh` instead: that script **exits 1** unless all three per-cloud profiles exist, so Codecov never sees a one- or two-cloud report.
 
 Manual equivalent:
 
@@ -124,6 +127,10 @@ INTEGRATION_METHOD_MATCH=Admit ./run-integration-tests.sh gcp --api kubernetes
 
 Coverage uses `-coverpkg=../cloud-api/...`. A single-cloud run under-reports packages that only exist on other clouds; merge or run the matrix for a fuller picture. Packages never referenced by the CSV (for example some `generic/login` paths) stay at 0% until rows or unit tests cover them.
 
+### CFI smoke (runner coverage)
+
+CI also runs `./run-cfi-smoke.sh`: builds `ccc-behavioural-plugin` with `-coverpkg=runner/...,cloud-api/...`, executes the aws-secrets Privateer config in `--debug` mode, and writes `coverage-cfi-smoke.out`. `merge-provider-coverage.sh` merges that profile when present so `BasicServiceRunner` appears in Codecov.
+
 Unit checks (no cloud):
 
 ```bash
@@ -141,7 +148,7 @@ Workflow: `.github/workflows/cloud-api-integration.yml`.
 - Matrix: `aws` | `azure` | `gcp` (one job per provider).
 - Starts VM/Kubernetes fixtures, runs `./run-integration-tests.sh $PROVIDER`, then stops fixtures (`if: always()`).
 - Kubernetes kube clients are derived inside `cloud-api` from `kubernetes-cluster-name` + ambient cloud credentials (no CI kubeconfig bootstrap).
-- Uploads per-provider results/coverage artifacts and Codecov.
+- Uploads per-provider results/coverage artifacts. Codecov is **not** updated from a single cloud — a follow-up job runs `merge-provider-coverage.sh` and uploads only when aws, azure, and gcp profiles are all present.
 
 ## Terraform
 

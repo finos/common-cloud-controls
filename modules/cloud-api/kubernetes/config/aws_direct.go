@@ -17,9 +17,10 @@ import (
 const eksTokenPrefix = "k8s-aws-v1."
 const eksClusterIDHeader = "x-k8s-aws-id"
 
-// AWS builds a REST config for an EKS API server using ambient AWS credentials
-// (STS-presigned GetCallerIdentity token, aws-iam-authenticator compatible).
-func AWS(ctx context.Context, awsCfg aws.Config, endpoint, caDataB64, clusterName string) (*rest.Config, error) {
+// AWSDirect builds a REST config that talks HTTPS to the EKS API FQDN using
+// ambient AWS credentials (STS-presigned GetCallerIdentity token,
+// aws-iam-authenticator compatible).
+func AWSDirect(ctx context.Context, awsCfg aws.Config, endpoint, caDataB64, clusterName string) (*rest.Config, error) {
 	caData, err := DecodeCAData(caDataB64)
 	if err != nil {
 		return nil, err

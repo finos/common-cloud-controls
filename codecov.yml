@@ -9,6 +9,12 @@ coverage:
         target: auto
         threshold: 1%
 
+# Only the unified aws+azure+gcp report is uploaded. Do not carry forward
+# leftover per-cloud flags (cloud-api-integration-aws/azure/gcp) — those
+# implementations diverge and a partial flag mix is not real coverage.
 flag_management:
   default_rules:
-    carryforward: true
+    carryforward: false
+  individual_flags:
+    - name: cloud-api-integration
+      carryforward: true

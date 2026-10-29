@@ -17,4 +17,11 @@ Feature: CCC.K8S.CN03.AR02 - Reject long-lived cloud credentials in workloads
     Then "{result}" is not an error
     And "{result.Findings}" is an array of objects with length "0"
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{static-credential-workload-manifest}"
-    Then "{result}" is an error
+    Then "{result}" is not an error
+    And "{result.Denied}" is true
+    And "{result.Admitted}" is false
+    And "{result.Reason}" contains "static cloud credentials"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{compliant-no-static-cred-workload-manifest}"
+    Then "{result}" is not an error
+    And "{result.Admitted}" is true
+    And "{result.Denied}" is false

@@ -9,17 +9,17 @@ Feature: CCC.K8S.CN01.AR01 - Restrict API access to approved networks
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  # Intended for estates with a public API hostname locked to approved CIDRs and a
-  # runner inside that allowlist. The remote reachability probe is the untrusted
-  # vantage: TCPConnected must be false. GitHub-hosted CI with ephemeral egress
-  # (or an open 0.0.0.0/0 API) cannot satisfy this AR honestly.
+  # Catalog: private cluster endpoint where possible, otherwise a CIDR allowlist.
+  # RestrictedToApprovedNetworks is true for a private-only API (empty AllowedCIDRs
+  # is expected — CSP authorized-IP lists apply to a public frontend) or a public
+  # API locked to non-open CIDRs. The remote probe is the untrusted vantage.
   @Behavioural @kubernetes
   Scenario: Restrict API access to approved networks
     When I call "{k8sControlPlane}" with "GetAPIEndpointConfig" using argument "{uid}"
     Then "{result}" is not an error
     And I refer to "{result}" as "endpoint"
     And I attach "{endpoint}" to the test output as "API endpoint configuration"
-    And "{endpoint.AllowedCIDRs}" is not empty
+    And "{endpoint.RestrictedToApprovedNetworks}" is true
     When I call "{k8sControlPlane}" with "AttemptAPIEndpointReachability" using arguments "{uid}" and "untrusted"
     Then "{result}" is not an error
     And I refer to "{result}" as "reachability"

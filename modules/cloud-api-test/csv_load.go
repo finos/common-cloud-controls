@@ -23,12 +23,13 @@ func providerConfigFile(provider string) string {
 }
 
 type callRow struct {
-	API         string
-	Method      string
-	Cloud       string
-	ExpectError bool
-	Identity    string
-	Args        []string
+	API          string
+	Method       string
+	Cloud        string
+	AccessMethod string
+	ExpectError  bool
+	Identity     string
+	Args         []string
 }
 
 // exclusionSet maps "api|cloud" for whole-API skips.
@@ -142,8 +143,7 @@ func loadCallRowsWithExclusions(csvData, exclusionsCSV, provider string) ([]call
 			continue
 		}
 		api := get("api")
-		if strings.HasPrefix(method, "Delete") &&
-			(api != "object-storage" || (method != "DeleteObject" && method != "DeleteBucket")) {
+		if strings.HasPrefix(method, "Delete") && !deleteMethodAllowed(api, method) {
 			continue
 		}
 		cloud := strings.ToLower(get("cloud"))
@@ -165,15 +165,29 @@ func loadCallRowsWithExclusions(csvData, exclusionsCSV, provider string) ([]call
 			args = append(args, get(a))
 		}
 		rows = append(rows, callRow{
-			API:         get("api"),
-			Method:      method,
-			Cloud:       cloud,
-			ExpectError: expectErr,
-			Identity:    get("identity"),
-			Args:        args,
+			API:          get("api"),
+			Method:       method,
+			Cloud:        cloud,
+			AccessMethod: strings.ToLower(get("access_method")),
+			ExpectError:  expectErr,
+			Identity:     get("identity"),
+			Args:         args,
 		})
 	}
 	return rows, nil
+}
+
+// deleteMethodAllowed gates destructive Delete* CSV methods. Object-storage
+// Deletes and vpc DeleteTestResource (CN02 cleanup) are allowed; others are skipped.
+func deleteMethodAllowed(api, method string) bool {
+	switch {
+	case api == "object-storage" && (method == "DeleteObject" || method == "DeleteBucket"):
+		return true
+	case api == "vpc" && method == "DeleteTestResource":
+		return true
+	default:
+		return false
+	}
 }
 
 func privateerConfigRoot() string {

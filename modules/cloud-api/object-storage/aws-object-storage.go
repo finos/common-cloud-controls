@@ -721,6 +721,17 @@ func (s *AWSS3Service) UpdateBucketPolicy(bucketID string, policyTag string) (*B
 	return &Bucket{ID: bucketID, Name: bucketID}, nil
 }
 
+// IsBucketVersioningEnabled reports whether S3 bucket versioning is Enabled or Suspended.
+func (s *AWSS3Service) IsBucketVersioningEnabled(bucketID string) (bool, error) {
+	out, err := s.client.GetBucketVersioning(s.ctx, &s3.GetBucketVersioningInput{
+		Bucket: aws.String(bucketID),
+	})
+	if err != nil {
+		return false, fmt.Errorf("failed to get bucket versioning: %w", err)
+	}
+	return out.Status == s3types.BucketVersioningStatusEnabled, nil
+}
+
 // ListObjectVersions lists object versions when bucket versioning is enabled.
 func (s *AWSS3Service) ListObjectVersions(bucketID string, objectID string) ([]ObjectVersion, error) {
 	out, err := s.client.ListObjectVersions(s.ctx, &s3.ListObjectVersionsInput{

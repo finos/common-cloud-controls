@@ -57,6 +57,7 @@ type aksResource struct {
 			Managed bool `json:"managed"`
 		} `json:"aadProfile"`
 		DisableLocalAccounts bool `json:"disableLocalAccounts"`
+		IdentityProfile      map[string]aksIdentityRef `json:"identityProfile"`
 		SecurityProfile      struct {
 			AzureKeyVaultKMS struct {
 				Enabled bool   `json:"enabled"`
@@ -66,12 +67,19 @@ type aksResource struct {
 	} `json:"properties"`
 }
 
+type aksIdentityRef struct {
+	ResourceID string `json:"resourceId"`
+	ClientID   string `json:"clientId"`
+	ObjectID   string `json:"objectId"`
+}
+
 type aksAgentPool struct {
 	Name                       string `json:"name"`
 	Count                      int64  `json:"count"`
 	MinCount                   int64  `json:"minCount"`
 	MaxCount                   int64  `json:"maxCount"`
 	EnableAutoScaling          bool   `json:"enableAutoScaling"`
+	EnableNodePublicIP         bool   `json:"enableNodePublicIP"`
 	OrchestratorVersion        string `json:"orchestratorVersion"`
 	CurrentOrchestratorVersion string `json:"currentOrchestratorVersion"`
 	NodeImageVersion           string `json:"nodeImageVersion"`
@@ -119,7 +127,7 @@ func newAzureService(ctx context.Context, cfg types.Config, credential azcore.To
 		return nil, fmt.Errorf("create Azure ARM client: %w", err)
 	}
 	service := &AzureService{managedService: newManagedService(ctx, cfg, "azure"), arm: client, cred: credential}
-	service.resolveREST = service.buildRESTConfig
+	service.resolveREST = service.kubeRESTConfig
 	service.endpoint = service.endpointConfig
 	service.region = service.clusterRegion
 	service.updateMetadata = service.updateTags
@@ -129,6 +137,9 @@ func newAzureService(ctx context.Context, cfg types.Config, credential azcore.To
 	service.support = service.supportEvidence
 	service.nodeIntegrity = service.nodeIntegrityEvidence
 	service.autoscalers = service.poolBounds
+	service.armInventory = service.armComponentInventory
+	service.nodeAdmin = service.nodeAdminEvidence
+	service.infraIdentities = service.infraIdentitiesEvidence
 	return service, nil
 }
 
@@ -184,9 +195,11 @@ func (s *AzureService) endpointConfig(ctx context.Context, clusterID string) (ma
 	if public && cluster.Properties.FQDN != "" {
 		host = cluster.Properties.FQDN
 	}
+	cidrs := cluster.Properties.APIServerAccessProfile.AuthorizedIPRanges
 	return map[string]interface{}{
-		"PublicAccess": public, "PrivateAccess": private,
-		"AllowedCIDRs": cluster.Properties.APIServerAccessProfile.AuthorizedIPRanges, "EndpointHostname": host,
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             host,
 	}, nil
 }
 
@@ -294,7 +307,10 @@ func (s *AzureService) azureLifecycle() *lifecycle.Azure {
 }
 
 func (s *AzureService) Start(resourceID string) error {
-	return s.azureLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.azureLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *AzureService) Stop(resourceID string) error {
@@ -323,15 +339,198 @@ func (s *AzureService) clusterAPIHostname(clusterID string) (string, error) {
 	return strings.TrimSpace(cluster.Properties.PrivateFQDN), nil
 }
 
-func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
+func (s *AzureService) kubeRESTConfig() (*rest.Config, error) {
 	resourceURL, err := s.resourceURL("")
 	if err != nil {
 		return nil, err
 	}
 	base := strings.SplitN(resourceURL, "?", 2)[0]
-	// ARM action is singular: listClusterUserCredential (plural path returns plain 404).
-	credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
-	return config.Azure(s.ctx, s.arm, s.cred, credURL)
+	switch s.kubeAccessMethod() {
+	case "command-invoke":
+		return config.AzureCommandInvoke(s.ctx, s.arm, s.cred, base+"/runCommand?api-version=2025-04-01")
+	default:
+		// ARM action is singular: listClusterUserCredential (plural path returns plain 404).
+		credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
+		return config.AzureDirect(s.ctx, s.arm, s.cred, credURL)
+	}
+}
+
+func (s *AzureService) kubeAccessMethod() string {
+	switch strings.ToLower(strings.TrimSpace(s.config.Get("azure-aks-kube-transport"))) {
+	case "direct":
+		return "direct"
+	case "command-invoke":
+		return "command-invoke"
+	}
+	cluster, err := s.get(s.ctx, "")
+	if err != nil {
+		return "direct"
+	}
+	access := cluster.Properties.APIServerAccessProfile
+	if access.EnablePrivateCluster && !access.EnablePrivateClusterPublicFQDN {
+		return "command-invoke"
+	}
+	return "direct"
+}
+
+func (s *AzureService) armComponentInventory(ctx context.Context, clusterID string) (string, []map[string]interface{}, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return "", nil, err
+	}
+	version := firstNonEmpty(cluster.Properties.CurrentKubernetesVersion, cluster.Properties.KubernetesVersion)
+	workers := make([]map[string]interface{}, 0, len(cluster.Properties.AgentPoolProfiles))
+	for _, pool := range cluster.Properties.AgentPoolProfiles {
+		workers = append(workers, map[string]interface{}{
+			"Name":    pool.Name,
+			"Version": firstNonEmpty(pool.CurrentOrchestratorVersion, pool.OrchestratorVersion),
+			"Image":   pool.NodeImageVersion,
+		})
+	}
+	return version, workers, nil
+}
+
+func (s *AzureService) nodeAdminEvidence(ctx context.Context, clusterID string) (map[string]interface{}, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return nil, err
+	}
+	publicIP := false
+	nodes := []map[string]interface{}{}
+	for _, pool := range cluster.Properties.AgentPoolProfiles {
+		if pool.EnableNodePublicIP {
+			publicIP = true
+		}
+		nodes = append(nodes, map[string]interface{}{
+			"Name": pool.Name, "EnableNodePublicIP": pool.EnableNodePublicIP,
+		})
+	}
+	return map[string]interface{}{
+		"AnonymousKubeletOpen": false, "KubeletReachable": false,
+		"PublicSSHOpen": false, "PublicRDPOpen": false,
+		"PublicIPPresent": publicIP, "Nodes": nodes,
+		"EvidenceSource": "arm:agentPoolProfiles.enableNodePublicIP",
+	}, nil
+}
+
+func (s *AzureService) infraIdentitiesEvidence(ctx context.Context, clusterID string) (map[string]interface{}, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return nil, err
+	}
+	return identitiesFromAKSResource(cluster), nil
+}
+
+// identitiesFromAKSResource maps ARM control-plane UAMI vs kubelet identity into
+// the CN17 GetInfrastructureIdentities result. AKS CSI typically uses the kubelet
+// identity, so both required roles (node, csi) are attributed to that one principal.
+func identitiesFromAKSResource(cluster *aksResource) map[string]interface{} {
+	kubeletID := ""
+	if cluster != nil && cluster.Properties.IdentityProfile != nil {
+		if ref, ok := cluster.Properties.IdentityProfile["kubeletidentity"]; ok {
+			kubeletID = firstNonEmpty(ref.ResourceID, ref.ClientID, ref.ObjectID)
+		}
+	}
+	controlPlaneID := armControlPlaneIdentity(nil, kubeletID)
+	if cluster != nil {
+		controlPlaneID = armControlPlaneIdentity(cluster.Identity, kubeletID)
+	}
+
+	principals := []map[string]interface{}{}
+	if controlPlaneID != "" {
+		principals = append(principals, map[string]interface{}{
+			"Role": "control-plane", "IdentityID": controlPlaneID, "Exposed": false,
+			"ServiceAccount": "arm/control-plane",
+		})
+	}
+	if kubeletID != "" {
+		for _, role := range []string{"node", "csi"} {
+			principals = append(principals, map[string]interface{}{
+				"Role": role, "IdentityID": kubeletID, "Exposed": false,
+				"ServiceAccount": "arm/kubelet",
+			})
+		}
+	}
+
+	present := map[string]bool{}
+	byIdentity := map[string][]string{}
+	for _, p := range principals {
+		role, _ := p["Role"].(string)
+		id, _ := p["IdentityID"].(string)
+		sa, _ := p["ServiceAccount"].(string)
+		if role != "" {
+			present[role] = true
+		}
+		if id != "" && sa != "" {
+			byIdentity[id] = appendUnique(byIdentity[id], sa)
+		}
+	}
+	missing := []map[string]interface{}{}
+	for _, role := range defaultRequiredInfrastructureRoles {
+		if !present[role] {
+			missing = append(missing, map[string]interface{}{"Role": role})
+		}
+	}
+	duplicates := []map[string]interface{}{}
+	for id, accounts := range byIdentity {
+		if len(accounts) < 2 {
+			continue
+		}
+		roles := []string{}
+		for _, p := range principals {
+			if p["IdentityID"] == id {
+				if role, _ := p["Role"].(string); role != "" {
+					roles = appendUnique(roles, role)
+				}
+			}
+		}
+		if len(roles) < 2 {
+			continue
+		}
+		duplicates = append(duplicates, map[string]interface{}{
+			"IdentityID": id, "ServiceAccounts": accounts, "Roles": roles,
+		})
+	}
+	return map[string]interface{}{
+		"Principals":                   principals,
+		"MissingRequiredRoles":         missing,
+		"DuplicateIdentityAssignments": duplicates,
+		"EvidenceSource":               "arm:identity+identityProfile.kubeletidentity",
+	}
+}
+
+func armControlPlaneIdentity(identity map[string]interface{}, kubeletID string) string {
+	if identity == nil {
+		return ""
+	}
+	if raw, ok := identity["userAssignedIdentities"].(map[string]interface{}); ok && len(raw) > 0 {
+		distinct, matching := make([]string, 0), make([]string, 0)
+		for key := range raw {
+			if kubeletID != "" && strings.EqualFold(key, kubeletID) {
+				matching = append(matching, key)
+				continue
+			}
+			distinct = append(distinct, key)
+		}
+		sort.Strings(distinct)
+		if len(distinct) > 0 {
+			return distinct[0]
+		}
+		sort.Strings(matching)
+		if len(matching) > 0 {
+			return matching[0]
+		}
+	}
+	return firstStringValue(identity["principalId"])
+}
+
+func appendUnique(values []string, next string) []string {
+	for _, value := range values {
+		if value == next {
+			return values
+		}
+	}
+	return append(values, next)
 }
 
 // getJSON performs an ARM GET and decodes the JSON body.

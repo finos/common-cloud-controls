@@ -18,6 +18,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/reachability"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	authenticationv1 "k8s.io/api/authentication/v1"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -52,6 +53,14 @@ type managedService struct {
 	support       func(context.Context, string) (*supportEvidence, error)
 	nodeIntegrity func(context.Context, string) ([]map[string]interface{}, error)
 	autoscalers   func(context.Context, string) ([]autoscalerBound, error)
+	// armInventory returns control-plane version + worker/pool rows from the
+	// CSP management API so CN09 can complete when the kube API is private.
+	armInventory func(context.Context, string) (string, []map[string]interface{}, error)
+	// nodeAdmin returns CN12 public-node evidence from the CSP API (no kube list).
+	nodeAdmin func(context.Context, string) (map[string]interface{}, error)
+	// infraIdentities returns CN17 control-plane vs kubelet identities from the
+	// CSP API when a cluster-scoped ServiceAccount list is Forbidden.
+	infraIdentities func(context.Context, string) (map[string]interface{}, error)
 }
 
 const (
@@ -258,20 +267,105 @@ func isSystemRole(role rbacv1.ClusterRole, extraPrefixes []string) bool {
 	return false
 }
 
+func isWebhookUnavailable(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "failed calling webhook") ||
+		strings.Contains(msg, "failed to call webhook") ||
+		strings.Contains(msg, "no endpoints available")
+}
+
+func isAuthzDenied(err error) bool {
+	if err == nil {
+		return false
+	}
+	if apierrors.IsForbidden(err) || apierrors.IsUnauthorized(err) {
+		return true
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "forbidden") || strings.Contains(msg, "unauthorized")
+}
+
+func unassessedIfAuthz(op string, err error) error {
+	if err == nil {
+		return nil
+	}
+	if isAuthzDenied(err) {
+		return fmt.Errorf("unassessed: %s: %w", op, err)
+	}
+	return fmt.Errorf("%s: %w", op, err)
+}
+
+func listClusterRoles(ctx context.Context, client kubernetes.Interface) ([]rbacv1.ClusterRole, error) {
+	page, err := client.RbacV1().ClusterRoles().List(ctx, metav1.ListOptions{})
+	if err != nil {
+		if recovered, ok := clusterRolesFromError(err); ok {
+			return recovered, nil
+		}
+		return nil, err
+	}
+	return page.Items, nil
+}
+
+func clusterRolesFromError(err error) ([]rbacv1.ClusterRole, bool) {
+	if err == nil {
+		return nil, false
+	}
+	msg := err.Error()
+	start := strings.Index(msg, "{")
+	if start >= 0 {
+		dec := json.NewDecoder(strings.NewReader(msg[start:]))
+		var list rbacv1.ClusterRoleList
+		if dec.Decode(&list) == nil && len(list.Items) > 0 {
+			return list.Items, true
+		}
+	}
+	itemsAt := strings.Index(msg, `"items"`)
+	if itemsAt < 0 {
+		return nil, false
+	}
+	bracket := strings.Index(msg[itemsAt:], "[")
+	if bracket < 0 {
+		return nil, false
+	}
+	dec := json.NewDecoder(strings.NewReader(msg[itemsAt+bracket:]))
+	tok, tokErr := dec.Token()
+	if tokErr != nil || tok != json.Delim('[') {
+		return nil, false
+	}
+	var roles []rbacv1.ClusterRole
+	for dec.More() {
+		var role rbacv1.ClusterRole
+		if dec.Decode(&role) != nil {
+			break
+		}
+		if role.Name != "" {
+			roles = append(roles, role)
+		}
+	}
+	if len(roles) == 0 {
+		return nil, false
+	}
+	return roles, true
+}
+
 func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	roles, err := client.RbacV1().ClusterRoles().List(c.ctx, metav1.ListOptions{})
+	roles, err := listClusterRoles(c.ctx, client)
 	if err != nil {
-		return nil, fmt.Errorf("list cluster roles: %w", err)
+		// Forbidden must not become WildcardRoles=[] / OverbroadSecretAccess=[].
+		return nil, unassessedIfAuthz("list clusterroles", err)
 	}
 	extraPrefixes := splitConfigList(c.config.Get("system-role-prefixes"))
 	wildcards := []map[string]interface{}{}
 	secretAccess := []map[string]interface{}{}
 	skipped := 0
-	for _, role := range roles.Items {
+	for _, role := range roles {
 		if isSystemRole(role, extraPrefixes) {
 			skipped++
 			continue
@@ -289,16 +383,76 @@ func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, erro
 	return map[string]interface{}{"WildcardRoles": wildcards, "OverbroadSecretAccess": secretAccess, "SystemRolesExcluded": skipped}, nil
 }
 
-func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
-	if c.restConfig == nil {
-		return nil, fmt.Errorf("Kubernetes API prerequisite missing: REST config is required for service-account impersonation")
+func isCommandInvokeREST(rc *rest.Config) bool {
+	return rc != nil && strings.Contains(rc.Host, "aks-command-invoke")
+}
+
+func tokenRequestUnsupported(err error) bool {
+	if err == nil {
+		return false
 	}
+	if apierrors.IsBadRequest(err) || apierrors.IsMethodNotSupported(err) || apierrors.IsNotFound(err) {
+		return true
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "the server rejected our request") ||
+		strings.Contains(msg, "the server does not allow this method")
+}
+
+func (c *KubeClient) clientWithServiceAccountToken(namespace, serviceAccount string) (kubernetes.Interface, error) {
+	expiration := int64(600)
+	tok, err := c.client.CoreV1().ServiceAccounts(namespace).CreateToken(c.ctx, serviceAccount, &authenticationv1.TokenRequest{
+		Spec: authenticationv1.TokenRequestSpec{ExpirationSeconds: &expiration},
+	}, metav1.CreateOptions{})
+	if err != nil {
+		return nil, err
+	}
+	if tok.Status.Token == "" {
+		return nil, fmt.Errorf("empty token")
+	}
+	// AnonymousClientConfig drops WrapTransport so provider auth (EKS IAM,
+	// Azure AAD, GCP ADC) cannot overwrite the bound service-account token.
+	rc := rest.AnonymousClientConfig(c.restConfig)
+	rc.BearerToken = tok.Status.Token
+	return kubernetes.NewForConfig(rc)
+}
+
+func (c *KubeClient) clientImpersonatingServiceAccount(namespace, serviceAccount string) (kubernetes.Interface, error) {
+	rc := rest.CopyConfig(c.restConfig)
+	rc.Impersonate = rest.ImpersonationConfig{
+		UserName: "system:serviceaccount:" + namespace + ":" + serviceAccount,
+	}
+	return kubernetes.NewForConfig(rc)
+}
+
+func (c *KubeClient) clientAsServiceAccount(namespace, serviceAccount string) (kubernetes.Interface, error) {
+	if c.client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
+	}
+	if c.restConfig == nil {
+		return nil, fmt.Errorf("Kubernetes API prerequisite missing: REST config is required to act as a service account")
+	}
+	if !isCommandInvokeREST(c.restConfig) {
+		client, err := c.clientWithServiceAccountToken(namespace, serviceAccount)
+		if err == nil {
+			return client, nil
+		}
+		if !tokenRequestUnsupported(err) {
+			return nil, fmt.Errorf("create token for service account %s/%s: %w", namespace, serviceAccount, err)
+		}
+	}
+	client, err := c.clientImpersonatingServiceAccount(namespace, serviceAccount)
+	if err != nil {
+		return nil, fmt.Errorf("impersonate service account %s/%s: %w", namespace, serviceAccount, err)
+	}
+	return client, nil
+}
+
+func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
 	if !contains([]string{"get", "list", "watch"}, strings.ToLower(verb)) {
 		return nil, fmt.Errorf("unsupported secret verb %q", verb)
 	}
-	rc := rest.CopyConfig(c.restConfig)
-	rc.Impersonate.UserName = "system:serviceaccount:" + namespace + ":" + serviceAccount
-	client, err := kubernetes.NewForConfig(rc)
+	client, err := c.clientAsServiceAccount(namespace, serviceAccount)
 	if err != nil {
 		return nil, err
 	}
@@ -335,8 +489,8 @@ func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretNa
 	return result, nil
 }
 
-// secretMatchesFixture compares a digest of the secret the impersonated service
-// account read against the expected digest. Plaintext is never returned or logged.
+// secretMatchesFixture compares a digest of the secret the bound service-account
+// token read against the expected digest. Plaintext is never returned or logged.
 // The expected digest is protected-secret-sha256 (hex sha256 of the protected-secret-key
 // value, default key "value"); without it the runner's own credentials read the same
 // secret as the reference.
@@ -410,10 +564,10 @@ func (c *KubeClient) FindStaticCloudCredentials(_ string, namespace string) (map
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	var findings []map[string]interface{}
+	findings := []map[string]interface{}{}
 	secrets, err := client.CoreV1().Secrets(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
-		return nil, fmt.Errorf("list secrets: %w", err)
+		return nil, unassessedIfAuthz("list secrets", err)
 	}
 	for _, secret := range secrets.Items {
 		for key, value := range secret.Data {
@@ -424,7 +578,7 @@ func (c *KubeClient) FindStaticCloudCredentials(_ string, namespace string) (map
 	}
 	pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
-		return nil, fmt.Errorf("list pods: %w", err)
+		return nil, unassessedIfAuthz("list pods", err)
 	}
 	for _, pod := range pods.Items {
 		for _, container := range pod.Spec.Containers {
@@ -441,6 +595,9 @@ func (c *KubeClient) FindStaticCloudCredentials(_ string, namespace string) (map
 func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML string) (map[string]interface{}, error) {
 	_, dyn, err := s.kubeClients()
 	if err != nil {
+		if IsAPIUnreachable(err) {
+			return unreachableAdmitResult(err), nil
+		}
 		return nil, err
 	}
 	obj, gvr, err := decodeManifest(manifestYAML)
@@ -463,28 +620,64 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 		_, err = ri.Create(s.ctx, obj, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
 	case "update":
 		current, getErr := ri.Get(s.ctx, obj.GetName(), metav1.GetOptions{})
-		if getErr != nil {
-			err = getErr
-		} else {
+		switch {
+		case getErr == nil:
 			obj.SetResourceVersion(current.GetResourceVersion())
 			_, err = ri.Update(s.ctx, obj, metav1.UpdateOptions{DryRun: []string{metav1.DryRunAll}})
+		case apierrors.IsNotFound(getErr):
+			// Create is dry-run, so the target often does not exist. Still evaluate
+			// the generated Pod so "expected deny" is PSA/VAP, not NotFound.
+			err = nil
+		default:
+			err = getErr
+		}
+		if err == nil {
+			err = s.dryRunGeneratedPodAdmission(dyn, obj, gvr, namespace)
 		}
 	case "ephemeral-update":
 		if gvr.Resource != "pods" {
 			return nil, fmt.Errorf("ephemeral-update requires a Pod manifest")
 		}
 		_, err = ri.Update(s.ctx, obj, metav1.UpdateOptions{DryRun: []string{metav1.DryRunAll}}, "ephemeralcontainers")
+		if apierrors.IsNotFound(err) {
+			err = s.dryRunEphemeralContainerAdmission(dyn, obj, namespace)
+		}
 	default:
 		return nil, fmt.Errorf("unsupported admission operation %q", operation)
 	}
 	if err != nil {
-		result["Denied"] = true
+		if IsAPIUnreachable(err) {
+			result["Reason"] = err.Error()
+			result["Unreachable"] = true
+			return result, nil
+		}
 		result["Reason"] = err.Error()
-		return result, fmt.Errorf("workload admission denied or failed: %w", err)
+		if isAuthzDenied(err) {
+			// Observer cannot create/dry-run — not a policy decision.
+			return result, unassessedIfAuthz("admit workload "+operation, err)
+		}
+		result["Denied"] = true
+		// Webhook fail-closed must surface as an error (CN11.AR03 / CSV).
+		// VAP / PSA policy denials keep nil + Denied (CN03.AR02).
+		if isWebhookUnavailable(err) {
+			return result, fmt.Errorf("admit workload %s denied: %w", operation, err)
+		}
+		return result, nil
 	}
 	result["Admitted"] = true
 	result["DeniedAt"] = ""
 	return result, nil
+}
+
+func unreachableAdmitResult(err error) map[string]interface{} {
+	reason := ""
+	if err != nil {
+		reason = err.Error()
+	}
+	return map[string]interface{}{
+		"Admitted": false, "Denied": false, "Unreachable": true,
+		"DeniedAt": "", "GeneratedWorkloadRunning": false, "Reason": reason,
+	}
 }
 
 func (c *KubeClient) GetAdmissionPolicyCoverage(string) (map[string]interface{}, error) {
@@ -572,7 +765,8 @@ func (c *KubeClient) GetNamespaceNetworkPolicyStatus(_ string, namespace string)
 	return map[string]interface{}{"DefaultDenyIngress": ingress, "DefaultDenyEgress": egress, "PolicyCapable": len(policies.Items) > 0}, nil
 }
 
-func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
+func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector string, toHost any, port int, protocol string) (map[string]interface{}, error) {
+	host := firstStringValue(toHost)
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -589,7 +783,7 @@ func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost s
 		labels["role"] = "network-probe"
 	}
 	namespace := networkFlowNamespace(c.config, labels)
-	targetURL, dialHost, dialPort := networkFlowTarget(toHost, port, protocol)
+	targetURL, dialHost, dialPort := networkFlowTarget(host, port, protocol)
 	timeout := configDuration(c.config, "network-probe-timeout-ms", 15*time.Second)
 	deadlineSec := int64(timeout.Seconds())
 	if deadlineSec < 5 {
@@ -660,7 +854,7 @@ func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost s
 			return map[string]interface{}{
 				"Allowed": false, "Connected": false, "Error": "probe job failed",
 				"Namespace": namespace, "Job": created.Name,
-			}, fmt.Errorf("network flow blocked or unreachable from %q to %s:%d/%s", fromSelector, toHost, port, protocol)
+			}, fmt.Errorf("network flow blocked or unreachable from %q to %s:%d/%s: %s", fromSelector, toHost, port, protocol, c.networkFlowDiagnostics(client, namespace, created.Name))
 		}
 		select {
 		case <-c.ctx.Done():
@@ -671,7 +865,35 @@ func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost s
 	return map[string]interface{}{
 		"Allowed": false, "Connected": false, "Error": "probe timed out",
 		"Namespace": namespace, "Job": created.Name,
-	}, fmt.Errorf("network flow probe timed out from %q to %s:%d/%s", fromSelector, toHost, port, protocol)
+	}, fmt.Errorf("network flow probe timed out from %q to %s:%d/%s: %s", fromSelector, toHost, port, protocol, c.networkFlowDiagnostics(client, namespace, created.Name))
+}
+
+func (c *KubeClient) networkFlowDiagnostics(client kubernetes.Interface, namespace, jobName string) string {
+	var notes []string
+	if pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{LabelSelector: "job-name=" + jobName}); err == nil {
+		if len(pods.Items) == 0 {
+			notes = append(notes, "no probe pod")
+		}
+		for _, pod := range pods.Items {
+			notes = append(notes, fmt.Sprintf("pod %s phase=%s", pod.Name, pod.Status.Phase))
+			for _, status := range pod.Status.ContainerStatuses {
+				if status.State.Waiting != nil {
+					notes = append(notes, fmt.Sprintf("waiting=%s %s", status.State.Waiting.Reason, status.State.Waiting.Message))
+				}
+			}
+		}
+	}
+	if events, err := client.CoreV1().Events(namespace).List(c.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + jobName}); err == nil {
+		for _, event := range events.Items {
+			if event.Type == corev1.EventTypeWarning {
+				notes = append(notes, fmt.Sprintf("%s: %s", event.Reason, event.Message))
+			}
+		}
+	}
+	if len(notes) == 0 {
+		return "no pod or event evidence"
+	}
+	return strings.Join(notes, "; ")
 }
 
 func parseLabelSelector(raw string) (map[string]string, error) {
@@ -736,7 +958,7 @@ func networkFlowTarget(toHost string, port int, protocol string) (targetURL, dia
 	if strings.EqualFold(protocol, "https") {
 		scheme = "https"
 	}
-	return fmt.Sprintf("%s://%s:%d/", scheme, dialHost, dialPort), dialHost, dialPort
+	return fmt.Sprintf("%s://%s:%d/health", scheme, dialHost, dialPort), dialHost, dialPort
 }
 
 func networkFlowProbeScript(targetURL, dialHost string, dialPort int) string {
@@ -805,7 +1027,7 @@ func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]in
 
 	timeout := configDuration(c.config, "pvc-bind-timeout-ms", 120*time.Second)
 	if c.pvcNeedsConsumer(created) {
-		consumer, consumerErr := c.createPVCConsumer(namespace, created.Name)
+		consumer, consumerErr := c.createPVCConsumer(namespace, created.Name, timeout)
 		if consumerErr != nil {
 			result["Reason"] = consumerErr.Error()
 			result["Phase"] = string(created.Status.Phase)
@@ -817,9 +1039,21 @@ func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]in
 	}
 
 	deadline := time.Now().Add(timeout)
+	notFoundDeadline := time.Now().Add(8 * time.Second)
 	for {
 		current, getErr := client.CoreV1().PersistentVolumeClaims(namespace).Get(c.ctx, created.Name, metav1.GetOptions{})
 		if getErr != nil {
+			if apierrors.IsNotFound(getErr) && time.Now().Before(notFoundDeadline) {
+				select {
+				case <-c.ctx.Done():
+					return result, c.ctx.Err()
+				case <-time.After(500 * time.Millisecond):
+				}
+				continue
+			}
+			if apierrors.IsNotFound(getErr) {
+				return result, fmt.Errorf("watch PVC %s/%s: %w (%s)", namespace, created.Name, getErr, c.pvcDiagnostics(client, namespace, created.Name))
+			}
 			return result, fmt.Errorf("watch PVC %s/%s: %w", namespace, created.Name, getErr)
 		}
 		result["Phase"] = string(current.Status.Phase)
@@ -829,7 +1063,7 @@ func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]in
 		}
 		if time.Now().After(deadline) {
 			result["BindTimeout"] = true
-			return result, nil
+			return result, fmt.Errorf("PVC %s/%s did not bind within %s (phase=%s; %s)", namespace, created.Name, timeout, current.Status.Phase, c.pvcDiagnostics(client, namespace, created.Name))
 		}
 		select {
 		case <-c.ctx.Done():
@@ -852,8 +1086,12 @@ func (c *KubeClient) pvcNeedsConsumer(claim *corev1.PersistentVolumeClaim) bool 
 	return class.VolumeBindingMode != nil && *class.VolumeBindingMode == storagev1.VolumeBindingWaitForFirstConsumer
 }
 
-func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, error) {
-	image := firstNonEmpty(c.config.Get("pvc-consumer-image"), c.config.Get("network-probe-image"), "busybox:1.36")
+func (c *KubeClient) createPVCConsumer(namespace, claimName string, keepAlive time.Duration) (string, error) {
+	image := firstNonEmpty(c.config.Get("pvc-consumer-image"), c.config.Get("network-probe-image"), digestPinnedBusybox)
+	sleepSecs := int(keepAlive.Seconds()) + 30
+	if sleepSecs < 180 {
+		sleepSecs = 180
+	}
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{GenerateName: "ccc-pvc-consumer-", Namespace: namespace, Labels: map[string]string{managedByLabel: managedByValue}},
 		Spec: corev1.PodSpec{
@@ -864,7 +1102,7 @@ func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, err
 			},
 			Containers: []corev1.Container{{
 				Name: "consumer", Image: image, ImagePullPolicy: corev1.PullIfNotPresent,
-				Command:      []string{"/bin/sh", "-c", "sleep 30"},
+				Command:      []string{"/bin/sh", "-c", fmt.Sprintf("sleep %d", sleepSecs)},
 				VolumeMounts: []corev1.VolumeMount{{Name: "data", MountPath: "/data"}},
 				SecurityContext: &corev1.SecurityContext{
 					AllowPrivilegeEscalation: boolPtr(false),
@@ -884,12 +1122,46 @@ func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, err
 	return created.Name, nil
 }
 
+func (c *KubeClient) pvcDiagnostics(client kubernetes.Interface, namespace, claimName string) string {
+	var notes []string
+	if events, err := client.CoreV1().Events(namespace).List(c.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + claimName}); err == nil {
+		for _, event := range events.Items {
+			notes = append(notes, fmt.Sprintf("%s %s: %s", event.Type, event.Reason, event.Message))
+		}
+	}
+	if pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{LabelSelector: managedByLabel + "=" + managedByValue}); err == nil {
+		for _, pod := range pods.Items {
+			if !strings.HasPrefix(pod.Name, "ccc-pvc-consumer-") {
+				continue
+			}
+			notes = append(notes, fmt.Sprintf("consumer %s phase=%s", pod.Name, pod.Status.Phase))
+			if events, evErr := client.CoreV1().Events(namespace).List(c.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + pod.Name}); evErr == nil {
+				for _, event := range events.Items {
+					notes = append(notes, fmt.Sprintf("consumer %s %s: %s", event.Type, event.Reason, event.Message))
+				}
+			}
+		}
+	}
+	if len(notes) == 0 {
+		return "no claim events"
+	}
+	return strings.Join(notes, "; ")
+}
+
 func (s *managedService) AttemptModifyAdmissionConfig(clusterID string, change map[string]interface{}) (map[string]interface{}, error) {
 	return nil, unsupported(s.provider, "AttemptModifyAdmissionConfig",
 		fmt.Sprintf("mutating admission configuration is destructive and no narrowly-scoped fixture target was configured (cluster=%s change=%v)", clusterID, change))
 }
 
-func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPorts, mgmtPorts []int) (map[string]interface{}, error) {
+func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPortsArg, mgmtPortsArg any) (map[string]interface{}, error) {
+	kubeletPorts, err := parseIntList(kubeletPortsArg)
+	if err != nil {
+		return nil, fmt.Errorf("kubelet-ports: %w", err)
+	}
+	mgmtPorts, err := parseIntList(mgmtPortsArg)
+	if err != nil {
+		return nil, fmt.Errorf("node-mgmt-ports: %w", err)
+	}
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -930,6 +1202,9 @@ func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPo
 			}
 			probe, probeErr := c.prober.Probe(c.ctx, reachability.Request{Host: external, Port: port, Protocol: "tcp", Timeout: configDuration(c.config, "node-probe-timeout-ms", 5*time.Second), NetworkContext: "untrusted"})
 			if probeErr != nil {
+				if isReachabilityPolicyDenied(probeErr) {
+					continue
+				}
 				return nil, probeErr
 			}
 			if probe.TCPConnected {
@@ -945,6 +1220,17 @@ func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPo
 		"AnonymousKubeletOpen": anonymousKubelet, "KubeletReachable": kubeletReachable,
 		"PublicSSHOpen": publicSSH, "PublicRDPOpen": publicRDP, "PublicIPPresent": publicIP, "Nodes": evidence,
 	}, nil
+}
+
+func isReachabilityPolicyDenied(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "http 403") ||
+		strings.Contains(msg, "target is not allowed") ||
+		strings.Contains(msg, "port is not allowed") ||
+		strings.Contains(msg, "protocol is not allowed")
 }
 
 func (s *managedService) AttemptInstanceMetadataAccess(clusterID, podSelector string) (map[string]interface{}, error) {
@@ -1025,6 +1311,84 @@ func (c *KubeClient) GetResourceConsumptionBounds(_ string, namespace string) (m
 	return result, nil
 }
 
+func parseIntList(value any) ([]int, error) {
+	if value == nil {
+		return nil, nil
+	}
+	switch typed := value.(type) {
+	case []int:
+		return typed, nil
+	case []int64:
+		out := make([]int, len(typed))
+		for i, n := range typed {
+			out[i] = int(n)
+		}
+		return out, nil
+	case []interface{}:
+		out := make([]int, 0, len(typed))
+		for _, item := range typed {
+			n, err := parseIntListScalar(item)
+			if err != nil {
+				return nil, err
+			}
+			out = append(out, n)
+		}
+		return out, nil
+	case string:
+		trimmed := strings.TrimSpace(typed)
+		if trimmed == "" {
+			return nil, nil
+		}
+		if strings.HasPrefix(trimmed, "[") {
+			var decoded []interface{}
+			if err := json.Unmarshal([]byte(trimmed), &decoded); err == nil {
+				return parseIntList(decoded)
+			}
+		}
+		parts := strings.Split(trimmed, ",")
+		out := make([]int, 0, len(parts))
+		for _, part := range parts {
+			if strings.TrimSpace(part) == "" {
+				continue
+			}
+			n, err := parseIntListScalar(part)
+			if err != nil {
+				return nil, err
+			}
+			out = append(out, n)
+		}
+		return out, nil
+	default:
+		n, err := parseIntListScalar(value)
+		if err != nil {
+			return nil, fmt.Errorf("unsupported port list type %T", value)
+		}
+		return []int{n}, nil
+	}
+}
+
+func parseIntListScalar(value any) (int, error) {
+	switch typed := value.(type) {
+	case int:
+		return typed, nil
+	case int32:
+		return int(typed), nil
+	case int64:
+		return int(typed), nil
+	case float64:
+		return int(typed), nil
+	case json.Number:
+		n, err := typed.Int64()
+		return int(n), err
+	default:
+		n, err := strconv.Atoi(strings.TrimSpace(fmt.Sprint(value)))
+		if err != nil {
+			return 0, fmt.Errorf("invalid port %v", value)
+		}
+		return n, nil
+	}
+}
+
 func configInt(cfg types.Config, key string, fallback int64) int64 {
 	raw := strings.TrimSpace(cfg.Get(key))
 	if raw == "" {
@@ -1074,13 +1438,16 @@ func (s *managedService) AttemptClusterAuthWithStaticCredential(clusterID, mode 
 // (node agent / CNI DaemonSet SA and CSI driver SA). Override with required-infrastructure-roles.
 var defaultRequiredInfrastructureRoles = []string{"node", "csi"}
 
-func (c *KubeClient) GetInfrastructureIdentities(_ string) (map[string]interface{}, error) {
+func (c *KubeClient) GetInfrastructureIdentities(clusterID string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
 	serviceAccounts, err := client.CoreV1().ServiceAccounts("").List(c.ctx, metav1.ListOptions{})
 	if err != nil {
+		if c.infraIdentities != nil && (isAuthzDenied(err) || IsAPIUnreachable(err)) {
+			return c.infraIdentities(c.ctx, clusterID)
+		}
 		return nil, err
 	}
 	principals := []map[string]interface{}{}
@@ -1159,6 +1526,94 @@ func (s *managedService) GetEncryptionAtRestStatus(clusterID string) (map[string
 		return nil, unsupported(s.provider, "GetEncryptionAtRestStatus", "provider encryption configuration API is unavailable")
 	}
 	return s.encryption(s.ctx, clusterID)
+}
+
+// digestPinnedBusybox matches the terraform network-listener image. Tag-only
+// busybox:1.36 is denied by ccc-deny-tag-only-images in ccc-test.
+const digestPinnedBusybox = "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662"
+
+func (s *managedService) dryRunGeneratedPodAdmission(dyn dynamic.Interface, obj *unstructured.Unstructured, gvr schema.GroupVersionResource, namespace string) error {
+	pod, err := generatedPodFromWorkload(obj, gvr, namespace)
+	if err != nil {
+		return err
+	}
+	_, err = dyn.Resource(schema.GroupVersionResource{Version: "v1", Resource: "pods"}).
+		Namespace(namespace).
+		Create(s.ctx, pod, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
+	return err
+}
+
+func (s *managedService) dryRunEphemeralContainerAdmission(dyn dynamic.Interface, obj *unstructured.Unstructured, namespace string) error {
+	pod, err := ephemeralContainersAsPod(obj, namespace)
+	if err != nil {
+		return err
+	}
+	_, err = dyn.Resource(schema.GroupVersionResource{Version: "v1", Resource: "pods"}).
+		Namespace(namespace).
+		Create(s.ctx, pod, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
+	return err
+}
+
+func generatedPodFromWorkload(obj *unstructured.Unstructured, gvr schema.GroupVersionResource, namespace string) (*unstructured.Unstructured, error) {
+	if gvr.Resource == "pods" {
+		pod := obj.DeepCopy()
+		pod.SetNamespace(namespace)
+		pod.SetResourceVersion("")
+		pod.SetUID("")
+		if pod.GetName() == "" {
+			pod.SetGenerateName("ccc-admit-")
+		}
+		return pod, nil
+	}
+	template, found, err := unstructured.NestedMap(obj.Object, "spec", "template")
+	if err != nil {
+		return nil, fmt.Errorf("read generated pod template: %w", err)
+	}
+	if !found {
+		return nil, fmt.Errorf("workload kind %s has no spec.template to admit", obj.GetKind())
+	}
+	spec, _ := template["spec"].(map[string]interface{})
+	if spec == nil {
+		return nil, fmt.Errorf("workload kind %s has empty spec.template.spec", obj.GetKind())
+	}
+	pod := &unstructured.Unstructured{Object: map[string]interface{}{
+		"apiVersion": "v1",
+		"kind":       "Pod",
+		"metadata": map[string]interface{}{
+			"generateName": "ccc-admit-",
+			"namespace":    namespace,
+		},
+		"spec": spec,
+	}}
+	if meta, ok := template["metadata"].(map[string]interface{}); ok {
+		if labels, ok := meta["labels"].(map[string]interface{}); ok {
+			if err := unstructured.SetNestedMap(pod.Object, labels, "metadata", "labels"); err != nil {
+				return nil, err
+			}
+		}
+	}
+	return pod, nil
+}
+
+func ephemeralContainersAsPod(obj *unstructured.Unstructured, namespace string) (*unstructured.Unstructured, error) {
+	containers, found, err := unstructured.NestedSlice(obj.Object, "spec", "ephemeralContainers")
+	if err != nil {
+		return nil, fmt.Errorf("read ephemeralContainers: %w", err)
+	}
+	if !found || len(containers) == 0 {
+		return nil, fmt.Errorf("ephemeral-update manifest has no spec.ephemeralContainers")
+	}
+	return &unstructured.Unstructured{Object: map[string]interface{}{
+		"apiVersion": "v1",
+		"kind":       "Pod",
+		"metadata": map[string]interface{}{
+			"generateName": "ccc-admit-eph-",
+			"namespace":    namespace,
+		},
+		"spec": map[string]interface{}{
+			"containers": containers,
+		},
+	}}, nil
 }
 
 func decodeManifest(manifest string) (*unstructured.Unstructured, schema.GroupVersionResource, error) {
@@ -1259,6 +1714,28 @@ func infrastructureRoles(name string) []string {
 		}
 	}
 	return roles
+}
+
+func firstStringValue(value any) string {
+	if value == nil {
+		return ""
+	}
+	switch typed := value.(type) {
+	case string:
+		return strings.TrimSpace(typed)
+	case []string:
+		if len(typed) == 0 {
+			return ""
+		}
+		return strings.TrimSpace(typed[0])
+	case []interface{}:
+		if len(typed) == 0 {
+			return ""
+		}
+		return firstStringValue(typed[0])
+	default:
+		return strings.TrimSpace(fmt.Sprint(value))
+	}
 }
 
 func firstNonEmpty(values ...string) string {

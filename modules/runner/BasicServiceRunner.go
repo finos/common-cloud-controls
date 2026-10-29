@@ -8,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-	"strconv"
 	"strings"
 	"time"
 
@@ -18,7 +17,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/cloud-testing-dsl"
 	"github.com/finos/common-cloud-controls/reporters"
-	generic "github.com/robmoffat/standard-cucumber-steps/go"
+	generic "github.com/finos/cucumber-testing-steps/go"
 )
 
 // TestSuite for running cloud tests
@@ -79,81 +78,7 @@ func (suite *TestSuite) InitializeServiceScenario(sc *godog.ScenarioContext, par
 		return ctx, nil
 	})
 
-	// Register all cloud steps (which includes generic steps)
 	suite.RegisterSteps(sc)
-	sc.Step(
-		`^I call "([^"]*)" with "([^"]*)" using arguments "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)", and "([^"]*)"$`,
-		suite.callObjectMethodWithFiveParameters,
-	)
-}
-
-// callObjectMethodWithFiveParameters extends the standard reflective call convention,
-// which currently supports up to four arguments.
-func (suite *TestSuite) callObjectMethodWithFiveParameters(objectName, methodName string, params ...string) (err error) {
-	defer func() {
-		if recovered := recover(); recovered != nil {
-			suite.Props["result"] = fmt.Errorf("error calling %s.%s: %v", objectName, methodName, recovered)
-			err = nil
-		}
-	}()
-
-	object := suite.HandleResolve(objectName)
-	if object == nil {
-		suite.Props["result"] = fmt.Errorf("object %s not found", objectName)
-		return nil
-	}
-	method := reflect.ValueOf(object).MethodByName(methodName)
-	if !method.IsValid() {
-		suite.Props["result"] = fmt.Errorf("method %s not found", methodName)
-		return nil
-	}
-	if method.Type().NumIn() != len(params) {
-		suite.Props["result"] = fmt.Errorf(
-			"method %s expects %d arguments, got %d",
-			methodName,
-			method.Type().NumIn(),
-			len(params),
-		)
-		return nil
-	}
-
-	args := make([]reflect.Value, len(params))
-	for i, param := range params {
-		args[i] = convertReflectArgument(method.Type().In(i), suite.HandleResolve(param))
-	}
-	results := method.Call(args)
-	if len(results) > 1 && !results[len(results)-1].IsNil() {
-		if callErr, ok := results[len(results)-1].Interface().(error); ok {
-			suite.Props["result"] = callErr
-			return nil
-		}
-	}
-	if len(results) > 0 {
-		suite.Props["result"] = results[0].Interface()
-	}
-	return nil
-}
-
-func convertReflectArgument(target reflect.Type, value any) reflect.Value {
-	if value == nil {
-		return reflect.Zero(target)
-	}
-	resolved := reflect.ValueOf(value)
-	if resolved.Type().AssignableTo(target) {
-		return resolved
-	}
-	if resolved.Type().ConvertibleTo(target) {
-		return resolved.Convert(target)
-	}
-	switch target.Kind() {
-	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		if parsed, err := strconv.ParseInt(fmt.Sprint(value), 10, 64); err == nil {
-			return reflect.ValueOf(parsed).Convert(target)
-		}
-	case reflect.String:
-		return reflect.ValueOf(fmt.Sprint(value))
-	}
-	return resolved
 }
 
 // enrichParamsProps copies Privateer vars into Props for Godog substitution and HTML reports.
@@ -168,7 +93,31 @@ func enrichParamsProps(params types.TestParams) types.TestParams {
 		}
 		params.Props[k] = v
 	}
+	if raw, ok := params.Props["permitted-regions"]; ok {
+		params.Props["permitted-regions"] = normalizePermittedRegions(raw)
+	}
 	return params
+}
+
+// normalizePermittedRegions accepts YAML string lists ([westus2]) or
+// [{value: westus2}] so CCC.Core.CN06.AR01 can match GetResourceRegion.
+func normalizePermittedRegions(raw any) any {
+	items, ok := raw.([]interface{})
+	if !ok {
+		return raw
+	}
+	out := make([]interface{}, 0, len(items))
+	for _, item := range items {
+		switch typed := item.(type) {
+		case map[string]interface{}:
+			out = append(out, typed)
+		case string:
+			out = append(out, map[string]interface{}{"value": typed})
+		default:
+			out = append(out, map[string]interface{}{"value": fmt.Sprint(item)})
+		}
+	}
+	return out
 }
 
 // BasicServiceRunner provides functionality for running service-specific compliance tests

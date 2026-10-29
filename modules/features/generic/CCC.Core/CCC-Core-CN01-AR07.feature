@@ -5,7 +5,7 @@ Feature: CCC.Core.CN01.AR07
   So that services follow standard port assignments and avoid misconfigurations
 
 
-@Behavioural @PerPort @http @plaintext @kubernetes
+@Behavioural @PerPort @http @plaintext
   Scenario: Verify HTTP uses IANA-assigned port 80
     HTTP must use port 80 as assigned by IANA.
     Running HTTP on non-standard ports violates IANA assignments.
@@ -21,7 +21,7 @@ Feature: CCC.Core.CN01.AR07
     Then "{port-number}" is "443"
 
 
-@Behavioural @PerPort @ssh @kubernetes
+@Behavioural @PerPort @ssh
   Scenario: Verify SSH uses IANA-assigned port 22
     SSH must use port 22 as assigned by IANA.
     Running SSH on non-standard ports or other services on port 22 violates IANA assignments.
@@ -29,7 +29,7 @@ Feature: CCC.Core.CN01.AR07
     Then "{port-number}" is "22"
 
 
-@Behavioural @PerPort @smtp @plaintext @kubernetes
+@Behavioural @PerPort @smtp @plaintext
   Scenario: Verify SMTP uses IANA-assigned port 25
     SMTP must use port 25 as assigned by IANA.
     This is the standard port for mail transfer between servers.
@@ -37,14 +37,14 @@ Feature: CCC.Core.CN01.AR07
     Then "{port-number}" is "25"
 
 
-@Behavioural @PerPort @smtp @tls @kubernetes
+@Behavioural @PerPort @smtp @tls
   Scenario: Verify SMTPS uses IANA-assigned port 465 or 587
     SMTPS can use port 465 (implicit TLS) or 587 (STARTTLS) as assigned by IANA.
 
     Then "{port-number}" is "465"
 
 
-@Behavioural @PerPort @dns @kubernetes
+@Behavioural @PerPort @dns
   Scenario: Verify DNS uses IANA-assigned port 53
     DNS must use port 53 as assigned by IANA.
     Both TCP and UDP port 53 are reserved for domain name resolution.
@@ -52,7 +52,7 @@ Feature: CCC.Core.CN01.AR07
     Then "{port-number}" is "53"
 
 
-@Behavioural @PerPort @ftp @plaintext @kubernetes
+@Behavioural @PerPort @ftp @plaintext
   Scenario: Verify FTP uses IANA-assigned port 21
     FTP must use port 21 as assigned by IANA.
     If FTP is disabled for security, this port should not be exposed.
@@ -60,7 +60,7 @@ Feature: CCC.Core.CN01.AR07
     Then "{port-number}" is "21"
 
 
-@Behavioural @PerPort @ldap @plaintext @kubernetes
+@Behavioural @PerPort @ldap @plaintext
   Scenario: Verify LDAP uses IANA-assigned port 389
     LDAP must use port 389 as assigned by IANA.
     This is the standard port for directory services.
@@ -68,7 +68,7 @@ Feature: CCC.Core.CN01.AR07
     Then "{port-number}" is "389"
 
 
-@Behavioural @PerPort @ldap @tls @kubernetes
+@Behavioural @PerPort @ldap @tls
   Scenario: Verify LDAPS uses IANA-assigned port 636
     LDAPS must use port 636 as assigned by IANA.
     This is the secure LDAP port with implicit TLS.

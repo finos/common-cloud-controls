@@ -99,4 +99,8 @@ type Service interface {
 
 	// ListObjectVersions lists all versions of an object (when versioning is enabled)
 	ListObjectVersions(bucketID string, objectID string) ([]ObjectVersion, error)
+
+	// IsBucketVersioningEnabled reports whether object versioning is enabled on the bucket
+	// (or storage account for Azure). Used by CCC.ObjStor.CN05.AR01.
+	IsBucketVersioningEnabled(bucketID string) (bool, error)
 }

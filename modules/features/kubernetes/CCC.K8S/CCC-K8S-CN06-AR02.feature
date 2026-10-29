@@ -13,8 +13,8 @@ Feature: CCC.K8S.CN06.AR02 - Allow only explicitly selected network flows
 
   @Behavioural @kubernetes
   Scenario: Allow only explicitly selected network flows
-    When I call "{kubeClient}" with "AttemptWorkloadNetworkFlow" using arguments "{uid}", "{network-probe-selector}", "{network-allowlist-host}", "{network-probe-port}", and "{network-probe-protocol}"
+    When I call "{kubeClient}" with "AttemptWorkloadNetworkFlowFromConfig" using arguments "{uid}", "{network-probe-selector}", and "{network-allowlist-host}"
     Then "{result}" is not an error
     And "{result.Connected}" is true
-    When I call "{kubeClient}" with "AttemptWorkloadNetworkFlow" using arguments "{uid}", "{network-probe-selector}", "{network-denylist-host}", "{network-probe-port}", and "{network-probe-protocol}"
+    When I call "{kubeClient}" with "AttemptWorkloadNetworkFlowFromConfig" using arguments "{uid}", "{network-probe-selector}", and "{network-denylist-host}"
     Then "{result}" is an error

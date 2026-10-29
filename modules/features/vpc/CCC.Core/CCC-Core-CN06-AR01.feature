@@ -15,6 +15,4 @@ Feature: CCC.Core.CN06.AR01 - Resource Location Compliance
     Then "{result}" is not an error
     And I refer to "{result}" as "region"
     And I attach "{region}" to the test output as "Resource Region"
-    Then "{permitted-regions}" is an array of objects with at least the following contents
-      | value    |
-      | {region} |
+    Then the permitted regions include "{region}"

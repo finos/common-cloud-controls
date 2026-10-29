@@ -637,6 +637,15 @@ func (s *GCPStorageService) GetReplicationStatus(resourceID string) (*generic.Re
 	}, nil
 }
 
+// IsBucketVersioningEnabled reports whether object versioning is enabled on the GCS bucket.
+func (s *GCPStorageService) IsBucketVersioningEnabled(bucketID string) (bool, error) {
+	attrs, err := s.client.Bucket(bucketID).Attrs(s.ctx)
+	if err != nil {
+		return false, fmt.Errorf("failed to get bucket attrs: %w", err)
+	}
+	return attrs.VersioningEnabled, nil
+}
+
 // ListObjectVersions lists object generations when versioning is enabled.
 func (s *GCPStorageService) ListObjectVersions(bucketID string, objectID string) ([]ObjectVersion, error) {
 	bucket := s.client.Bucket(bucketID)

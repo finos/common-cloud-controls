@@ -59,7 +59,7 @@ func NewGCPServiceWithCredentials(ctx context.Context, cfg types.Config, identit
 
 func newGCPService(ctx context.Context, cfg types.Config, client *container.Service, ts oauth2.TokenSource, identity *types.Identity) *GCPService {
 	service := &GCPService{managedService: newManagedService(ctx, cfg, "gcp"), gke: client, tokenSource: ts}
-	service.resolveREST = service.buildRESTConfig
+	service.resolveREST = service.kubeRESTConfig
 	service.endpoint = service.endpointConfig
 	service.region = service.clusterRegion
 	service.updateMetadata = service.updateLabels
@@ -110,9 +110,11 @@ func (s *GCPService) endpointConfig(_ context.Context, clusterID string) (map[st
 			cidrs = append(cidrs, block.CidrBlock)
 		}
 	}
+	public := !private
 	return map[string]interface{}{
-		"PublicAccess": !private, "PrivateAccess": private, "AllowedCIDRs": cidrs,
-		"EndpointHostname": endpointHostname(cluster.Endpoint),
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             endpointHostname(cluster.Endpoint),
 	}, nil
 }
 
@@ -423,7 +425,10 @@ func (s *GCPService) gcpLifecycle() *lifecycle.GCP {
 }
 
 func (s *GCPService) Start(resourceID string) error {
-	return s.gcpLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.gcpLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *GCPService) Stop(resourceID string) error {
@@ -441,7 +446,7 @@ func (s *GCPService) lifecycleClusterID(resourceID string) string {
 	return strings.TrimSpace(s.config.Get("kubernetes-cluster-name", "resource"))
 }
 
-func (s *GCPService) buildRESTConfig() (*rest.Config, error) {
+func (s *GCPService) kubeRESTConfig() (*rest.Config, error) {
 	cluster, err := s.get("")
 	if err != nil {
 		return nil, err
@@ -449,5 +454,5 @@ func (s *GCPService) buildRESTConfig() (*rest.Config, error) {
 	if cluster.MasterAuth == nil || cluster.MasterAuth.ClusterCaCertificate == "" {
 		return nil, fmt.Errorf("GKE cluster is missing certificate authority data")
 	}
-	return config.GCP(cluster.Endpoint, cluster.MasterAuth.ClusterCaCertificate, s.tokenSource)
+	return config.GCPDirect(cluster.Endpoint, cluster.MasterAuth.ClusterCaCertificate, s.tokenSource)
 }

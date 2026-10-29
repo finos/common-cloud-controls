@@ -16,14 +16,14 @@ Feature: CCC.Core.CN01.AR01
     And I close connection "{connection}"
     Then "{connection}" state is closed
 
-  @Behavioural @PerPort @tls @object-storage @virtual-machines @kubernetes
+  @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Service rejects TLS 1.2 traffic
     Given an openssl s_client request using "tls1_2" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"
     And we wait for a period of "40" ms
     Then "{connection.State}" is "closed"
 
-  @Behavioural @PerPort @tls @object-storage @virtual-machines @kubernetes
+  @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Service rejects TLS 1.1 traffic
     Given an openssl s_client request using "tls1_1" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"
@@ -37,7 +37,7 @@ Feature: CCC.Core.CN01.AR01
     And we wait for a period of "40" ms
     Then "{connection.State}" is "closed"
 
-  @Behavioural @PerPort @tls @object-storage @virtual-machines @kubernetes
+  @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Verify SSL/TLS protocol support
     Given "report" contains details of SSL Support type "protocols" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects which doesn't contain any of
@@ -51,7 +51,7 @@ Feature: CCC.Core.CN01.AR01
       | id     | finding            |
       | TLS1_3 | offered with final |
 
-  @Behavioural @PerPort @tls @object-storage @virtual-machines @kubernetes
+  @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Verify no known SSL/TLS vulnerabilities
     Given "report" contains details of SSL Support type "vulnerable" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects with at least the following contents
@@ -62,7 +62,7 @@ Feature: CCC.Core.CN01.AR01
       | ROBOT         | OK       |
       | secure_renego | OK       |
 
-  @Behavioural @PerPort @tls @object-storage @virtual-machines @kubernetes
+  @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Verify TLS 1.3 only certificate validity
     Given "report" contains details of SSL Support type "server-defaults" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects with at least the following contents

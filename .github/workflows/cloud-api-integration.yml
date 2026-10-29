@@ -21,9 +21,15 @@ permissions:
   pull-requests: write
   id-token: write
 
+# Share one lock with cfi-test: both start/stop the same finos-ccc-integration-* fixtures.
+# cancel-in-progress must be false so a new push cannot park the cluster under a sibling run.
+# queue: max (not the default single) so a pending integration run is not cancelled
+# when CFI also claims this group — GitHub would otherwise log
+# "Canceling since a higher priority waiting request for … exists".
 concurrency:
-  group: cloud-api-integration-${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
+  group: ccc-finos-integration-fixtures
+  cancel-in-progress: false
+  queue: max
 
 jobs:
   integration:
@@ -263,11 +269,152 @@ jobs:
             modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}.out
           if-no-files-found: ignore
 
-      - name: Upload coverage to Codecov
-        if: always() && hashFiles(format('modules/cloud-api-test/coverage-integration-{0}.out', matrix.provider)) != ''
+  # Minimal CFI-style smoke: Privateer plugin → BasicServiceRunner with -cover.
+  # start-compute: false (aws-secrets). Shares fixture concurrency with integration.
+  cfi-smoke:
+    name: CFI smoke (aws-secrets + runner cover)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-go-workspace
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Load AWS env
+        env:
+          AWS_ENV: ${{ secrets.AWS_ENV }}
+        run: |
+          set -euo pipefail
+          out="modules/cloud-api-test/environment-config/aws-env.sh"
+          if [ -n "${AWS_ENV:-}" ]; then
+            printf '%s\n' "$AWS_ENV" > "$out"
+            set -a
+            # shellcheck source=/dev/null
+            source "$out"
+            set +a
+            while IFS= read -r line || [ -n "$line" ]; do
+              line="${line#export }"
+              case "$line" in
+                ''|\#*) continue ;;
+                *=*) echo "$line" >> "$GITHUB_ENV" ;;
+              esac
+            done < "$out"
+          fi
+
+      - name: Generate release catalogs
+        run: |
+          set -euo pipefail
+          npm ci --prefix website
+          npm run --prefix website generate:catalogs
+
+      - name: Run CFI smoke with coverage
+        run: |
+          set -euo pipefail
+          chmod +x modules/cloud-api-test/run-cfi-smoke.sh
+          ./modules/cloud-api-test/run-cfi-smoke.sh
+
+      - name: Upload CFI smoke coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-cfi-smoke
+          path: |
+            modules/cloud-api-test/coverage-cfi-smoke.out
+          if-no-files-found: warn
+
+  # Provider implementations diverge; do not publish Codecov from a single
+  # matrix leg. Merge aws + azure + gcp first, or do not report.
+  report-coverage:
+    name: Unify and upload coverage
+    needs: [integration, cfi-smoke]
+    if: |
+      always() &&
+      !cancelled() &&
+      needs.integration.result != 'skipped' &&
+      (github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-go-workspace
+
+      - name: Download per-provider coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cloud-api-integration-*
+          path: ${{ runner.temp }}/cloud-api-coverage
+          merge-multiple: true
+
+      - name: Download CFI smoke coverage
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: cloud-api-cfi-smoke
+          path: ${{ runner.temp }}/cloud-api-cfi-smoke
+
+      - name: Merge aws + azure + gcp coverage
+        env:
+          STAGING: ${{ runner.temp }}/cloud-api-coverage
+          CFI_STAGING: ${{ runner.temp }}/cloud-api-cfi-smoke
+        run: |
+          set -euo pipefail
+          dest=modules/cloud-api-test
+          # Artifacts may nest workspace-relative paths; flatten the profiles.
+          for cloud in aws azure gcp; do
+            found="$(find "$STAGING" -type f -name "coverage-integration-${cloud}.out" -print -quit)"
+            if [[ -z "$found" ]]; then
+              echo "error: no coverage-integration-${cloud}.out in downloaded artifacts" >&2
+              find "$STAGING" -type f -print >&2 || true
+              exit 1
+            fi
+            cp "$found" "$dest/coverage-integration-${cloud}.out"
+          done
+          smoke="$(find "${CFI_STAGING:-/nonexistent}" -type f -name "coverage-cfi-smoke.out" -print -quit 2>/dev/null || true)"
+          if [[ -n "$smoke" ]]; then
+            cp "$smoke" "$dest/coverage-cfi-smoke.out"
+          fi
+          chmod +x "$dest/merge-provider-coverage.sh"
+          "$dest/merge-provider-coverage.sh"
+
+      - name: Publish combined coverage summary
+        if: always()
+        run: |
+          {
+            echo "## Combined cloud-api coverage (aws + azure + gcp)"
+            echo ""
+            if [ -f modules/cloud-api-test/coverage-integration-all.out ]; then
+              echo '```text'
+              go tool cover -func=modules/cloud-api-test/coverage-integration-all.out | tail -5
+              echo '```'
+            else
+              echo "_No combined profile — a provider coverage file was missing._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload combined coverage artifact
+        if: always() && hashFiles('modules/cloud-api-test/coverage-integration-all.out') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-integration-all
+          path: |
+            modules/cloud-api-test/coverage-integration-all.out
+            modules/cloud-api-test/coverage-integration-all.html
+
+      - name: Upload unified coverage to Codecov
+        if: hashFiles('modules/cloud-api-test/coverage-integration-all.out') != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: modules/cloud-api-test/coverage-integration-${{ matrix.provider }}.out
-          flags: cloud-api-integration-${{ matrix.provider }}
+          files: modules/cloud-api-test/coverage-integration-all.out
+          flags: cloud-api-integration
           fail_ci_if_error: false

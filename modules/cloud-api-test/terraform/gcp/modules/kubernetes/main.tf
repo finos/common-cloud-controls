@@ -288,6 +288,13 @@ resource "google_container_node_pool" "main" {
   }
 }
 
+resource "google_project_iam_member" "integration_runner_container_admin" {
+  count   = var.integration_runner_service_account_email != "" ? 1 : 0
+  project = var.project_id
+  role    = "roles/container.admin"
+  member  = "serviceAccount:${var.integration_runner_service_account_email}"
+}
+
 resource "google_service_account_iam_member" "wi_bound_wif" {
   service_account_id = google_service_account.wi_bound.name
   role               = "roles/iam.workloadIdentityUser"

@@ -18,6 +18,8 @@ Feature: CCC.K8S.CN16.AR02 - Disable unmanaged human credentials
     And "{result.StaticClientCertsForHumans}" is false
 
   @Behavioural @kubernetes @NotTestable
-  Scenario: A synthetic static human credential is rejected
-    When I call "{k8sControlPlane}" with "AttemptClusterAuthWithStaticCredential" using arguments "{uid}" and "{legacy-auth-probe-mode}"
-    Then "{result}" is an error
+  Scenario: A synthetic static human credential is rejected requires evidence outside this automated harness
+    # Live rejection of a synthetic basic-auth or client-cert handshake is opt-in.
+    # Some managed control planes remove that path entirely, so a missing handshake
+    # is not proof the cluster rejects unmanaged human credentials.
+    Then no-op required

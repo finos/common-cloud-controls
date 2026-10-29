@@ -4,9 +4,15 @@ permissions:
   id-token: write
   contents: read
 
+# Share one lock with cloud-api-integration: both start/stop the same finos-ccc-integration-* fixtures.
+# cancel-in-progress must be false so a new push cannot park the cluster under a sibling run.
+# queue: max (not the default single) so a pending CFI run is not cancelled when
+# cloud-api-integration also claims this group — GitHub would otherwise log
+# "Canceling since a higher priority waiting request for … exists".
 concurrency:
-  group: cfi-test-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ccc-finos-integration-fixtures
+  cancel-in-progress: false
+  queue: max
 
 on:
   workflow_dispatch:

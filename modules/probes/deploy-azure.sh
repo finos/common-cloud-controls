@@ -59,15 +59,21 @@ az aks get-credentials --resource-group "$RESOURCE_GROUP" --name "$CLUSTER_NAME"
 kubelogin convert-kubeconfig -l azurecli
 # AKS needs pull rights for the ACR holding the probe image.
 az aks update -g "$RESOURCE_GROUP" -n "$CLUSTER_NAME" --attach-acr "$ACR_NAME" >/dev/null 2>&1 || true
-echo "==> admission-webhook: wait for Ready nodes"
-kubectl wait --for=condition=Ready nodes --all --timeout=300s
+# shellcheck source=wait-schedulable-node.sh
+. "$(dirname "$0")/wait-schedulable-node.sh"
 kubectl patch "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" \
   --type merge -p '{"spec":{"progressDeadlineSeconds":600}}' >/dev/null
 kubectl set image "deployment/${WEBHOOK_DEPLOY}" \
   -n "$WEBHOOK_NS" \
   "${WEBHOOK_CONTAINER}=${PINNED_IMAGE}"
 kubectl scale "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" --replicas=1
-kubectl rollout status "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" --timeout=180s
+if ! kubectl rollout status "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" --timeout=180s; then
+  echo "error: webhook rollout failed; dumping ${WEBHOOK_NS} diagnostics" >&2
+  kubectl -n "$WEBHOOK_NS" get deploy,rs,pods,events -o wide || true
+  kubectl -n "$WEBHOOK_NS" describe "deployment/${WEBHOOK_DEPLOY}" || true
+  kubectl -n "$WEBHOOK_NS" describe pods -l "app.kubernetes.io/name=${WEBHOOK_DEPLOY}" || true
+  exit 1
+fi
 
 CURRENT_IMAGE="$(kubectl get deployment "$WEBHOOK_DEPLOY" -n "$WEBHOOK_NS" -o jsonpath='{.spec.template.spec.containers[0].image}')"
 case "$CURRENT_IMAGE" in
