@@ -30,6 +30,7 @@ export interface CatalogImport {
   title: string;
   category?: string;
   service?: string;
+  threatRefs?: string[];
 }
 
 export interface CatalogAssessmentRequirement {
@@ -241,12 +242,16 @@ function mapImports(
     entry.service = metadata?.service;    
   });
 
-  return allImports.map((entry: any) => ({
-    id: String(entry?.['reference-id'] ?? ''),
-    title: cleanStr(entry?.['remarks'] ?? 'default remarks title'),
-    category: cleanStr(entry?.['category'] ?? 'unknown_category'),
-    service: cleanStr(entry?.['service'] ?? 'unknown_service'),
-  }));
+  return allImports.map((entry: any) => {
+    const threatRefs = extractRefIds(entry?.threats);
+    return {
+      id: String(entry?.['reference-id'] ?? ''),
+      title: cleanStr(entry?.['remarks'] ?? 'default remarks title'),
+      category: cleanStr(entry?.['category'] ?? 'unknown_category'),
+      service: cleanStr(entry?.['service'] ?? 'unknown_service'),
+      ...(threatRefs.length ? { threatRefs } : {}),
+    };
+  });
 }
 
 
@@ -368,20 +373,25 @@ function extractThreatCapabilityRefs(items: any[]): Map<string, string[]> {
   return map;
 }
 
-// Builds a map of threatId -> control ids that reference it, from a raw controls array
-function extractControlThreatRefs(items: any[]): Map<string, string[]> {
+// Builds a map of threatId -> control ids that reference it, from raw controls and imported controls
+function extractControlThreatRefs(items: any[], imports?: any[]): Map<string, string[]> {
   const map = new Map<string, string[]>();
-  for (const control of items) {
-    const controlId = String(control?.id ?? '');
-    if (!controlId) continue;
-    const threatRefs = new Set<string>(
-      (control.threats ?? []).flatMap((t: any) =>
-        (t.entries ?? []).map((e: any) => String(e?.['reference-id'] ?? '')),
-      ).filter(Boolean),
-    );
+  const recordThreatRefs = (controlId: string, threatGroups: any[] | undefined) => {
+    if (!controlId) return;
+    const threatRefs = new Set<string>(extractRefIds(threatGroups));
     for (const threatId of threatRefs) {
       if (!map.has(threatId)) map.set(threatId, []);
-      map.get(threatId)!.push(controlId);
+      if (!map.get(threatId)!.includes(controlId)) {
+        map.get(threatId)!.push(controlId);
+      }
+    }
+  };
+  for (const control of items) {
+    recordThreatRefs(String(control?.id ?? ''), control?.threats);
+  }
+  for (const group of imports ?? []) {
+    for (const entry of group?.entries ?? []) {
+      recordThreatRefs(String(entry?.['reference-id'] ?? ''), entry?.threats);
     }
   }
   return map;
@@ -510,7 +520,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
               threatCapMaps.set(`${loc.category}/${loc.service}/${version}`, extractThreatCapabilityRefs(items));
             }
             if (type === 'controls') {
-              controlThreatMaps.set(`${loc.category}/${loc.service}/${version}`, extractControlThreatRefs(items));
+              controlThreatMaps.set(`${loc.category}/${loc.service}/${version}`, extractControlThreatRefs(items, raw.imports));
             }
             continue;
           }
@@ -545,7 +555,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
               mapEntries(controls, 'controls'),
               mapImports(raw.imports ?? [], idToPath),
             );
-            controlThreatMaps.set(`${loc.category}/${loc.service}/${version}`, extractControlThreatRefs(controls));
+            controlThreatMaps.set(`${loc.category}/${loc.service}/${version}`, extractControlThreatRefs(controls, raw.imports));
           }
         }
       }
@@ -576,7 +586,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
               threatCapMaps.set(`${loc.category}/${loc.service}/DEV`, extractThreatCapabilityRefs(items));
             }
             if (typeName === 'controls') {
-              controlThreatMaps.set(`${loc.category}/${loc.service}/DEV`, extractControlThreatRefs(items));
+              controlThreatMaps.set(`${loc.category}/${loc.service}/DEV`, extractControlThreatRefs(items, rawImports));
             }
           }
         }

@@ -137,10 +137,10 @@ Confidence: `High|Medium|Low`
 1. Read `catalogs/core/core/controls.yaml` and review all core controls (`CCC.Core.CN*`), including the threats each one mitigates.
 
 2. Select core controls for import when:
-   - The core control mitigates one or more threats in the Step 2 inventory, AND
+   - The core control mitigates one or more threats in the Step 2 inventory (either a core threat `CCC.Core.TH*` already mapped on that control in `catalogs/core/core/controls.yaml`, or a service-specific threat `CCC.<ABBREVIATION>.TH*` whose risk is mitigated by the core control), AND
    - The service's capabilities make the control applicable (e.g., do not import a replication control if the service has no replication capability).
 
-3. Do not plan service-specific controls that duplicate the intent of an imported core control. If a core control such as `CCC.Core.CN01` (Encrypt Data for Transmission) already covers the need, keep it in `imported-controls` only.
+3. Do not plan service-specific controls that duplicate the intent of an imported core control. If a core control such as `CCC.Core.CN01` (Prevent Unencrypted Network Traffic) already covers the need for a service-specific threat, import `CCC.Core.CN01` and attach a `threats` mapping block directly to its entry under `imports[].entries[]` in the service's `controls.yaml` (never add service-specific threats to `catalogs/core/core/controls.yaml`).
 
 4. Compare against a peer catalog in the same category (e.g., `catalogs/storage/object/controls.yaml` for a storage service) as a sanity check on which core controls are conventionally imported.
 
@@ -210,7 +210,7 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
 
 1. Use `schemas/controls-schema.json` as the source of truth for required and allowed fields.
 
-2. Build `imported-controls` from the confirmed Step 3 selection using the schema shape:
+2. Build `imports` from the confirmed Step 3 selection using the schema shape (including an optional `threats` block when an imported core control mitigates service-specific or additional threats in this catalog):
 
    ```yaml
    imports:
@@ -218,6 +218,12 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
        entries:
          - reference-id: CCC.Core.CN01
            remarks: <core control title>
+           threats:
+             - reference-id: CCC
+               entries:
+                 - reference-id: CCC.<ABBREVIATION>.TH01
+                   remarks: <service-specific threat title>
+                   strength: <1-10>
    ```
 
 3. Build `controls` from the confirmed Step 4 list. Each control must include `id`, `group`, `title`, `objective`, and `assessment-requirements`:
@@ -280,7 +286,8 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
    - Assign `applicability` as TLP levels ordered least to most restrictive (`tlp-clear`, `tlp-green`, `tlp-amber`, `tlp-red`). More restrictive requirements typically apply only to `tlp-amber` and `tlp-red`.
 
 5. Threat mapping rules:
-   - Every control must reference at least one threat from the Step 2 inventory.
+   - Every service-specific control must reference at least one threat from the Step 2 inventory.
+   - When an imported core control (`CCC.Core.CN*`) mitigates a service-specific threat (`CCC.<ABBREVIATION>.TH*`) or an additional threat in this catalog beyond what `catalogs/core/core/controls.yaml` already tracks, list that threat in the imported control entry's `threats` block under `imports[].entries[]`.
    - Use `strength` (1–10) to indicate how completely the control mitigates the threat, with a brief inline comment justifying the score when partial.
 
 6. Guideline mapping rules:
