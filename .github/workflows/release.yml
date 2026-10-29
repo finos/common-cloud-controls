@@ -76,6 +76,7 @@ defaults:
 concurrency:
   group: catalog-release-${{ inputs.version }}
   cancel-in-progress: false
+  queue: max # the default queue keeps one pending run and cancels the rest
 
 jobs:
   plan:
@@ -105,6 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
+      fail-fast: false # a failed catalog doesn't cancel the other ticked ones
       matrix:
         asset_type: ${{ fromJSON(needs.plan.outputs.asset_types) }}
     # Inputs are funneled through env to keep free-text values out of run: scripts.

@@ -47,6 +47,7 @@ permissions:
 concurrency:
   group: catalog-release-${{ inputs.version }}
   cancel-in-progress: false
+  queue: max # the default queue keeps one pending run and cancels the rest
 
 jobs:
   batch-release:
