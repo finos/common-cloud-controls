@@ -59,6 +59,12 @@ permissions:
   contents: write # cut the GitHub release
   id-token: write # grcli mints a GHA OIDC token for hub auth + cosign keyless signing
 
+# An explicit `shell: bash` runs steps with -o pipefail; the implicit default does
+# not, so a failing grcli piped into `tee` would otherwise pass the step.
+defaults:
+  run:
+    shell: bash
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -171,7 +177,6 @@ jobs:
           REPOSITORY: ${{ steps.artifact.outputs.author }}/${{ steps.artifact.outputs.artifact_id }}
           IDENTITY: ${{ github.server_url }}/${{ github.repository }}/.github/workflows/release.yml@refs/heads/main
         run: |
-          set -o pipefail
           grcli verify --repository "$REPOSITORY" --version "$VERSION" \
             --certificate-identity "$IDENTITY" 2>&1 | tee /tmp/sigverify.log
 
