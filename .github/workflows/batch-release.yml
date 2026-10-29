@@ -188,6 +188,14 @@ jobs:
             fi
             echo "$out"
 
+            # Read the signature back against a pinned identity (this workflow on main,
+            # not the hub record) before cutting the GitHub release.
+            if ! out="$(grcli verify --repository "${R_AUTHOR}/${R_ARTIFACT}" --version "$VERSION" \
+                --certificate-identity "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/.github/workflows/batch-release.yml@refs/heads/main" 2>&1)"; then
+              echo "$out"; R_REASON="Signature verify failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
+            fi
+            echo "$out"
+
             # Cut/append a per-target GitHub release. Each family/service gets its own
             # release tagged <family>/<service>/<version>, carrying that target's three
             # typed catalogs. The first asset for a target creates the release; the rest

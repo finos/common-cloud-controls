@@ -59,6 +59,12 @@ permissions:
   contents: write # cut the GitHub release
   id-token: write # grcli mints a GHA OIDC token for hub auth + cosign keyless signing
 
+# An explicit `shell: bash` runs steps with -o pipefail; the implicit default does
+# not, so a failing grcli piped into `tee` would otherwise pass the step.
+defaults:
+  run:
+    shell: bash
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -90,7 +96,7 @@ jobs:
         id: compile
         working-directory: delivery-toolkit
         # tee to a log so the summary step can parse a friendly reason if this fails.
-        # pipefail (the GHA default) keeps the step's exit status that of `go run`.
+        # pipefail (from `shell: bash` in defaults above) keeps the step's exit status that of `go run`.
         run: |
           go run . compile \
             --build-target "$BUILD_TARGET" \
@@ -161,6 +167,17 @@ jobs:
             grcli publish "$ARTIFACT" --license "$LICENSE" 2>&1 | tee /tmp/publish.log
           fi
 
+      # Read the signature back from grc.store before cutting the GitHub release.
+      - name: Verify published signature
+        id: sigverify
+        if: ${{ inputs.dry_run == false }}
+        env:
+          REPOSITORY: ${{ steps.artifact.outputs.author }}/${{ steps.artifact.outputs.artifact_id }}
+          IDENTITY: ${{ github.server_url }}/${{ github.repository }}/.github/workflows/release.yml@refs/heads/main
+        run: |
+          grcli verify --repository "$REPOSITORY" --version "$VERSION" \
+            --certificate-identity "$IDENTITY" 2>&1 | tee /tmp/sigverify.log
+
       # Augmented old flow: cut a GitHub release carrying the single typed catalog.
       # (Redundant with grc.store — kept per "augment"; safe to drop later.)
       - name: Cut GitHub release
@@ -194,6 +211,7 @@ jobs:
           O_LOCATE: ${{ steps.artifact.outcome }}
           O_VALIDATE: ${{ steps.validate.outcome }}
           O_PUBLISH: ${{ steps.publish.outcome }}
+          O_SIGVERIFY: ${{ steps.sigverify.outcome }}
           O_RELEASE: ${{ steps.release.outcome }}
         # set +e: this is a best-effort reporter — it must always finish and write the
         # summary, so it overrides the shell's default errexit.
@@ -240,6 +258,8 @@ jobs:
             result="Failed: schema validation — $(friendly_validate "$(cat /tmp/validate.log 2>/dev/null)")"
           elif [ "$O_PUBLISH" = "failure" ]; then
             result="Failed: publish to grc.store — $(tail -3 /tmp/publish.log 2>/dev/null | sanitize)"
+          elif [ "$O_SIGVERIFY" = "failure" ]; then
+            result="Failed: signature verify — $(tail -3 /tmp/sigverify.log 2>/dev/null | sanitize)"
           elif [ "$O_RELEASE" = "failure" ]; then
             result="Failed: GitHub release — $(tail -3 /tmp/release.log 2>/dev/null | sanitize)"
           elif [ "$DRY_RUN" = "true" ]; then
@@ -253,7 +273,7 @@ jobs:
           {
             echo "## Release ${BUILD_TARGET} ${ASSET_TYPE} ${VERSION} (dry_run=${DRY_RUN})"
             echo ""
-            echo "Pipeline: compile $(stat "$O_COMPILE") · validate $(stat "$O_VALIDATE") · publish $(stat "$O_PUBLISH") · release $(stat "$O_RELEASE")"
+            echo "Pipeline: compile $(stat "$O_COMPILE") · validate $(stat "$O_VALIDATE") · publish $(stat "$O_PUBLISH") · verify $(stat "$O_SIGVERIFY") · release $(stat "$O_RELEASE")"
             echo ""
             echo "| Source | Result |"
             echo "| --- | --- |"
