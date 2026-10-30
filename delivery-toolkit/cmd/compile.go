@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 	"time"
 
@@ -46,9 +47,9 @@ var groupDefsPath = filepath.Join("core", "core", "groups.yaml")
 // defaultHubURL is the grc.store hub API (the same default grcli uses).
 const defaultHubURL = "https://hub.grc.store"
 
-// coreHubNamespace is the grc.store namespace the core catalogs publish under
+// hubNamespace is the grc.store namespace CCC catalogs publish under
 // (the lowercased metadata.author.id stamped by newMetadata).
-const coreHubNamespace = "finos-ccc"
+const hubNamespace = "finos-ccc"
 
 // coreImportName maps an asset type to the import/mapping-reference id used for
 // the shared CCC Core catalog of that type.
@@ -85,16 +86,6 @@ func runCompile(cmd *cobra.Command, args []string) error {
 	}
 	service := serviceNameFromTitle(meta.title)
 
-	// Pin core imports to the latest published core release unless the source
-	// metadata pins CCC.Core explicitly. Core itself imports nothing.
-	if assetType != "mappings" && meta.coreVersion == "" && meta.id != "CCC.Core" {
-		hubURL, _ := cmd.Flags().GetString("hub-url")
-		meta.coreVersion, err = latestCoreVersion(cmd.Context(), hubURL, coreImportName[assetType])
-		if err != nil {
-			return err
-		}
-	}
-
 	// Mapping documents are already authored in canonical Gemara form (no
 	// imports/shorthand to reshape), and a catalog may have several of them.
 	// Compile them as a group, separate from the single-artifact asset types.
@@ -110,13 +101,17 @@ func runCompile(cmd *cobra.Command, args []string) error {
 	var artifact any
 	switch assetType {
 	case "capabilities":
-		artifact, err = compileCapabilities(filepath.Join(srcDir, "capabilities.yaml"), meta.id, service, version, meta.coreVersion, groupDefs)
+		artifact, err = compileCapabilities(filepath.Join(srcDir, "capabilities.yaml"), meta.id, service, version, groupDefs)
 	case "threats":
-		artifact, err = compileThreats(filepath.Join(srcDir, "threats.yaml"), meta.id, service, version, meta.coreVersion, groupDefs)
+		artifact, err = compileThreats(filepath.Join(srcDir, "threats.yaml"), meta.id, service, version, groupDefs)
 	case "controls":
-		artifact, err = compileControls(filepath.Join(srcDir, "controls.yaml"), meta.id, service, version, meta.coreVersion, groupDefs)
+		artifact, err = compileControls(filepath.Join(srcDir, "controls.yaml"), meta.id, service, version, groupDefs)
 	}
 	if err != nil {
+		return err
+	}
+	hubURL, _ := cmd.Flags().GetString("hub-url")
+	if err := setMappingReferences(cmd.Context(), artifact, meta, service, version, hubURL); err != nil {
 		return err
 	}
 
@@ -129,9 +124,9 @@ func runCompile(cmd *cobra.Command, args []string) error {
 }
 
 type sourceMeta struct {
-	id          string
-	title       string
-	coreVersion string // version of CCC.Core this catalog maps against
+	id    string
+	title string
+	refs  []gemara.MappingReference // declared external frameworks (CCM, NIST, ...)
 }
 
 func loadSourceMetadata(path string) (sourceMeta, error) {
@@ -141,12 +136,9 @@ func loadSourceMetadata(path string) (sourceMeta, error) {
 	}
 	var doc struct {
 		Metadata struct {
-			Id                string `yaml:"id"`
-			Title             string `yaml:"title"`
-			MappingReferences []struct {
-				Id      string `yaml:"id"`
-				Version string `yaml:"version"`
-			} `yaml:"mapping-references"`
+			Id                string                    `yaml:"id"`
+			Title             string                    `yaml:"title"`
+			MappingReferences []gemara.MappingReference `yaml:"mapping-references"`
 		} `yaml:"metadata"`
 	}
 	if err := yaml.Unmarshal(data, &doc); err != nil {
@@ -155,23 +147,88 @@ func loadSourceMetadata(path string) (sourceMeta, error) {
 	if doc.Metadata.Id == "" || doc.Metadata.Title == "" {
 		return sourceMeta{}, fmt.Errorf("%s: metadata.id and metadata.title are required", path)
 	}
-	core := ""
+	meta := sourceMeta{id: doc.Metadata.Id, title: doc.Metadata.Title}
 	for _, r := range doc.Metadata.MappingReferences {
-		if r.Id == "CCC.Core" && r.Version != "" {
-			core = r.Version
+		// CCC catalogs always resolve from the release or the hub, so a stale
+		// source pin (e.g. CCC.Core at v2025.10) can never win.
+		if !strings.HasPrefix(r.Id, "CCC.") {
+			meta.refs = append(meta.refs, r)
 		}
 	}
-	return sourceMeta{id: doc.Metadata.Id, title: doc.Metadata.Title, coreVersion: core}, nil
+	return meta, nil
 }
 
-// latestCoreVersion asks the grc.store hub for the latest published version of
-// a core catalog (e.g. CCC.Core.Controls -> finos-ccc/ccc.core.controls). It
-// fails rather than guessing when the catalog has no published version.
-func latestCoreVersion(ctx context.Context, hubURL, coreID string) (string, error) {
+// setMappingReferences declares every catalog the artifact refers to (imports
+// and entry mappings) in metadata.mapping-references, each with its version:
+//   - a sibling of this catalog (CCC.ObjStor.Threats -> CCC.ObjStor.Capabilities,
+//     or core's own chain) ships in the same release, so it gets `version`;
+//   - any other CCC catalog pins the latest final release on grc.store;
+//   - anything else must be declared in the source metadata.yaml, as is.
+func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, service, version, hubURL string) error {
+	var md *gemara.Metadata
+	var used []gemara.MultiEntryMapping
+	switch a := artifact.(type) {
+	case *gemara.CapabilityCatalog:
+		md, used = &a.Metadata, a.Imports
+	case *gemara.ThreatCatalog:
+		md, used = &a.Metadata, a.Imports
+		for _, t := range a.Threats {
+			used = append(used, t.Capabilities...)
+		}
+	case *gemara.ControlCatalog:
+		md, used = &a.Metadata, a.Imports
+		for _, c := range a.Controls {
+			used = append(used, c.Threats...)
+			used = append(used, c.Guidelines...)
+		}
+	default:
+		return fmt.Errorf("unsupported artifact %T", artifact)
+	}
+
+	seen := map[string]bool{md.Id: true}
+	var refs []gemara.MappingReference
+	var undeclared []string
+	for _, m := range used {
+		id := m.ReferenceId
+		if seen[id] {
+			continue
+		}
+		seen[id] = true
+		switch {
+		case strings.HasPrefix(id, meta.id+"."):
+			word := strings.TrimPrefix(id, meta.id+".")
+			refs = append(refs, gemara.MappingReference{Id: id, Title: fmt.Sprintf("CCC %s %s", service, word), Version: version})
+		case strings.HasPrefix(id, "CCC."):
+			v, err := latestFinalVersion(ctx, hubURL, id)
+			if err != nil {
+				return err
+			}
+			refs = append(refs, gemara.MappingReference{Id: id, Title: titleForRef(id), Version: v})
+		default:
+			i := slices.IndexFunc(meta.refs, func(r gemara.MappingReference) bool { return r.Id == id })
+			if i < 0 || meta.refs[i].Version == "" {
+				undeclared = append(undeclared, id)
+				continue
+			}
+			refs = append(refs, meta.refs[i])
+		}
+	}
+	if len(undeclared) > 0 {
+		return fmt.Errorf("%s refers to %s, which metadata.yaml mapping-references does not declare with a version", md.Id, strings.Join(undeclared, ", "))
+	}
+	md.MappingReferences = refs
+	return nil
+}
+
+// latestFinalVersion asks the grc.store hub for the latest final release of a
+// CCC catalog (e.g. CCC.Core.Controls -> finos-ccc/ccc.core.controls). Release
+// candidates (any version with a pre-release suffix, e.g. -rc1) are never
+// pinned; it fails rather than guessing when no final release exists.
+func latestFinalVersion(ctx context.Context, hubURL, id string) (string, error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	url := fmt.Sprintf("%s/v1/catalogs/%s/%s", strings.TrimRight(hubURL, "/"), coreHubNamespace, strings.ToLower(coreID))
+	url := fmt.Sprintf("%s/v1/catalogs/%s/%s", strings.TrimRight(hubURL, "/"), hubNamespace, strings.ToLower(id))
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return "", err
@@ -179,25 +236,34 @@ func latestCoreVersion(ctx context.Context, hubURL, coreID string) (string, erro
 	req.Header.Set("Accept", "application/json")
 	resp, err := (&http.Client{Timeout: 30 * time.Second}).Do(req)
 	if err != nil {
-		return "", fmt.Errorf("looking up latest %s version: %w", coreID, err)
+		return "", fmt.Errorf("looking up latest %s version: %w", id, err)
 	}
 	defer resp.Body.Close() //nolint:errcheck
 	if resp.StatusCode == http.StatusNotFound {
-		return "", fmt.Errorf("%s has no published version on grc.store (%s returned 404): release core first, or pin CCC.Core in metadata.yaml mapping-references", coreID, url)
+		return "", fmt.Errorf("%s has no published version on grc.store (%s returned 404): release it first", id, url)
 	}
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("looking up latest %s version: %s returned %d", coreID, url, resp.StatusCode)
+		return "", fmt.Errorf("looking up latest %s version: %s returned %d", id, url, resp.StatusCode)
 	}
 	var body struct {
-		LatestVersion string `json:"latest_version"`
+		Releases []struct {
+			Version  string    `json:"version"`
+			PushedAt time.Time `json:"pushed_at"`
+		} `json:"releases"`
 	}
 	if err := json.NewDecoder(io.LimitReader(resp.Body, 1<<20)).Decode(&body); err != nil {
 		return "", fmt.Errorf("decoding %s: %w", url, err)
 	}
-	if body.LatestVersion == "" {
-		return "", fmt.Errorf("%s has no published version on grc.store (%s lists no latest_version): release core first", coreID, url)
+	latest, at := "", time.Time{}
+	for _, r := range body.Releases {
+		if r.Version != "" && !strings.Contains(r.Version, "-") && r.PushedAt.After(at) {
+			latest, at = r.Version, r.PushedAt
+		}
 	}
-	return body.LatestVersion, nil
+	if latest == "" {
+		return "", fmt.Errorf("%s has no final release on grc.store (%s lists only release candidates or nothing): release a final %s first; release candidates are never pinned", id, url, id)
+	}
+	return latest, nil
 }
 
 // loadGroupDefs reads the canonical group definitions (the single source of
@@ -234,7 +300,7 @@ func serviceNameFromTitle(title string) string {
 	return title
 }
 
-func compileCapabilities(path, catalogID, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.CapabilityCatalog, error) {
+func compileCapabilities(path, catalogID, service, version string, groupDefs map[string]gemara.Group) (*gemara.CapabilityCatalog, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %w", path, err)
@@ -254,20 +320,20 @@ func compileCapabilities(path, catalogID, service, version, coreVersion string, 
 	if err != nil {
 		return nil, err
 	}
-	imports, refs := reshapeImports(src.Imported, "capabilities", coreVersion)
+	imports := reshapeImports(src.Imported, "capabilities")
 
 	return &gemara.CapabilityCatalog{
 		Title: fmt.Sprintf("CCC %s Capabilities", service),
 		Metadata: newMetadata(artifactCatalogID(catalogID, "capabilities"), gemara.CapabilityCatalogArtifact,
 			fmt.Sprintf("Capabilities for %s technologies, as defined by the FINOS Common Cloud Controls project.", service),
-			version, refs),
+			version),
 		Capabilities: src.Capabilities,
 		Groups:       groups,
 		Imports:      imports,
 	}, nil
 }
 
-func compileThreats(path, catalogID, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.ThreatCatalog, error) {
+func compileThreats(path, catalogID, service, version string, groupDefs map[string]gemara.Group) (*gemara.ThreatCatalog, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %w", path, err)
@@ -293,13 +359,13 @@ func compileThreats(path, catalogID, service, version, coreVersion string, group
 	if err != nil {
 		return nil, err
 	}
-	imports, refs := reshapeImports(src.Imported, "threats", coreVersion)
+	imports := reshapeImports(src.Imported, "threats")
 
 	return &gemara.ThreatCatalog{
 		Title: fmt.Sprintf("CCC %s Threats", service),
 		Metadata: newMetadata(artifactCatalogID(catalogID, "threats"), gemara.ThreatCatalogArtifact,
 			fmt.Sprintf("Threats for %s technologies, as defined by the FINOS Common Cloud Controls project.", service),
-			version, refs),
+			version),
 		Threats: src.Threats,
 		Groups:  groups,
 		Imports: imports,
@@ -391,7 +457,7 @@ type sourceAR struct {
 	Recommendation string   `yaml:"recommendation"`
 }
 
-func compileControls(path, catalogID, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.ControlCatalog, error) {
+func compileControls(path, catalogID, service, version string, groupDefs map[string]gemara.Group) (*gemara.ControlCatalog, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %w", path, err)
@@ -447,11 +513,11 @@ func compileControls(path, catalogID, service, version, coreVersion string, grou
 	if err != nil {
 		return nil, err
 	}
-	imports, refs := reshapeImports(src.Imported, "controls", coreVersion)
+	imports := reshapeImports(src.Imported, "controls")
 
 	md := newMetadata(artifactCatalogID(catalogID, "controls"), gemara.ControlCatalogArtifact,
 		fmt.Sprintf("Controls for %s technologies, as defined by the FINOS Common Cloud Controls project.", service),
-		version, refs)
+		version)
 	// ControlCatalog requires applicability-groups that cover every assessment
 	// requirement's applicability value; build them from what's referenced.
 	md.ApplicabilityGroups = applicabilityGroups(appOrder)
@@ -540,15 +606,14 @@ func regroupMappings(in []gemara.MultiEntryMapping) []gemara.MultiEntryMapping {
 	return out
 }
 
-func newMetadata(id string, t gemara.ArtifactType, desc, version string, refs []gemara.MappingReference) gemara.Metadata {
+func newMetadata(id string, t gemara.ArtifactType, desc, version string) gemara.Metadata {
 	return gemara.Metadata{
-		Id:                id,
-		Type:              t,
-		GemaraVersion:     gemara.SchemaVersion,
-		Version:           version,
-		Description:       desc,
-		Author:            gemara.Actor{Id: "FINOS-CCC", Name: "FINOS Common Cloud Controls", Type: gemara.Human},
-		MappingReferences: refs,
+		Id:            id,
+		Type:          t,
+		GemaraVersion: gemara.SchemaVersion,
+		Version:       version,
+		Description:   desc,
+		Author:        gemara.Actor{Id: "FINOS-CCC", Name: "FINOS Common Cloud Controls", Type: gemara.Human},
 	}
 }
 
@@ -570,26 +635,19 @@ func artifactCatalogID(catalogID, assetType string) string {
 }
 
 // reshapeImports rewrites source imported-* sections (reference-id "CCC") into
-// the published `imports` form (reference-id "CCC.Core.<Type>") and derives the
-// matching mapping-references, versioned by the referenced catalog (coreVersion),
-// not the artifact being compiled.
-func reshapeImports(in []gemara.MultiEntryMapping, assetType, coreVersion string) ([]gemara.MultiEntryMapping, []gemara.MappingReference) {
+// the published `imports` form (reference-id "CCC.Core.<Type>"). Their
+// mapping-references are added by setMappingReferences.
+func reshapeImports(in []gemara.MultiEntryMapping, assetType string) []gemara.MultiEntryMapping {
 	core := coreImportName[assetType]
 	var out []gemara.MultiEntryMapping
-	var refs []gemara.MappingReference
-	seen := map[string]bool{}
 	for _, m := range in {
 		ref := m.ReferenceId
 		if ref == "CCC" || ref == "" {
 			ref = core
 		}
 		out = append(out, gemara.MultiEntryMapping{ReferenceId: ref, Entries: m.Entries, Remarks: m.Remarks})
-		if !seen[ref] {
-			seen[ref] = true
-			refs = append(refs, gemara.MappingReference{Id: ref, Title: titleForRef(ref), Version: coreVersion})
-		}
 	}
-	return out, refs
+	return out
 }
 
 func titleForRef(ref string) string {
