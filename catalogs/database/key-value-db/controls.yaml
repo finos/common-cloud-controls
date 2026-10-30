@@ -1,0 +1,462 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CN01
+        strength: 0 # Not yet specified
+        remarks: Encrypt Data for Transmission
+      - reference-id: CCC.Core.CN02
+        strength: 0 # Not yet specified
+        remarks: Encrypt Data for Storage
+      - reference-id: CCC.Core.CN03
+        strength: 0 # Not yet specified
+        remarks: Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.Core.CN04
+        strength: 0 # Not yet specified
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.CN05
+        strength: 0 # Not yet specified
+        remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.CN07
+        strength: 0 # Not yet specified
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN08
+        strength: 0 # Not yet specified
+        remarks: Replicate Data to Multiple Locations
+      - reference-id: CCC.Core.CN09
+        strength: 0 # Not yet specified
+        remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN10
+        strength: 0 # Not yet specified
+        remarks: Restrict Data Replication to Trust Perimeter
+      - reference-id: CCC.Core.CN11
+        strength: 0 # Not yet specified
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN13
+        strength: 0 # Not yet specified
+        remarks: Minimize Lifetime of Encryption and Authentication Certificates
+      - reference-id: CCC.Core.CN14
+        strength: 0 # Not yet specified
+        remarks: Maintain Recent Backups
+
+controls:
+  - id: CCC.KVDB.CN01
+    group: Access
+    title: Enforce Least-Privilege Key-Condition Scoping
+    objective: |
+      Ensure that data-plane authorization policies restrict callers to only the
+      keys and items they require, preventing unauthorized access to other
+      tenants' data.
+    assessment-requirements:
+      - id: CCC.KVDB.CN01.AR01
+        text: |
+          When an authorization policy grants data-plane access to a table or
+          collection, the policy MUST constrain readable and writable keys or
+          items to the minimum set required by the caller AND MUST NOT grant
+          unrestricted table-wide or collection-wide access.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use key-condition constraints (such as partition-key conditions) or
+          equivalent per-item scoping mechanisms. Review policies for wildcard
+          grants that bypass key-level restrictions.
+      - id: CCC.KVDB.CN01.AR02
+        text: |
+          When tlp-amber or tlp-red data is stored, every data-plane authorization
+          policy MUST be reviewed at least every 90 days to confirm key-condition
+          scoping remains least-privilege.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Automate periodic access reviews of data-plane policies and alert on
+          policies that grant broader key ranges than the owning workload requires.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH01
+            strength: 9
+            remarks: Unauthorized Item Access via Overly Broad Key Scoping
+          - reference-id: CCC.Core.TH01
+            strength: 5 # partial: generic access-control coverage only
+            remarks: Access is Granted to Unauthorized Users
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-3
+            remarks: Access Enforcement
+          - reference-id: AC-6
+            remarks: Least Privilege
+
+  - id: CCC.KVDB.CN02
+    group: Data
+    title: Sanitize Logs and Responses of Sensitive Key Material
+    objective: |
+      Ensure that keys, identifiers, and other sensitive key material are not
+      disclosed through logs, error messages, or API responses.
+    assessment-requirements:
+      - id: CCC.KVDB.CN02.AR01
+        text: |
+          When the service writes access logs, error messages, or diagnostic
+          output, sensitive key material and direct identifiers MUST be redacted
+          or tokenized before they are recorded.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Apply redaction at the logging pipeline so application code cannot
+          bypass it, and scan log stores for unredacted key patterns.
+      - id: CCC.KVDB.CN02.AR02
+        text: |
+          When API responses include item data, the responses MUST NOT include
+          key material or credentials beyond what the caller is authorized to
+          receive.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Validate API response schemas to confirm no credential or raw-key
+          fields are serialized to callers.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH02
+            strength: 9
+            remarks: Data Exposure Through Insecure Reads or Key Leakage
+
+  - id: CCC.KVDB.CN03
+    group: Resource
+    title: Enforce Throughput Budgets and Hot-Partition Safeguards
+    objective: |
+      Ensure that excessive request rates against keys or partitions are throttled
+      before they degrade availability for the workload or dependent services.
+    assessment-requirements:
+      - id: CCC.KVDB.CN03.AR01
+        text: |
+          When request rates against a key or partition exceed the configured
+          throughput budget, the service MUST throttle, delay, or reject the
+          excess requests.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set throughput budgets per table and per partition key based on workload
+          baselines, and prefer adaptive throttling over hard failures where the
+          provider supports it.
+      - id: CCC.KVDB.CN03.AR02
+        text: |
+          When sustained throttling events occur, an alert MUST be published to a
+          monitored channel identifying the affected keys or partitions.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Correlate throttling alerts with application metrics to distinguish
+          legitimate traffic spikes from abusive or runaway workloads.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH03
+            strength: 9
+            remarks: Throughput Exhaustion or Hot-Partition Denial of Service
+          - reference-id: CCC.Core.TH12
+            strength: 7 # partial: covers throughput exhaustion, not all resource types
+            remarks: Resource Constraints are Exhausted
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-5
+            remarks: Denial-of-Service Protection
+
+  - id: CCC.KVDB.CN04
+    group: Data
+    title: Monitor Replication Lag and Enforce Consistency Guardrails
+    objective: |
+      Ensure that cross-region replication stays within defined lag and divergence
+      bounds so replicas do not serve stale or conflicting data.
+    assessment-requirements:
+      - id: CCC.KVDB.CN04.AR01
+        text: |
+          When multi-region replication is enabled, replication lag and divergence
+          MUST be continuously monitored AND an alert MUST fire when lag exceeds
+          the defined threshold.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Define lag thresholds from application tolerance for stale reads and
+          test failover while lag is elevated to confirm recovery behavior.
+      - id: CCC.KVDB.CN04.AR02
+        text: |
+          When an application requires read-after-write freshness, reads MUST use
+          strongly consistent read options.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Identify read paths that depend on immediately preceding writes and
+          pin them to strongly consistent reads rather than relying on defaults.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH04
+            strength: 9
+            remarks: Cross-Region Replication Causes Data Drift or Stale Reads
+          - reference-id: CCC.Core.TH05
+            strength: 6 # partial: monitors replication health, does not prevent misconfiguration
+            remarks: Interference with Replication Processes
+
+  - id: CCC.KVDB.CN05
+    group: Data
+    title: Require Conditional Writes for Contended Item Updates
+    objective: |
+      Ensure that concurrent updates to the same item cannot silently overwrite
+      each other or leave partial state.
+    assessment-requirements:
+      - id: CCC.KVDB.CN05.AR01
+        text: |
+          When an application performs updates to items that may be concurrently
+          modified, writes MUST use conditional expressions or version checks so
+          that conflicting writes fail instead of overwriting.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Model contended items with version attributes and enforce conditional
+          writes in data-access layers rather than relying on callers to opt in.
+      - id: CCC.KVDB.CN05.AR02
+        text: |
+          When a conditional write fails, the failure MUST be surfaced to the
+          caller AND no partial update MUST be applied.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Implement retry-with-refresh logic for failed conditional writes and
+          log conflicts for operational review.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH05
+            strength: 9
+            remarks: Data Corruption Through Inconsistent Updates or Conditional Failures
+
+  - id: CCC.KVDB.CN06
+    group: Access
+    title: Restrict Backup, Restore, and Sharing Operations to Authorized Roles
+    objective: |
+      Ensure that only explicitly authorized roles can create, restore, or share
+      backups and restore points.
+    assessment-requirements:
+      - id: CCC.KVDB.CN06.AR01
+        text: |
+          When a backup, restore, or snapshot-sharing operation is attempted, the
+          service MUST verify the caller holds an explicitly authorized
+          backup/restore role AND MUST deny the operation otherwise.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Separate backup/restore duties from general data-access roles and
+          require multi-party approval for restores in production.
+      - id: CCC.KVDB.CN06.AR02
+        text: |
+          When a restore operation targets a point-in-time snapshot, the target
+          snapshot identifier MUST be explicitly confirmed before the restore
+          executes.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Require the operator to acknowledge the snapshot timestamp and the
+          data that will be overwritten as part of the restore workflow.
+      - id: CCC.KVDB.CN06.AR03
+        text: |
+          When a backup or snapshot is shared with another account, sharing MUST
+          be denied by default AND require explicit approval.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Audit cross-account sharing grants regularly and expire them when the
+          sharing need ends.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH06
+            strength: 8
+            remarks: Backup and Restore Operations Are Disabled or Fail
+          - reference-id: CCC.KVDB.TH07
+            strength: 9
+            remarks: Unintended Restore of a Prior Data State
+          - reference-id: CCC.KVDB.TH08
+            strength: 9
+            remarks: Unauthorized Sharing of Backups or Restore Points
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-3
+            remarks: Access Enforcement
+          - reference-id: CP-9
+            remarks: System Backup
+
+  - id: CCC.KVDB.CN07
+    group: Data
+    title: Require Explicit Approval and Scope Validation for TTL Policies
+    objective: |
+      Ensure that time-to-live policies cannot silently delete live data through
+      misconfiguration.
+    assessment-requirements:
+      - id: CCC.KVDB.CN07.AR01
+        text: |
+          When a TTL policy is created or modified, the affected items and the
+          expiration duration MUST be explicitly validated before activation.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Test each new TTL policy in a non-production environment first, and
+          confirm which items it would expire before applying it to production.
+      - id: CCC.KVDB.CN07.AR02
+        text: |
+          When TTL is enabled on stores holding tlp-amber or tlp-red data,
+          expired-item deletions MUST be logged with item identifiers AND a
+          recent backup MUST exist before the policy takes effect.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Retain deletion logs for at least the backup retention window so
+          erroneous expirations can be investigated and recovered.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH09
+            strength: 9
+            remarks: Data Is Irreversibly Deleted by Misconfigured Time-To-Live
+
+  - id: CCC.KVDB.CN08
+    group: Access
+    title: Enforce Short-Lived Least-Privilege Data-Plane Credentials
+    objective: |
+      Ensure that credentials used for direct data-plane access are short-lived,
+      minimally scoped, and never embedded in code or logs.
+    assessment-requirements:
+      - id: CCC.KVDB.CN08.AR01
+        text: |
+          When data-plane credentials are issued, their permissions MUST be
+          scoped to the minimum required tables or collections AND their use
+          MUST be logged.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Prefer identity-based authentication over static keys, and bind
+          credentials to specific workloads rather than sharing them.
+      - id: CCC.KVDB.CN08.AR02
+        text: |
+          When tlp-amber or tlp-red data is accessed, data-plane access MUST use
+          short-lived credentials or identity-based authentication rather than
+          static long-lived keys.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use the provider's identity federation or token service to mint
+          short-lived data-plane tokens at workload startup.
+      - id: CCC.KVDB.CN08.AR03
+        text: |
+          When static data-plane keys are used, the keys MUST be rotated within
+          90 days of issuance.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Automate rotation and track key age; alert when a static key
+          approaches the rotation deadline.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.TH10
+            strength: 9
+            remarks: Long-Lived Data-Plane Credentials Are Exposed or Over-Scoped
+          - reference-id: CCC.Core.TH18
+            strength: 5 # partial: covers credential hygiene, not encryption-key misuse
+            remarks: Encryption Key is Misused
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: IA-5
+            remarks: Authenticator Management
+
+  - id: CCC.KVDB.CN09
+    group: Access
+    title: Deny Unauthenticated Requests Without System Disclosure
+    objective: |
+      Ensure that responses to unauthorized requests do not disclose system
+      details usable for attack planning.
+    assessment-requirements:
+      - id: CCC.KVDB.CN09.AR01
+        text: |
+          When a request is denied for lack of authorization, the response MUST
+          NOT include table names, key structures, or other system details
+          beyond a generic denial.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Standardize error responses for denied requests and test that verbose
+          errors from the provider SDK are not propagated to untrusted callers.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH17
+            strength: 8
+            remarks: Responses are Generated for Unauthorized Requests
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+            remarks: Boundary Protection
+
+  - id: CCC.KVDB.CN10
+    group: Resource
+    title: Restrict Resource Tag Modification to Authorized Principals
+    objective: |
+      Ensure that resource tags cannot be altered except by explicitly authorized
+      principals.
+    assessment-requirements:
+      - id: CCC.KVDB.CN10.AR01
+        text: |
+          When a tag modification is attempted, the service MUST verify the
+          caller is explicitly authorized for tag management AND deny the
+          attempt otherwise.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Monitor tag changes as configuration changes and alert on unexpected
+          modifications to tags used by policy or billing.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH13
+            strength: 8
+            remarks: Resource Tags are Manipulated
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-3
+            remarks: Access Enforcement
