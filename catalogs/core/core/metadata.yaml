@@ -38,3 +38,15 @@ metadata:
     - id: PCI-DSS
       title: PCI DSS v4.0.1
       version: v4.0.1
+    - id: FINOS-AIGF
+      title: FINOS AI Governance Framework
+      version: "0.2.0"
+      url: https://grc.store/search/finos-aigf/finos-air/versions/0.2.0
+    - id: SAIF
+      title: Google Secure AI Framework (SAIF)
+      version: "2.0"
+      url: https://saif.google/
+    - id: MITRE-ATLAS
+      title: MITRE ATLAS
+      version: v4.9.1
+      url: https://atlas.mitre.org/

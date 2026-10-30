@@ -75,13 +75,7 @@ func TestCompiledMappingReferences(t *testing.T) {
 
 	// Controls that cite an external framework with no ratified version yet, so
 	// compile refuses them. Remove an entry once its metadata.yaml declares one.
-	undeclared := map[string]bool{
-		"ai-ml/gen-ai/controls":        true, // FINOS-AIGF, SAIF, MITRE-ATLAS: mapping docs say to-be-determined
-		"database/vector/controls":     true, // FINOS-AIGF: mapping doc says to-be-determined
-		"database/relational/controls": true, // NIST-CSF: 1.1 and 2.0 IDs side by side
-		"identity/iam/controls":        true, // NIST-CSF: 1.1 and 2.0 IDs side by side
-		"management/auditlog/controls": true, // NIST-CSF: 1.1 and 2.0 IDs side by side
-	}
+	undeclared := map[string]bool{}
 
 	metas, err := filepath.Glob(filepath.Join(catalogs, "*", "*", "metadata.yaml"))
 	if err != nil || len(metas) == 0 {
