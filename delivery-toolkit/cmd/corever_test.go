@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 
+	gemara "github.com/gemaraproj/go-gemara"
 	"gopkg.in/yaml.v3"
 )
 
@@ -208,4 +209,17 @@ func referencedCatalogs(v any) map[string]bool {
 	}
 	walk(v)
 	return found
+}
+
+func TestCIBuildSkipsHub(t *testing.T) {
+	// The hub URL is unreachable: a CI build must pin itself without asking it.
+	tc := &gemara.ThreatCatalog{Imports: []gemara.MultiEntryMapping{{ReferenceId: "CCC.Core.Threats"}}}
+	tc.Metadata.Id = "CCC.ObjStor.Threats"
+	meta := sourceMeta{id: "CCC.ObjStor"}
+	if err := setMappingReferences(context.Background(), tc, meta, "Object Storage", ciVersion, "http://127.0.0.1:1"); err != nil {
+		t.Fatal(err)
+	}
+	if refs := tc.Metadata.MappingReferences; len(refs) != 1 || refs[0].Version != ciVersion {
+		t.Fatalf("got %+v; want CCC.Core.Threats pinned to %s", refs, ciVersion)
+	}
 }

@@ -52,6 +52,11 @@ var coreMetadataPath = filepath.Join("core", "core", "metadata.yaml")
 // defaultHubURL is the grc.store hub API (the same default grcli uses).
 const defaultHubURL = "https://hub.grc.store"
 
+// ciVersion is the version gemara_check.yml compiles PRs with. Such a build is
+// never published, so it pins other CCC catalogs to itself instead of asking
+// the hub, and a hub outage cannot fail an unrelated PR.
+const ciVersion = "v0.0.0-ci"
+
 // hubNamespace is the grc.store namespace CCC catalogs publish under
 // (the lowercased metadata.author.id stamped by newMetadata).
 const hubNamespace = "finos-ccc"
@@ -183,7 +188,8 @@ func loadCatalogMetadata(catalogsDir, buildTarget string) (sourceMeta, error) {
 //   - a sibling of this catalog (CCC.ObjStor.Threats -> CCC.ObjStor.Capabilities,
 //     or core's own chain) ships in the same release, so it gets `version`;
 //   - any other CCC catalog pins the latest final release on grc.store, or for
-//     an rc release the newest live release, rc or final;
+//     an rc release the newest live release, rc or final (a ciVersion build
+//     pins `version` without asking the hub);
 //   - anything else must be declared in the target's or core's metadata.yaml,
 //     and is copied as declared.
 func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, service, version, hubURL string) error {
@@ -222,9 +228,12 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 			word := strings.TrimPrefix(id, meta.id+".")
 			refs = append(refs, gemara.MappingReference{Id: id, Title: fmt.Sprintf("CCC %s %s", service, word), Version: version})
 		case strings.HasPrefix(id, "CCC."):
-			v, err := latestFinalVersion(ctx, hubURL, id, strings.Contains(version, "-"))
-			if err != nil {
-				return err
+			v := version
+			if version != ciVersion {
+				var err error
+				if v, err = latestFinalVersion(ctx, hubURL, id, strings.Contains(version, "-")); err != nil {
+					return err
+				}
 			}
 			refs = append(refs, gemara.MappingReference{Id: id, Title: titleForRef(id), Version: v})
 		default:
