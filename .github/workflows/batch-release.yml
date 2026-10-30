@@ -231,7 +231,7 @@ jobs:
           # One catalog at a time, in directory order, so the run log is easy to follow.
           # core/core goes first: compile pins CCC.Core.* to its latest final on
           # grc.store, so every other catalog must compile after core publishes,
-          # and the batch stops if core doesn't publish.
+          # and the batch stops if core fails.
           for dir in catalogs/core/core $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort | grep -vx catalogs/core/core); do
             # catalogs/<family>/<service> -> <family>/<service>
             build_target="${dir#catalogs/}"
@@ -282,10 +282,12 @@ jobs:
 
             # Every later catalog pins CCC.Core.* to core's latest release; if this
             # run didn't publish core, they would quietly pin the previous one.
-            if [ "$build_target" = core/core ] && { [ "$DRY_RUN" = "true" ] || [ -n "${core_failed:-}" ]; }; then
-              stopped="core/core was not published (dry_run=${DRY_RUN}), so the remaining catalogs were not built: they would pin the previous core release."
+            if [ "$build_target" = core/core ] && [ -n "${core_failed:-}" ]; then
+              stopped="core/core failed, so the remaining catalogs were not built: they would pin the previous core release."
               echo "::warning::${stopped}"
               break
+            elif [ "$build_target" = core/core ] && [ "$DRY_RUN" = "true" ]; then
+              stopped="Dry run: core/core was not published, so the other catalogs pin the previous core release."
             fi
           done
 
@@ -294,7 +296,7 @@ jobs:
             echo ""
             echo "Released: ${#released[@]} · Imports-only: ${#skipped_imports_only[@]} · Un-released: ${#unreleased[@]} · No source file: ${#skipped_nofile[@]}"
             echo ""
-            [ -n "${stopped:-}" ] && { echo "**Stopped:** ${stopped}"; echo ""; }
+            [ -n "${stopped:-}" ] && { echo "**Note:** ${stopped}"; echo ""; }
             echo "| Source | Result |"
             echo "| --- | --- |"
             for r in "${rows[@]}"; do echo "$r"; done
