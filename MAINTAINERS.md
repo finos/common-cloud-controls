@@ -12,6 +12,7 @@ This file lists the maintainers of this repository.
 | @mlysaght2017 | Michael Lysaght | Citi | |
 | @smendis-scottlogic | Sonali Mendis | Scott Logic | |
 | @sshiells-scottlogic | Stevie Shiells | Scott Logic | |
+| @ysg410 | Yash Gandhi | Morgan Stanley | |
 | @zigmax | Maxime Coquerel | Royal Bank of Canada (RBC) | |
 
 For information about maintainer responsibilities and resources, see the [FINOS Maintainers Cheatsheet](https://community.finos.org/docs/finos-maintainers-cheatsheet).
