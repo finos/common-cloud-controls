@@ -20,4 +20,7 @@ metadata:
       service: Cloud Logging
       url: https://cloud.google.com/logging/docs/
   applicability-categories: []
-  mapping-references: []
+  mapping-references:
+    - id: NIST-CSF
+      title: NIST Cybersecurity Framework 2.0
+      version: "2.0"
