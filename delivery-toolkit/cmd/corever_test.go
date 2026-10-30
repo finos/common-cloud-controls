@@ -42,14 +42,20 @@ func TestLatestFinalVersion(t *testing.T) {
 	hub := fakeHub(t)
 	ctx := context.Background()
 
-	got, err := latestFinalVersion(ctx, hub.URL, "CCC.Core.Controls")
+	got, err := latestFinalVersion(ctx, hub.URL, "CCC.Core.Controls", false)
 	if err != nil || got != "v2026.10" {
 		t.Fatalf("got %q, %v; want v2026.10 (newest live final; rcs and yanked skipped)", got, err)
 	}
-	if got, err := latestFinalVersion(ctx, hub.URL, "CCC.RcOnly.Threats"); err == nil || !strings.Contains(err.Error(), "no final release") {
+	if got, err := latestFinalVersion(ctx, hub.URL, "CCC.Core.Controls", true); err != nil || got != "v2026.10-rc" {
+		t.Errorf("rc release: got %q, %v; want v2026.10-rc (newest live, rc allowed, yanked skipped)", got, err)
+	}
+	if got, err := latestFinalVersion(ctx, hub.URL, "CCC.RcOnly.Threats", false); err == nil || !strings.Contains(err.Error(), "no final release") {
 		t.Errorf("rc-only: got %q, %v; want a no-final-release error", got, err)
 	}
-	if got, err := latestFinalVersion(ctx, hub.URL, "CCC.Missing.Controls"); err == nil || !strings.Contains(err.Error(), "no published version") {
+	if got, err := latestFinalVersion(ctx, hub.URL, "CCC.RcOnly.Threats", true); err != nil || got != "v2026.10-rc" {
+		t.Errorf("rc-only, rc release: got %q, %v; want v2026.10-rc", got, err)
+	}
+	if got, err := latestFinalVersion(ctx, hub.URL, "CCC.Missing.Controls", false); err == nil || !strings.Contains(err.Error(), "no published version") {
 		t.Errorf("missing: got %q, %v; want a no-published-version error", got, err)
 	}
 }

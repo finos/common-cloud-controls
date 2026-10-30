@@ -182,7 +182,8 @@ func loadCatalogMetadata(catalogsDir, buildTarget string) (sourceMeta, error) {
 // and entry mappings) in metadata.mapping-references, each with its version:
 //   - a sibling of this catalog (CCC.ObjStor.Threats -> CCC.ObjStor.Capabilities,
 //     or core's own chain) ships in the same release, so it gets `version`;
-//   - any other CCC catalog pins the latest final release on grc.store;
+//   - any other CCC catalog pins the latest final release on grc.store, or for
+//     an rc release the newest live release, rc or final;
 //   - anything else must be declared in the target's or core's metadata.yaml,
 //     and is copied as declared.
 func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, service, version, hubURL string) error {
@@ -220,7 +221,7 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 			word := strings.TrimPrefix(id, meta.id+".")
 			refs = append(refs, gemara.MappingReference{Id: id, Title: fmt.Sprintf("CCC %s %s", service, word), Version: version})
 		case strings.HasPrefix(id, "CCC."):
-			v, err := latestFinalVersion(ctx, hubURL, id)
+			v, err := latestFinalVersion(ctx, hubURL, id, strings.Contains(version, "-"))
 			if err != nil {
 				return err
 			}
@@ -243,9 +244,11 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 
 // latestFinalVersion asks the grc.store hub for the latest final release of a
 // CCC catalog (e.g. CCC.Core.Controls -> finos-ccc/ccc.core.controls). Release
-// candidates (any version with a pre-release suffix, e.g. -rc1) and yanked
-// releases (tombstoned_at set; the hub still lists them) are never pinned; it fails rather than guessing when no final release exists.
-func latestFinalVersion(ctx context.Context, hubURL, id string) (string, error) {
+// candidates (any version with a pre-release suffix, e.g. -rc1) are pinned only
+// when allowRC is set, i.e. the release being compiled is itself an rc; yanked
+// releases (tombstoned_at set; the hub still lists them) are never pinned. It
+// fails rather than guessing when nothing qualifies.
+func latestFinalVersion(ctx context.Context, hubURL, id string, allowRC bool) (string, error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -278,12 +281,15 @@ func latestFinalVersion(ctx context.Context, hubURL, id string) (string, error) 
 	}
 	latest, at := "", time.Time{}
 	for _, r := range body.Releases {
-		if r.Version != "" && !strings.Contains(r.Version, "-") && r.TombstonedAt == nil && r.PushedAt.After(at) {
+		if r.Version != "" && (allowRC || !strings.Contains(r.Version, "-")) && r.TombstonedAt == nil && r.PushedAt.After(at) {
 			latest, at = r.Version, r.PushedAt
 		}
 	}
+	if latest == "" && allowRC {
+		return "", fmt.Errorf("%s has no live release on grc.store (%s lists only yanked releases or nothing): release %s first", id, url, id)
+	}
 	if latest == "" {
-		return "", fmt.Errorf("%s has no final release on grc.store (%s lists only release candidates or nothing): release a final %s first; release candidates are never pinned", id, url, id)
+		return "", fmt.Errorf("%s has no final release on grc.store (%s lists only release candidates or nothing): release a final %s first; a final release never pins a release candidate", id, url, id)
 	}
 	return latest, nil
 }
