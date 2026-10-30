@@ -72,7 +72,23 @@ func TestCompiledMappingReferences(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for _, target := range []string{"core/core", "storage/object", "networking/vpc"} {
+	// Controls that cite an external framework with no ratified version yet, so
+	// compile refuses them. Remove an entry once its metadata.yaml declares one.
+	undeclared := map[string]bool{
+		"ai-ml/gen-ai/controls":        true, // FINOS-AIGF, SAIF, MITRE-ATLAS: mapping docs say to-be-determined
+		"database/vector/controls":     true, // FINOS-AIGF: mapping doc says to-be-determined
+		"database/relational/controls": true, // NIST-CSF: 1.1 and 2.0 IDs side by side
+		"identity/iam/controls":        true, // NIST-CSF: 1.1 and 2.0 IDs side by side
+		"management/auditlog/controls": true, // NIST-CSF: 1.1 and 2.0 IDs side by side
+	}
+
+	metas, err := filepath.Glob(filepath.Join(catalogs, "*", "*", "metadata.yaml"))
+	if err != nil || len(metas) == 0 {
+		t.Fatalf("no catalogs found under %s: %v", catalogs, err)
+	}
+	for _, m := range metas {
+		target, _ := filepath.Rel(catalogs, filepath.Dir(m))
+		target = filepath.ToSlash(target)
 		meta, err := loadCatalogMetadata(catalogs, target)
 		if err != nil {
 			t.Fatal(err)
@@ -102,6 +118,9 @@ func TestCompiledMappingReferences(t *testing.T) {
 		for _, typ := range []string{"capabilities", "threats", "controls"} {
 			t.Run(target+"/"+typ, func(t *testing.T) {
 				src := filepath.Join(catalogs, target, typ+".yaml")
+				if _, err := os.Stat(src); err != nil {
+					t.Skipf("no %s", src)
+				}
 				var artifact any
 				switch typ {
 				case "capabilities":
@@ -114,7 +133,13 @@ func TestCompiledMappingReferences(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				if err := setMappingReferences(context.Background(), artifact, meta, service, release, hub.URL); err != nil {
+				err = setMappingReferences(context.Background(), artifact, meta, service, release, hub.URL)
+				switch {
+				case undeclared[target+"/"+typ] && err != nil:
+					t.Skipf("known undeclared framework: %v", err)
+				case undeclared[target+"/"+typ]:
+					t.Fatalf("%s/%s now compiles: remove it from the undeclared list", target, typ)
+				case err != nil:
 					t.Fatal(err)
 				}
 
