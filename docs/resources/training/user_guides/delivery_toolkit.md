@@ -149,9 +149,9 @@ Here are some example commands for testing the toolkit locally:
 
 The Artifact Pipeline is the backbone of the Delivery Toolkit, leveraging GitHub Actions to:
 
-- Compile a single typed catalog from version-controlled source.
-- Validate it against the Gemara spec and publish it to grc.store.
-- Cut a GitHub release carrying the same artifact.
+- Compile each selected typed catalog from version-controlled source.
+- Validate each against the Gemara spec and publish it to grc.store.
+- Cut one GitHub release carrying every published artifact.
 
 ### Steps to Execute
 
@@ -162,7 +162,7 @@ The Artifact Pipeline is the backbone of the Delivery Toolkit, leveraging GitHub
 4. Click **Run workflow** and supply the inputs:
    - **build_target** — the family/service whose catalogs to release (e.g. `storage/object`).
    - **capabilities** / **threats** / **controls** — tick each catalog to release (at least one). Ticked catalogs release one after another into the same GitHub release, whose notes list a grc.store link per catalog.
-   - **version** — the release version stamped into the artifact (e.g. `v2026.04`, or `v2026.04-rc1` for a release candidate).
+   - **version** — the release version stamped into each artifact (e.g. `v2026.04`, or `v2026.04-rc1` for a release candidate).
    - **dry_run** — optional; compile + validate + build the bundle without publishing to grc.store or cutting a GitHub release.
 
    > **Note**: The process may take a few minutes to complete. A `version` containing `rc` is automatically published as a prerelease — there is no manual tag editing step.
