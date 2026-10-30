@@ -135,7 +135,7 @@ func TestCompiledMappingReferences(t *testing.T) {
 				}
 				err = setMappingReferences(context.Background(), artifact, meta, service, release, hub.URL)
 				switch {
-				case undeclared[target+"/"+typ] && err != nil:
+				case undeclared[target+"/"+typ] && err != nil && strings.Contains(err.Error(), "neither its metadata.yaml"):
 					t.Skipf("known undeclared framework: %v", err)
 				case undeclared[target+"/"+typ]:
 					t.Fatalf("%s/%s now compiles: remove it from the undeclared list", target, typ)

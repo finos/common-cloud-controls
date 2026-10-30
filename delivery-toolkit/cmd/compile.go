@@ -228,8 +228,8 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 			}
 			refs = append(refs, gemara.MappingReference{Id: id, Title: titleForRef(id), Version: v})
 		default:
-			i := slices.IndexFunc(meta.refs, func(r gemara.MappingReference) bool { return r.Id == id })
-			if i < 0 || meta.refs[i].Version == "" {
+			i := slices.IndexFunc(meta.refs, func(r gemara.MappingReference) bool { return r.Id == id && r.Version != "" })
+			if i < 0 {
 				undeclared = append(undeclared, id)
 				continue
 			}
