@@ -1,7 +1,7 @@
 # CCC.K8S behavioural tests against a private AKS cluster deployed from the AVM
 # AKS module's FINOS CCC example:
-#   https://github.com/Azure/terraform-azurerm-avm-res-containerservice-managedcluster/tree/main/examples/finos-ccc
-#   https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest/examples/finos-ccc
+# https://github.com/Azure/terraform-azurerm-avm-res-containerservice-managedcluster/tree/main/examples/finos-ccc
+# https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest/examples/finos-ccc
 #
 # Run it locally from inside the cluster's network, for example from a jumpbox in
 # a peered VNet whose private DNS resolves the API server. The example disables
@@ -91,7 +91,9 @@ services:
       # resource-specific AKSAudit table (the example's diagnostic setting) does not
       # have, so it falls back to the empty AzureDiagnostics table. The table value
       # is pasted at the start of the query: add the expected columns here.
-      azure-k8s-audit-table: "AKSAudit | extend verb = tolower(Verb), user = tostring(User.username), ClusterName = '', ResourceId = _ResourceId, ResultType = ''"
+      azure-k8s-audit-table: >-
+        AKSAudit | extend verb = tolower(Verb), user = tostring(User.username),
+        ClusterName = '', ResourceId = _ResourceId, ResultType = ''
 
       # CN02.AR02: ClusterRoles owned by AKS add-ons, which AKS reconciles (the
       # harness already skips system:, kube-, aks-, azure-policy ...).
