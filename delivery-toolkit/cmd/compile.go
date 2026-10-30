@@ -33,7 +33,7 @@ var Compile = &cobra.Command{
 func init() {
 	Compile.Flags().String("type", "", "Asset type: capabilities | threats | controls | mappings")
 	Compile.Flags().String("version", "", "Release version stamped into the artifact (e.g. v2026.04)")
-	Compile.Flags().String("hub-url", defaultHubURL, "grc.store hub API used to look up the latest published CCC Core version")
+	Compile.Flags().String("hub-url", defaultHubURL, "grc.store hub API used to look up the latest final release of each referenced CCC catalog")
 }
 
 var entryRef = regexp.MustCompile(`^CCC\.([A-Za-z0-9]+)\.(CP|CN|TH)\d+$`)
@@ -243,8 +243,8 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 
 // latestFinalVersion asks the grc.store hub for the latest final release of a
 // CCC catalog (e.g. CCC.Core.Controls -> finos-ccc/ccc.core.controls). Release
-// candidates (any version with a pre-release suffix, e.g. -rc1) are never
-// pinned; it fails rather than guessing when no final release exists.
+// candidates (any version with a pre-release suffix, e.g. -rc1) and yanked
+// releases (tombstoned_at set; the hub still lists them) are never pinned; it fails rather than guessing when no final release exists.
 func latestFinalVersion(ctx context.Context, hubURL, id string) (string, error) {
 	if ctx == nil {
 		ctx = context.Background()
@@ -268,8 +268,9 @@ func latestFinalVersion(ctx context.Context, hubURL, id string) (string, error) 
 	}
 	var body struct {
 		Releases []struct {
-			Version  string    `json:"version"`
-			PushedAt time.Time `json:"pushed_at"`
+			Version      string     `json:"version"`
+			PushedAt     time.Time  `json:"pushed_at"`
+			TombstonedAt *time.Time `json:"tombstoned_at"`
 		} `json:"releases"`
 	}
 	if err := json.NewDecoder(io.LimitReader(resp.Body, 1<<20)).Decode(&body); err != nil {
@@ -277,7 +278,7 @@ func latestFinalVersion(ctx context.Context, hubURL, id string) (string, error) 
 	}
 	latest, at := "", time.Time{}
 	for _, r := range body.Releases {
-		if r.Version != "" && !strings.Contains(r.Version, "-") && r.PushedAt.After(at) {
+		if r.Version != "" && !strings.Contains(r.Version, "-") && r.TombstonedAt == nil && r.PushedAt.After(at) {
 			latest, at = r.Version, r.PushedAt
 		}
 	}

@@ -12,11 +12,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// fakeHub serves core with a final release sandwiched between two rcs (the
-// newest push is an rc), core.threats with rcs only, and 404 for anything else.
+// fakeHub serves core with a final release sandwiched between two rcs, under a
+// newer yanked final, core.threats with rcs only, and 404 for anything else.
 func fakeHub(t *testing.T) *httptest.Server {
 	t.Helper()
 	withFinal := `{"releases":[
+		{"version":"v2026.11","pushed_at":"2026-10-30T03:00:00Z","tombstoned_at":"2026-10-30T04:00:00Z"},
 		{"version":"v2026.10-rc","pushed_at":"2026-10-30T02:09:07.186178Z"},
 		{"version":"v2026.10","pushed_at":"2026-10-29T20:00:00Z"},
 		{"version":"v2026.10-rc1","pushed_at":"2026-10-29T12:46:37Z"},
@@ -28,7 +29,7 @@ func fakeHub(t *testing.T) *httptest.Server {
 			"/v1/catalogs/finos-ccc/ccc.core.controls":
 			_, _ = w.Write([]byte(withFinal))
 		case "/v1/catalogs/finos-ccc/ccc.rconly.threats":
-			_, _ = w.Write([]byte(`{"latest_version":"v2026.10-rc","releases":[{"version":"v2026.10-rc","pushed_at":"2026-10-30T02:09:07Z"}]}`))
+			_, _ = w.Write([]byte(`{"releases":[{"version":"v2026.10-rc","pushed_at":"2026-10-30T02:09:07Z"}]}`))
 		default:
 			http.NotFound(w, r)
 		}
@@ -43,7 +44,7 @@ func TestLatestFinalVersion(t *testing.T) {
 
 	got, err := latestFinalVersion(ctx, hub.URL, "CCC.Core.Controls")
 	if err != nil || got != "v2026.10" {
-		t.Fatalf("got %q, %v; want v2026.10 (newest final, rcs skipped)", got, err)
+		t.Fatalf("got %q, %v; want v2026.10 (newest live final; rcs and yanked skipped)", got, err)
 	}
 	if got, err := latestFinalVersion(ctx, hub.URL, "CCC.RcOnly.Threats"); err == nil || !strings.Contains(err.Error(), "no final release") {
 		t.Errorf("rc-only: got %q, %v; want a no-final-release error", got, err)

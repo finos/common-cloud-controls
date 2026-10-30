@@ -229,7 +229,9 @@ jobs:
           rows=()
 
           # One catalog at a time, in directory order, so the run log is easy to follow.
-          for dir in $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort); do
+          # core/core goes first: compile pins CCC.Core.* to its latest final on
+          # grc.store, so every other catalog must compile after core publishes.
+          for dir in catalogs/core/core $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort | grep -vx catalogs/core/core); do
             # catalogs/<family>/<service> -> <family>/<service>
             build_target="${dir#catalogs/}"
 
