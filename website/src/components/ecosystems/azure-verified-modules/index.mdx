@@ -12,6 +12,15 @@ AVM modules codify Microsoft guidance, including the Well-Architected Framework,
 
 CCC catalogs define the controls and assessment requirements for cloud services. Microsoft is currently testing to see how well AVM modules meet the CCC controls via our [behavioural testing](/validators) suite and also work mapping [Azure Policy](/ecosystems/azure-policy).
 
+### Example: a CCC-aligned private AKS cluster
+
+The AVM Terraform module for Azure Kubernetes Service includes a `finos-ccc` example. It deploys a private AKS cluster configured against the [CCC Kubernetes catalog](/catalogs/orchestration/k8s) and the CCC Core controls it imports. The supporting resources come from other published AVM modules: networking, identities, a private Key Vault with KMS keys, a private container registry, Azure Policy assignments and logging.
+
+Each Terraform block is annotated with the CCC assessment requirements it enforces. The example's README maps every requirement to how it is met: Terraform-managed Azure configuration, Azure Policy at admission, Kubernetes objects, or a remaining operational process. It is a reference configuration, not a CCC attestation. Run the [behavioural tests](/validators) against a deployed cluster to check the results.
+
+- [View the example on GitHub →](https://github.com/Azure/terraform-azurerm-avm-res-containerservice-managedcluster/tree/main/examples/finos-ccc)
+- [View the example on the Terraform Registry →](https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest/examples/finos-ccc)
+
 [Learn more at azure.github.io/Azure-Verified-Modules →](https://azure.github.io/Azure-Verified-Modules/)
 
 </EcosystemPage>
