@@ -196,6 +196,7 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 		md, used = &a.Metadata, a.Imports
 		for _, t := range a.Threats {
 			used = append(used, t.Capabilities...)
+			used = append(used, t.Vectors...)
 		}
 	case *gemara.ControlCatalog:
 		md, used = &a.Metadata, a.Imports
