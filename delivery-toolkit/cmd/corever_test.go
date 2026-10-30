@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -65,22 +66,34 @@ func TestCompiledMappingReferences(t *testing.T) {
 	}
 
 	for _, target := range []string{"core/core", "storage/object", "networking/vpc"} {
-		meta, err := loadSourceMetadata(filepath.Join(catalogs, target, "metadata.yaml"))
+		meta, err := loadCatalogMetadata(catalogs, target)
 		if err != nil {
 			t.Fatal(err)
 		}
+		// Expected framework versions, read straight from the YAML: the
+		// target's own declaration wins over core's registry.
 		declared := map[string]string{}
-		for _, r := range meta.refs {
-			declared[r.Id] = r.Version
+		for _, path := range []string{filepath.Join(catalogs, coreMetadataPath), filepath.Join(catalogs, target, "metadata.yaml")} {
+			raw, err := os.ReadFile(path)
+			if err != nil {
+				t.Fatal(err)
+			}
+			var src struct {
+				Metadata struct {
+					Refs []struct{ Id, Version string } `yaml:"mapping-references"`
+				} `yaml:"metadata"`
+			}
+			if err := yaml.Unmarshal(raw, &src); err != nil {
+				t.Fatal(err)
+			}
+			for _, r := range src.Metadata.Refs {
+				declared[r.Id] = r.Version
+			}
 		}
 		service := serviceNameFromTitle(meta.title)
 
 		for _, typ := range []string{"capabilities", "threats", "controls"} {
 			t.Run(target+"/"+typ, func(t *testing.T) {
-				if typ == "controls" && target != "core/core" {
-					// shortcut: these controls cite CCM/NIST/ISO without declaring them in metadata.yaml; remove once REV-693 rules where framework versions come from.
-					t.Skip("pending ruling: undeclared external frameworks")
-				}
 				src := filepath.Join(catalogs, target, typ+".yaml")
 				var artifact any
 				switch typ {

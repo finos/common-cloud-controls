@@ -20,4 +20,7 @@ metadata:
       service: BigQuery
       url: https://cloud.google.com/bigquery/docs
   applicability-categories: []
-  mapping-references: []
+  mapping-references:
+    - id: NIST-CSF
+      title: NIST Cybersecurity Framework 1.1
+      version: "1.1"

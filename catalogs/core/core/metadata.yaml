@@ -29,3 +29,12 @@ metadata:
         threat models and methodologies in the private sector, in government,
         and in the cybersecurity product and service community.
       url: https://attack.mitre.org/
+    - id: NIST_800_53
+      title: NIST SP 800-53 Rev. 5
+      version: "Rev. 5"
+    - id: ISO_27001
+      title: ISO/IEC 27001:2013
+      version: "2013"
+    - id: PCI-DSS
+      title: PCI DSS v4.0.1
+      version: v4.0.1

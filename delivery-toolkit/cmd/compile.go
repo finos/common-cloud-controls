@@ -44,6 +44,11 @@ var abbrToWord = map[string]string{"CP": "Capabilities", "CN": "Controls", "TH":
 // to the catalogs directory. Entries reference these groups by id.
 var groupDefsPath = filepath.Join("core", "core", "groups.yaml")
 
+// coreMetadataPath is core's metadata, relative to the catalogs directory. Its
+// mapping-references are the registry of external frameworks (CCM, NIST, ...)
+// that every catalog falls back to when it doesn't declare a framework itself.
+var coreMetadataPath = filepath.Join("core", "core", "metadata.yaml")
+
 // defaultHubURL is the grc.store hub API (the same default grcli uses).
 const defaultHubURL = "https://hub.grc.store"
 
@@ -80,7 +85,7 @@ func runCompile(cmd *cobra.Command, args []string) error {
 	}
 
 	srcDir := filepath.Join(catalogsDir, buildTarget)
-	meta, err := loadSourceMetadata(filepath.Join(srcDir, "metadata.yaml"))
+	meta, err := loadCatalogMetadata(catalogsDir, buildTarget)
 	if err != nil {
 		return err
 	}
@@ -158,12 +163,28 @@ func loadSourceMetadata(path string) (sourceMeta, error) {
 	return meta, nil
 }
 
+// loadCatalogMetadata loads a build target's metadata and appends core's
+// framework declarations after its own, so the target's declarations win.
+func loadCatalogMetadata(catalogsDir, buildTarget string) (sourceMeta, error) {
+	meta, err := loadSourceMetadata(filepath.Join(catalogsDir, buildTarget, "metadata.yaml"))
+	if err != nil || meta.id == "CCC.Core" {
+		return meta, err
+	}
+	core, err := loadSourceMetadata(filepath.Join(catalogsDir, coreMetadataPath))
+	if err != nil {
+		return sourceMeta{}, err
+	}
+	meta.refs = append(meta.refs, core.refs...)
+	return meta, nil
+}
+
 // setMappingReferences declares every catalog the artifact refers to (imports
 // and entry mappings) in metadata.mapping-references, each with its version:
 //   - a sibling of this catalog (CCC.ObjStor.Threats -> CCC.ObjStor.Capabilities,
 //     or core's own chain) ships in the same release, so it gets `version`;
 //   - any other CCC catalog pins the latest final release on grc.store;
-//   - anything else must be declared in the source metadata.yaml, as is.
+//   - anything else must be declared in the target's or core's metadata.yaml,
+//     and is copied as declared.
 func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, service, version, hubURL string) error {
 	var md *gemara.Metadata
 	var used []gemara.MultiEntryMapping
@@ -214,7 +235,7 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 		}
 	}
 	if len(undeclared) > 0 {
-		return fmt.Errorf("%s refers to %s, which metadata.yaml mapping-references does not declare with a version", md.Id, strings.Join(undeclared, ", "))
+		return fmt.Errorf("%s refers to %s, which neither its metadata.yaml nor %s declares with a version in mapping-references", md.Id, strings.Join(undeclared, ", "), filepath.Join("catalogs", coreMetadataPath))
 	}
 	md.MappingReferences = refs
 	return nil
