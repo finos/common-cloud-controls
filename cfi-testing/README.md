@@ -55,6 +55,7 @@ Start from an existing config that matches your module and cloud:
 
 - [`privateer-config/finos-integration/`](privateer-config/finos-integration/) — FinOS integration Terraform fixtures
 - [`privateer-config/avm/`](privateer-config/avm/) — Azure Verified Modules
+  - [`azure-avm-kubernetes-finos-ccc.yml`](privateer-config/avm/azure-avm-kubernetes-finos-ccc.yml) — a private AKS cluster from the AVM AKS module's [FINOS CCC example](https://github.com/Azure/terraform-azurerm-avm-res-containerservice-managedcluster/tree/main/examples/finos-ccc) ([Terraform Registry](https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest/examples/finos-ccc)). The example disables public API access and AKS Run Command, so run the tests from inside the cluster's network. The [FINOS CCC workshop](https://github.com/ysg410/ccc-managed-k8s/tree/main/workshop/aks) deploys the example, creates the test fixtures and runs this config from a jumpbox.
 
 ### 3. Environment variables in Privateer config files
 
