@@ -132,6 +132,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: delivery-toolkit/go.mod
+          # No go.sum at the repo root, so without this the module/build cache never restores.
+          cache-dependency-path: delivery-toolkit/go.sum
 
       - name: Compile the typed catalog
         id: compile
@@ -179,8 +181,17 @@ jobs:
           grcli --version
 
       # validate shells out to `cue vet`; publish keyless-signs via `cosign`.
+      # Note: we previously used `go install` as it's a shorter command, but that recompiled cue on every matrix leg.
       - name: Install cue
-        run: go install cuelang.org/go/cmd/cue@v0.17.1
+        env:
+          CUE_VERSION: v0.17.1
+          CUE_SHA256: a39b0c97695069d95d276d99be0f5dbabb081d801bfdc9ba49b76efaf94e2369
+        run: |
+          tarball="cue_${CUE_VERSION}_linux_amd64.tar.gz"
+          curl -fsSLo "/tmp/${tarball}" "https://github.com/cue-lang/cue/releases/download/${CUE_VERSION}/${tarball}"
+          echo "${CUE_SHA256}  /tmp/${tarball}" | sha256sum -c -
+          sudo tar -xzf "/tmp/${tarball}" -C /usr/local/bin cue
+          cue version
       - uses: sigstore/cosign-installer@v4.1.2
         with:
           cosign-release: v3.1.1
