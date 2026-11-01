@@ -139,6 +139,7 @@ jobs:
                 --build-target "$build_target" \
                 --type "$asset_type" \
                 --version "$VERSION" \
+                --dry-run-built "$dry_run_built" \
                 --catalogs-dir ../catalogs \
                 --output-dir ../artifacts 2>&1)"; then
               echo "$out"
@@ -235,12 +236,24 @@ jobs:
           for dir in catalogs/core/core $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort | grep -vx catalogs/core/core); do
             # catalogs/<family>/<service> -> <family>/<service>
             build_target="${dir#catalogs/}"
+            # Siblings this dry run built (it publishes nothing), pinned to VERSION
+            # instead of the hub; and the first failure, which stops this target.
+            dry_run_built=""
+            target_failed=""
 
             for asset_type in capabilities threats controls; do
               src="${dir}/${asset_type}.yaml"
               # No source file means there's nothing to process — not a table row.
               if [ ! -f "$src" ]; then
                 skipped_nofile+=("${build_target} ${asset_type}")
+                continue
+              fi
+
+              # Later types pin their siblings on grc.store, so after a failure they
+              # would quietly pin the previous release.
+              if [ -n "$target_failed" ]; then
+                unreleased+=("${build_target} ${asset_type}")
+                rows+=("| \`catalogs/${build_target}/${asset_type}.yaml\` | Not built: ${target_failed} failed |")
                 continue
               fi
 
@@ -257,6 +270,7 @@ jobs:
                 0)
                   released+=("${build_target} ${asset_type}")
                   if [ "$DRY_RUN" = "true" ]; then
+                    dry_run_built="${dry_run_built:+${dry_run_built},}${asset_type}"
                     result="Built (dry run, not published)"
                   else
                     gh_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${build_target}/${VERSION}"
@@ -271,6 +285,7 @@ jobs:
                   ;;
                 *)
                   unreleased+=("${build_target} ${asset_type}")
+                  target_failed="$asset_type"
                   # Logged as un-released; per the batch contract this does NOT fail CI.
                   echo "::warning::${build_target} ${asset_type}: ${R_REASON:-unknown failure}"
                   result="Failed: ${R_REASON:-unknown failure — see the log group above}"
