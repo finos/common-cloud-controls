@@ -13,8 +13,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// fakeHub serves core with a final release sandwiched between two rcs, under a
-// newer yanked final, core.threats with rcs only, and 404 for anything else.
+// fakeHub serves every CCC catalog with a final release sandwiched between two
+// rcs, under a newer yanked final; ccc.rconly.threats with rcs only; and 404
+// for ccc.missing.* and anything outside finos-ccc.
 func fakeHub(t *testing.T) *httptest.Server {
 	t.Helper()
 	withFinal := `{"releases":[
@@ -24,13 +25,12 @@ func fakeHub(t *testing.T) *httptest.Server {
 		{"version":"v2026.10-rc1","pushed_at":"2026-10-29T12:46:37Z"},
 		{"version":"v2025.10","pushed_at":"2025-10-15T18:18:32Z"}]}`
 	hub := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch r.URL.Path {
-		case "/v1/catalogs/finos-ccc/ccc.core.capabilities",
-			"/v1/catalogs/finos-ccc/ccc.core.threats",
-			"/v1/catalogs/finos-ccc/ccc.core.controls":
-			_, _ = w.Write([]byte(withFinal))
-		case "/v1/catalogs/finos-ccc/ccc.rconly.threats":
+		p := r.URL.Path
+		switch {
+		case p == "/v1/catalogs/finos-ccc/ccc.rconly.threats":
 			_, _ = w.Write([]byte(`{"releases":[{"version":"v2026.10-rc","pushed_at":"2026-10-30T02:09:07Z"}]}`))
+		case strings.HasPrefix(p, "/v1/catalogs/finos-ccc/ccc.") && !strings.HasPrefix(p, "/v1/catalogs/finos-ccc/ccc.missing."):
+			_, _ = w.Write([]byte(withFinal))
 		default:
 			http.NotFound(w, r)
 		}
@@ -161,11 +161,9 @@ func TestCompiledMappingReferences(t *testing.T) {
 					if id == own {
 						continue
 					}
+					// Siblings included: none is assumed to ship in this release.
 					want := declared[id]
-					switch {
-					case strings.HasPrefix(id, meta.id+"."):
-						want = release
-					case strings.HasPrefix(id, "CCC."):
+					if strings.HasPrefix(id, "CCC.") {
 						want = "v2026.10"
 					}
 					got, ok := refs[id]

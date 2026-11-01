@@ -186,11 +186,13 @@ func loadCatalogMetadata(catalogsDir, buildTarget string) (sourceMeta, error) {
 // setMappingReferences declares every catalog the artifact refers to (imports
 // and entry mappings) in metadata.mapping-references, each with its version
 // (and, for CCC catalogs, its grc.store url):
-//   - a sibling of this catalog (CCC.ObjStor.Threats -> CCC.ObjStor.Capabilities,
-//     or core's own chain) ships in the same release, so it gets `version`;
-//   - any other CCC catalog pins the latest final release on grc.store, or for
-//     an rc release the newest live release, rc or final (a ciVersion build
-//     pins `version` without asking the hub);
+//   - every CCC catalog, siblings included (CCC.ObjStor.Threats ->
+//     CCC.ObjStor.Capabilities, or core's own chain), pins the latest final
+//     release on grc.store, or for an rc release the newest live release, rc
+//     or final (a ciVersion build pins `version` without asking the hub). A
+//     sibling is not assumed to ship in this release: release.yml can publish
+//     one type alone. In a joint release the legs run capabilities -> threats
+//     -> controls, so each sibling is already on the hub when it is looked up;
 //   - anything else must be declared in the target's or core's metadata.yaml,
 //     and is copied as declared.
 func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, service, version, hubURL string) error {
@@ -225,10 +227,11 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 		}
 		seen[id] = true
 		switch {
-		case strings.HasPrefix(id, meta.id+"."):
-			word := strings.TrimPrefix(id, meta.id+".")
-			refs = append(refs, gemara.MappingReference{Id: id, Title: fmt.Sprintf("CCC %s %s", service, word), Version: version, Url: grcStoreURL(id)})
 		case strings.HasPrefix(id, "CCC."):
+			title := titleForRef(id)
+			if word, ok := strings.CutPrefix(id, meta.id+"."); ok {
+				title = fmt.Sprintf("CCC %s %s", service, word)
+			}
 			v := version
 			if version != ciVersion {
 				var err error
@@ -236,7 +239,7 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 					return err
 				}
 			}
-			refs = append(refs, gemara.MappingReference{Id: id, Title: titleForRef(id), Version: v, Url: grcStoreURL(id)})
+			refs = append(refs, gemara.MappingReference{Id: id, Title: title, Version: v, Url: grcStoreURL(id)})
 		default:
 			i := slices.IndexFunc(meta.refs, func(r gemara.MappingReference) bool { return r.Id == id && r.Version != "" })
 			if i < 0 {
