@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Compile one typed catalog asset via delivery-toolkit (website catalog build).
+# The website previews source, not releases, so references pin [version]
+# instead of asking grc.store (--hub-url "").
 #
 # Usage: compile-catalog-asset.sh <build_target> <asset_type> [version]
 #   build_target  family/service (e.g. storage/object)
@@ -35,6 +37,7 @@ compile_catalog_asset() {
       --build-target "$build_target" \
       --type "$asset_type" \
       --version "$version" \
+      --hub-url "" \
       --catalogs-dir "${CATALOGS_DIR:?}" \
       --output-dir "${ARTIFACTS_DIR:?}" 2>&1
   )"; then

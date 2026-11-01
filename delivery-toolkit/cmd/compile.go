@@ -33,7 +33,7 @@ var Compile = &cobra.Command{
 func init() {
 	Compile.Flags().String("type", "", "Asset type: capabilities | threats | controls | mappings")
 	Compile.Flags().String("version", "", "Release version stamped into the artifact (e.g. v2026.04)")
-	Compile.Flags().String("hub-url", defaultHubURL, "grc.store hub API used to look up the latest final release of each referenced CCC catalog")
+	Compile.Flags().String("hub-url", defaultHubURL, "grc.store hub API used to look up the latest final release of each referenced CCC catalog; empty pins every CCC catalog to --version without asking (unpublished builds, e.g. the website)")
 	Compile.Flags().StringSlice("dry-run-built", nil, "Dry run only: asset types of this build target already built (not published) in this run; they pin --version instead of the hub")
 }
 
@@ -191,7 +191,8 @@ func loadCatalogMetadata(catalogsDir, buildTarget string) (sourceMeta, error) {
 //   - every CCC catalog, siblings included (CCC.ObjStor.Threats ->
 //     CCC.ObjStor.Capabilities, or core's own chain), pins the latest final
 //     release on grc.store, or for an rc release the newest live release, rc
-//     or final (a ciVersion build pins `version` without asking the hub). A
+//     or final (a ciVersion build, or an empty hubURL, pins `version` without
+//     asking the hub). A
 //     sibling is not assumed to ship in this release: release.yml can publish
 //     one type alone. In a joint release the legs run capabilities -> threats
 //     -> controls, so each sibling is already on the hub when it is looked up.
@@ -238,7 +239,7 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 				title = fmt.Sprintf("CCC %s %s", service, word)
 			}
 			v := version
-			if version != ciVersion && !(sibling && slices.Contains(dryRunBuilt, strings.ToLower(word))) {
+			if version != ciVersion && hubURL != "" && !(sibling && slices.Contains(dryRunBuilt, strings.ToLower(word))) {
 				var err error
 				if v, err = latestFinalVersion(ctx, hubURL, id, strings.Contains(version, "-")); err != nil {
 					return err

@@ -207,16 +207,20 @@ func referencedCatalogs(v any) map[string]bool {
 	return found
 }
 
-func TestCIBuildSkipsHub(t *testing.T) {
-	// The hub URL is unreachable: a CI build must pin itself without asking it.
-	tc := &gemara.ThreatCatalog{Imports: []gemara.MultiEntryMapping{{ReferenceId: "CCC.Core.Threats"}}}
-	tc.Metadata.Id = "CCC.ObjStor.Threats"
-	meta := sourceMeta{id: "CCC.ObjStor"}
-	if err := setMappingReferences(context.Background(), tc, meta, "Object Storage", ciVersion, "http://127.0.0.1:1", nil); err != nil {
-		t.Fatal(err)
-	}
-	if refs := tc.Metadata.MappingReferences; len(refs) != 1 || refs[0].Version != ciVersion {
-		t.Fatalf("got %+v; want CCC.Core.Threats pinned to %s", refs, ciVersion)
+func TestBuildsSkipHub(t *testing.T) {
+	// A CI build (unreachable hub) and a website build (no hub) must both pin
+	// every CCC catalog, siblings included, without asking the hub.
+	for _, c := range []struct{ version, hubURL string }{{ciVersion, "http://127.0.0.1:1"}, {"DEV", ""}} {
+		tc := &gemara.ThreatCatalog{Imports: []gemara.MultiEntryMapping{{ReferenceId: "CCC.Core.Threats"}, {ReferenceId: "CCC.ObjStor.Capabilities"}}}
+		tc.Metadata.Id = "CCC.ObjStor.Threats"
+		meta := sourceMeta{id: "CCC.ObjStor"}
+		if err := setMappingReferences(context.Background(), tc, meta, "Object Storage", c.version, c.hubURL, nil); err != nil {
+			t.Fatalf("%+v: %v", c, err)
+		}
+		refs := tc.Metadata.MappingReferences
+		if len(refs) != 2 || refs[0].Version != c.version || refs[1].Version != c.version {
+			t.Errorf("%+v: got %+v; want both pinned to %s", c, refs, c.version)
+		}
 	}
 }
 
