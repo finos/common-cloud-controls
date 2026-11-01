@@ -148,11 +148,12 @@ func TestCompiledMappingReferences(t *testing.T) {
 				}
 				md := doc["metadata"].(map[string]any)
 				own := md["id"].(string)
-				refs := map[string]string{}
+				refs, urls := map[string]string{}, map[string]string{}
 				if list, ok := md["mapping-references"].([]any); ok {
 					for _, r := range list {
 						m := r.(map[string]any)
 						refs[m["id"].(string)], _ = m["version"].(string)
+						urls[m["id"].(string)], _ = m["url"].(string)
 					}
 				}
 
@@ -172,6 +173,9 @@ func TestCompiledMappingReferences(t *testing.T) {
 						t.Errorf("%s refers to %s, which is missing from mapping-references", own, id)
 					} else if got != want {
 						t.Errorf("%s: mapping-reference %s has version %q, want %q", own, id, got, want)
+					}
+					if wantURL := "https://grc.store/finos-ccc/" + strings.ToLower(id); strings.HasPrefix(id, "CCC.") && urls[id] != wantURL {
+						t.Errorf("%s: mapping-reference %s has url %q, want %q", own, id, urls[id], wantURL)
 					}
 				}
 			})

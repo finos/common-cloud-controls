@@ -184,7 +184,8 @@ func loadCatalogMetadata(catalogsDir, buildTarget string) (sourceMeta, error) {
 }
 
 // setMappingReferences declares every catalog the artifact refers to (imports
-// and entry mappings) in metadata.mapping-references, each with its version:
+// and entry mappings) in metadata.mapping-references, each with its version
+// (and, for CCC catalogs, its grc.store url):
 //   - a sibling of this catalog (CCC.ObjStor.Threats -> CCC.ObjStor.Capabilities,
 //     or core's own chain) ships in the same release, so it gets `version`;
 //   - any other CCC catalog pins the latest final release on grc.store, or for
@@ -226,7 +227,7 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 		switch {
 		case strings.HasPrefix(id, meta.id+"."):
 			word := strings.TrimPrefix(id, meta.id+".")
-			refs = append(refs, gemara.MappingReference{Id: id, Title: fmt.Sprintf("CCC %s %s", service, word), Version: version})
+			refs = append(refs, gemara.MappingReference{Id: id, Title: fmt.Sprintf("CCC %s %s", service, word), Version: version, Url: grcStoreURL(id)})
 		case strings.HasPrefix(id, "CCC."):
 			v := version
 			if version != ciVersion {
@@ -235,7 +236,7 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 					return err
 				}
 			}
-			refs = append(refs, gemara.MappingReference{Id: id, Title: titleForRef(id), Version: v})
+			refs = append(refs, gemara.MappingReference{Id: id, Title: titleForRef(id), Version: v, Url: grcStoreURL(id)})
 		default:
 			i := slices.IndexFunc(meta.refs, func(r gemara.MappingReference) bool { return r.Id == id && r.Version != "" })
 			if i < 0 {
@@ -458,6 +459,7 @@ func compileMappings(srcDir string, meta sourceMeta, version, outputDir, buildTa
 			if doc.Metadata.MappingReferences[i].Id == threatsCatalogID || doc.Metadata.MappingReferences[i].Id == legacyThreatsCatalogID {
 				doc.Metadata.MappingReferences[i].Id = threatsCatalogID
 				doc.Metadata.MappingReferences[i].Version = version
+				doc.Metadata.MappingReferences[i].Url = grcStoreURL(threatsCatalogID)
 			}
 		}
 		if doc.SourceReference.ReferenceId == legacyThreatsCatalogID {
@@ -686,6 +688,13 @@ func reshapeImports(in []gemara.MultiEntryMapping, assetType string) []gemara.Mu
 		out = append(out, gemara.MultiEntryMapping{ReferenceId: ref, Entries: m.Entries, Remarks: m.Remarks})
 	}
 	return out
+}
+
+// grcStoreURL is the grc.store page of a CCC catalog, the same
+// <namespace>/<lowercased id> path release.yml publishes to. It is unversioned
+// so the link resolves even when the pinned version predates grc.store.
+func grcStoreURL(id string) string {
+	return "https://grc.store/" + hubNamespace + "/" + strings.ToLower(id)
 }
 
 func titleForRef(ref string) string {
