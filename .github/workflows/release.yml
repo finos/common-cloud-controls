@@ -106,7 +106,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
-      fail-fast: false # a failed catalog doesn't cancel the other ticked ones
+      # A failed catalog cancels the later ticked ones: threats and controls pin
+      # their siblings on grc.store, and would quietly pin the previous release.
+      fail-fast: true
       matrix:
         asset_type: ${{ fromJSON(needs.plan.outputs.asset_types) }}
     # Inputs are funneled through env to keep free-text values out of run: scripts.
@@ -115,6 +117,8 @@ jobs:
       ASSET_TYPE: ${{ matrix.asset_type }}
       VERSION: ${{ inputs.version }}
       DRY_RUN: ${{ inputs.dry_run }}
+      # A dry run publishes nothing, so siblings it builds pin VERSION instead of the hub.
+      DRY_RUN_BUILT: ${{ inputs.dry_run && join(fromJSON(needs.plan.outputs.asset_types), ',') || '' }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
@@ -145,6 +149,7 @@ jobs:
             --build-target "$BUILD_TARGET" \
             --type "$ASSET_TYPE" \
             --version "$VERSION" \
+            --dry-run-built "$DRY_RUN_BUILT" \
             --catalogs-dir ../catalogs \
             --output-dir ../artifacts 2>&1 | tee /tmp/compile.log
 

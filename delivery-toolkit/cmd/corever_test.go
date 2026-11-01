@@ -128,7 +128,7 @@ func TestCompiledMappingReferences(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				err = setMappingReferences(context.Background(), artifact, meta, service, release, hub.URL)
+				err = setMappingReferences(context.Background(), artifact, meta, service, release, hub.URL, nil)
 				switch {
 				case undeclared[target+"/"+typ] && err != nil && strings.Contains(err.Error(), "neither its metadata.yaml"):
 					t.Skipf("known undeclared framework: %v", err)
@@ -212,10 +212,67 @@ func TestCIBuildSkipsHub(t *testing.T) {
 	tc := &gemara.ThreatCatalog{Imports: []gemara.MultiEntryMapping{{ReferenceId: "CCC.Core.Threats"}}}
 	tc.Metadata.Id = "CCC.ObjStor.Threats"
 	meta := sourceMeta{id: "CCC.ObjStor"}
-	if err := setMappingReferences(context.Background(), tc, meta, "Object Storage", ciVersion, "http://127.0.0.1:1"); err != nil {
+	if err := setMappingReferences(context.Background(), tc, meta, "Object Storage", ciVersion, "http://127.0.0.1:1", nil); err != nil {
 		t.Fatal(err)
 	}
 	if refs := tc.Metadata.MappingReferences; len(refs) != 1 || refs[0].Version != ciVersion {
 		t.Fatalf("got %+v; want CCC.Core.Threats pinned to %s", refs, ciVersion)
 	}
+}
+
+// TestSiblingPins checks a sibling that grc.store has never seen: a live run
+// fails, and a dry run fails in the same place unless it built that sibling.
+func TestSiblingPins(t *testing.T) {
+	hub := fakeHub(t)
+	compile := func(dryRunBuilt []string) (*gemara.ThreatCatalog, error) {
+		tc := &gemara.ThreatCatalog{Imports: []gemara.MultiEntryMapping{{ReferenceId: "CCC.Missing.Capabilities"}, {ReferenceId: "CCC.Core.Threats"}}}
+		tc.Metadata.Id = "CCC.Missing.Threats"
+		return tc, setMappingReferences(context.Background(), tc, sourceMeta{id: "CCC.Missing"}, "Missing", "v9.9.9", hub.URL, dryRunBuilt)
+	}
+	for _, built := range [][]string{nil, {"controls"}} {
+		if _, err := compile(built); err == nil || !strings.Contains(err.Error(), "release it first") {
+			t.Errorf("dry-run-built %v: got %v; want a release-it-first error", built, err)
+		}
+	}
+	tc, err := compile([]string{"capabilities"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := map[string]string{}
+	for _, r := range tc.Metadata.MappingReferences {
+		got[r.Id] = r.Version
+	}
+	if got["CCC.Missing.Capabilities"] != "v9.9.9" || got["CCC.Core.Threats"] != "v2026.10" {
+		t.Errorf("got %v; want the built sibling at v9.9.9 and core from the hub", got)
+	}
+}
+
+func TestCompiledMappingDocuments(t *testing.T) {
+	catalogs := filepath.Join("..", "..", "catalogs")
+	const target = "compute/virtual-machines"
+	meta, err := loadCatalogMetadata(catalogs, target)
+	if err != nil {
+		t.Fatal(err)
+	}
+	out := t.TempDir()
+	if err := compileMappings(filepath.Join(catalogs, target), meta, "v9.9.9", out, target); err != nil {
+		t.Fatal(err)
+	}
+	raw, err := os.ReadFile(filepath.Join(out, target, "mappings", "threats-mitre-attack.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var doc gemara.MappingDocument
+	if err := yaml.Unmarshal(raw, &doc); err != nil {
+		t.Fatal(err)
+	}
+	for _, r := range doc.Metadata.MappingReferences {
+		if r.Id == "CCC.VM.Threats" {
+			if r.Version != "v9.9.9" || r.Url != "https://grc.store/finos-ccc/ccc.vm.threats" {
+				t.Errorf("threats reference: got %+v", r)
+			}
+			return
+		}
+	}
+	t.Errorf("no CCC.VM.Threats reference in %+v", doc.Metadata.MappingReferences)
 }

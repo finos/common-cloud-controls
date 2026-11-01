@@ -34,6 +34,7 @@ func init() {
 	Compile.Flags().String("type", "", "Asset type: capabilities | threats | controls | mappings")
 	Compile.Flags().String("version", "", "Release version stamped into the artifact (e.g. v2026.04)")
 	Compile.Flags().String("hub-url", defaultHubURL, "grc.store hub API used to look up the latest final release of each referenced CCC catalog")
+	Compile.Flags().StringSlice("dry-run-built", nil, "Dry run only: asset types of this build target already built (not published) in this run; they pin --version instead of the hub")
 }
 
 var entryRef = regexp.MustCompile(`^CCC\.([A-Za-z0-9]+)\.(CP|CN|TH)\d+$`)
@@ -121,7 +122,8 @@ func runCompile(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	hubURL, _ := cmd.Flags().GetString("hub-url")
-	if err := setMappingReferences(cmd.Context(), artifact, meta, service, version, hubURL); err != nil {
+	dryRunBuilt, _ := cmd.Flags().GetStringSlice("dry-run-built")
+	if err := setMappingReferences(cmd.Context(), artifact, meta, service, version, hubURL, dryRunBuilt); err != nil {
 		return err
 	}
 
@@ -192,10 +194,12 @@ func loadCatalogMetadata(catalogsDir, buildTarget string) (sourceMeta, error) {
 //     or final (a ciVersion build pins `version` without asking the hub). A
 //     sibling is not assumed to ship in this release: release.yml can publish
 //     one type alone. In a joint release the legs run capabilities -> threats
-//     -> controls, so each sibling is already on the hub when it is looked up;
+//     -> controls, so each sibling is already on the hub when it is looked up.
+//     A dry run publishes nothing, so a sibling it built earlier (dryRunBuilt,
+//     e.g. "capabilities") pins `version`, where the live run would find it;
 //   - anything else must be declared in the target's or core's metadata.yaml,
 //     and is copied as declared.
-func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, service, version, hubURL string) error {
+func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, service, version, hubURL string, dryRunBuilt []string) error {
 	var md *gemara.Metadata
 	var used []gemara.MultiEntryMapping
 	switch a := artifact.(type) {
@@ -229,11 +233,12 @@ func setMappingReferences(ctx context.Context, artifact any, meta sourceMeta, se
 		switch {
 		case strings.HasPrefix(id, "CCC."):
 			title := titleForRef(id)
-			if word, ok := strings.CutPrefix(id, meta.id+"."); ok {
+			word, sibling := strings.CutPrefix(id, meta.id+".")
+			if sibling {
 				title = fmt.Sprintf("CCC %s %s", service, word)
 			}
 			v := version
-			if version != ciVersion {
+			if version != ciVersion && !(sibling && slices.Contains(dryRunBuilt, strings.ToLower(word))) {
 				var err error
 				if v, err = latestFinalVersion(ctx, hubURL, id, strings.Contains(version, "-")); err != nil {
 					return err
@@ -461,6 +466,9 @@ func compileMappings(srcDir string, meta sourceMeta, version, outputDir, buildTa
 		for i := range doc.Metadata.MappingReferences {
 			if doc.Metadata.MappingReferences[i].Id == threatsCatalogID || doc.Metadata.MappingReferences[i].Id == legacyThreatsCatalogID {
 				doc.Metadata.MappingReferences[i].Id = threatsCatalogID
+				// shortcut: no release workflow publishes mappings yet, so this pins
+				// the release version; once one does, look it up like a sibling in
+				// setMappingReferences.
 				doc.Metadata.MappingReferences[i].Version = version
 				doc.Metadata.MappingReferences[i].Url = grcStoreURL(threatsCatalogID)
 			}
