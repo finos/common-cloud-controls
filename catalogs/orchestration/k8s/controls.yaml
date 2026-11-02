@@ -138,21 +138,26 @@ controls:
       - id: CCC.K8S.CN02.AR04
         text: |
           When a non-system Kubernetes role grants the escalate, bind, or impersonate verbs,
-          or grants approve on certificatesigningrequests/approval, that role MUST be bound
-          only to a dedicated administrative group.
+          grants update on certificatesigningrequests/approval together with approve on
+          signers, or grants create, update, patch, or delete on admission webhook
+          configurations or admission policies, that role MUST be bound only to a dedicated
+          administrative group.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Treat escalate, bind, impersonate, and certificate signing request approval as
-          privileged permissions, and alert on new bindings that grant them. Approval lets
-          an identity obtain a client certificate for any user or group.
+          Treat escalate, bind, impersonate, certificate signing request approval, and write
+          access to ValidatingWebhookConfigurations, MutatingWebhookConfigurations,
+          ValidatingAdmissionPolicies, and their bindings as privileged permissions, and
+          alert on new bindings that grant them. Approval lets an identity obtain a client
+          certificate for any user or group, and admission configuration write access lets
+          an identity weaken or bypass admission control under CCC.K8S.CN11.
       - id: CCC.K8S.CN02.AR05
         text: |
-          When a workload does not call the Kubernetes API, its service account token MUST
-          NOT be mounted into the workload.
+          When a workload is not approved for Kubernetes API access, its service account
+          token MUST NOT be mounted into the workload.
         applicability:
           - tlp-green
           - tlp-amber
@@ -163,10 +168,10 @@ controls:
       - id: CCC.K8S.CN02.AR06
         text: |
           When a non-system Kubernetes role grants create on pods or workload controllers in
-          a system or privileged namespace, or create on pods/exec, pods/attach,
-          pods/portforward, pods/proxy, services/proxy, nodes/proxy, or serviceaccounts/token,
-          or update or patch on pods/ephemeralcontainers, in any namespace, that role MUST be
-          bound only to a dedicated administrative group.
+          a system or privileged namespace, get or create on pods/exec, pods/attach,
+          pods/portforward, pods/proxy, services/proxy, or nodes/proxy, create on
+          serviceaccounts/token, or update or patch on pods/ephemeralcontainers, in any
+          namespace, that role MUST be bound only to a dedicated administrative group.
         applicability:
           - tlp-green
           - tlp-amber
@@ -174,7 +179,9 @@ controls:
         recommendation: |
           Keep workload creation in system and privileged namespaces with the platform
           administration group, and alert on new bindings that grant these permissions.
-          Workloads in user namespaces are governed under CCC.K8S.CN05.
+          Exec, attach, port-forward, and proxy connections made over WebSocket are
+          authorized as get requests, so get on these subresources is as privileged as
+          create. Workloads in user namespaces are governed under CCC.K8S.CN05.
     threats:
       - reference-id: CCC
         entries:
@@ -340,7 +347,8 @@ controls:
       - id: CCC.K8S.CN05.AR01
         text: |
           When a workload is admitted to a user workload namespace, it MUST satisfy the
-          Kubernetes Baseline Pod Security Standard.
+          Kubernetes Baseline Pod Security Standard AND its Linux containers MUST NOT allow
+          privilege escalation.
         applicability:
           - tlp-clear
           - tlp-green
@@ -349,8 +357,11 @@ controls:
         recommendation: |
           Enforce the Baseline standard through Pod Security Admission namespace labels or an
           equivalent admission policy. The Baseline standard blocks privileged execution,
-          host namespaces, host paths, host ports, and capabilities beyond the default set.
-          CSP-managed system namespaces are governed separately under CCC.K8S.CN11.
+          host namespaces, host paths, host ports, and capabilities beyond the default set,
+          but not privilege escalation, so set allowPrivilegeEscalation to false as well. A
+          user workload namespace is any namespace other than kube-system, kube-public,
+          kube-node-lease, and the namespaces reserved for CSP-managed add-ons; those system
+          namespaces are governed separately under CCC.K8S.CN11.
       - id: CCC.K8S.CN05.AR02
         text: |
           When a Linux workload is admitted to a user workload namespace, it MUST satisfy the
@@ -453,8 +464,8 @@ controls:
     assessment-requirements:
       - id: CCC.K8S.CN07.AR01
         text: |
-          When a secret is mounted or injected into a workload, it MUST be readable only by
-          the intended workload's service account.
+          When a secret is mounted or injected into a workload, it MUST NOT be readable by
+          the service accounts of other workloads in the namespace.
         applicability:
           - tlp-green
           - tlp-amber
@@ -683,6 +694,19 @@ controls:
         recommendation: |
           Prefer dynamic provisioning and require sanitization or cryptographic erasure
           before reusing storage across ownership boundaries.
+      - id: CCC.K8S.CN10.AR03
+        text: |
+          When a persistent volume is backed by a shared file system, its file share, path,
+          or access point MUST NOT be referenced by a persistent volume bound to a claim in
+          another namespace.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Provision a separate file share, directory, or access point for each namespace,
+          such as a per-claim access point from the file storage CSI driver, and compare the
+          volume handles of shared file system volumes across namespaces.
     threats:
       - reference-id: CCC
         entries:
@@ -805,15 +829,17 @@ controls:
           session-management or bastion service without public node addresses.
       - id: CCC.K8S.CN12.AR03
         text: |
-          When a workload is not approved for node metadata access, network access from that
-          workload to the node metadata service MUST be denied.
+          When a workload runs on a worker node, it MUST NOT be able to obtain credentials
+          issued to the node's cloud identity from the instance metadata service.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
           Use workload identity federation, metadata concealment or hop limits, and network
-          policy or node firewall controls to prevent workload metadata access.
+          policy or node firewall controls. Where the service's metadata server intercepts
+          workload requests to issue federated workload credentials, verify that it does not
+          return the node's own credentials.
     threats:
       - reference-id: CCC
         entries:
@@ -943,8 +969,8 @@ controls:
       - id: CCC.K8S.CN14.AR03
         text: |
           When a cluster-admin binding, an admission webhook or policy object, or the audit
-          log category configuration changes, the monitoring system MUST generate an alert for review by an authorized
-          security function.
+          log category configuration changes, the monitoring system MUST generate an alert
+          for review by an authorized security function.
         applicability:
           - tlp-green
           - tlp-amber
@@ -964,20 +990,6 @@ controls:
         recommendation: |
           Require authentication on in-cluster metrics endpoints, restrict RBAC access to
           metrics APIs, and scope read access in the cloud monitoring service.
-      - id: CCC.K8S.CN14.AR05
-        text: |
-          When a cluster is operational, runtime threat detection MUST be enabled for its
-          nodes and workloads and MUST alert an authorized security function on suspicious
-          container activity.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Enable the service's managed runtime threat detection or deploy an equivalent
-          eBPF-based sensor, and route alerts for interactive shells in containers, unexpected
-          process execution, cryptominer behavior, and container drift to the security
-          function. Test alert delivery regularly.
     threats:
       - reference-id: CCC
         entries:
@@ -996,15 +1008,9 @@ controls:
           - reference-id: CCC.Core.TH16
             strength: 10
             remarks: Publications are Disabled
-          - reference-id: CCC.Core.TH15
-            strength: 5 # Runtime detection surfaces enumeration but does not prevent it.
-            remarks: Automated Enumeration and Reconnaissance by Non-human Entities
           - reference-id: CCC.Core.TH19
             strength: 10
             remarks: Metrics are Read by Unauthorized Entities
-          - reference-id: CCC.K8S.TH05
-            strength: 3 # Detection reveals escape attempts after the fact and does not block them.
-            remarks: Privileged Workloads Escape Isolation
           - reference-id: CCC.K8S.TH15
             strength: 10
             remarks: Kubernetes Audit Records are Incomplete or Unavailable
@@ -1350,7 +1356,8 @@ controls:
           - tlp-red
         recommendation: |
           Select the regional or highly available control-plane tier of the service, where
-          the service offers one.
+          the service offers one. Where the service always runs the control plane across
+          multiple zones, the provider's documented architecture is sufficient evidence.
       - id: CCC.K8S.CN20.AR02
         text: |
           When a worker pool is created, it MUST span at least two availability zones.
@@ -1419,9 +1426,8 @@ controls:
     assessment-requirements:
       - id: CCC.K8S.CN22.AR01
         text: |
-          When a cluster hosts persistent workload data, its persistent volumes and the
-          Kubernetes resource definitions that describe its workloads MUST be backed up on a
-          scheduled basis to a location outside the cluster.
+          When a cluster hosts persistent workload data, its persistent volumes MUST be
+          backed up on a scheduled basis to a location outside the cluster.
         applicability:
           - tlp-green
           - tlp-amber
@@ -1440,15 +1446,24 @@ controls:
         recommendation: |
           Exercise restores of both resource definitions and volume data, and record the
           recovery time achieved against the organization's recovery objective.
+      - id: CCC.K8S.CN22.AR03
+        text: |
+          When a workload is deployed to a cluster, the Kubernetes resource definitions that
+          describe it MUST be maintained in version-controlled source outside the cluster.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Deploy workloads from a version-controlled repository through a pipeline or GitOps
+          controller so the cluster can be rebuilt from source. Reference Secret values from
+          an external secrets service rather than committing them.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             strength: 9 # Backups restore data but cannot prevent the loss itself.
             remarks: Data is Lost or Corrupted
-          - reference-id: CCC.K8S.TH11
-            strength: 3 # Recovery limits the impact of unauthorized volume modification.
-            remarks: Persistent Volumes are Bound to Unauthorized Workloads
           - reference-id: CCC.K8S.TH21
             strength: 5 # Backups enable rebuild in another zone but do not keep the cluster running.
             remarks: Cluster Capacity is Lost with a Single Availability Zone
@@ -1459,3 +1474,43 @@ controls:
             remarks: System Backup
           - reference-id: CP-10
             remarks: System Recovery and Reconstitution
+
+  - id: CCC.K8S.CN23
+    group: Observability
+    title: Detect Suspicious Workload Runtime Activity
+    objective: |
+      Ensure that suspicious process, file, and network activity inside running containers
+      and on worker nodes is detected and reported to a security function.
+    assessment-requirements:
+      - id: CCC.K8S.CN23.AR01
+        text: |
+          When a cluster is operational, runtime threat detection MUST be enabled for its
+          nodes and workloads and MUST alert an authorized security function on suspicious
+          container activity.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable the service's managed runtime threat detection or deploy an equivalent
+          eBPF-based sensor, and route alerts for interactive shells in containers, unexpected
+          process execution, cryptominer behavior, and container drift to the security
+          function. Test alert delivery regularly.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH15
+            strength: 5 # Runtime detection surfaces enumeration but does not prevent it.
+            remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+          - reference-id: CCC.K8S.TH05
+            strength: 3 # Detection reveals escape attempts after the fact and does not block them.
+            remarks: Privileged Workloads Escape Isolation
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SI-4
+            remarks: System Monitoring
+      - reference-id: CRI
+        entries:
+          - reference-id: DE.CM-09.03
+            remarks: Unauthorized software, hardware, or configuration changes

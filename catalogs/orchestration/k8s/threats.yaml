@@ -372,10 +372,10 @@ threats:
       Kubernetes roles and bindings may grant wildcard permissions, role-binding,
       escalation, impersonation, or certificate-approval rights, workload-creation rights
       in privileged namespaces, interactive pod access, or access bound to broad built-in
-      groups. An identity holding such a
-      grant can then obtain the permissions of other service accounts or administrators
-      without a new authorization decision. Cluster data and secrets may be disclosed,
-      cluster state may be altered, and workloads may be disrupted.
+      groups. An identity holding such a grant can then obtain the permissions of other
+      service accounts or administrators, bypassing RBAC escalation prevention. Cluster
+      data and secrets may be disclosed, cluster state may be altered, and workloads may
+      be disrupted.
     capabilities:
       - reference-id: CCC
         entries:

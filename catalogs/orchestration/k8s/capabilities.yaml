@@ -207,7 +207,7 @@ capabilities:
       whose boot chain or root filesystem is verified before workloads are executed.
 
   - id: CCC.K8S.CP23
-    group: Data
+    group: Compute
     title: Multi-Zone Cluster Placement
     description: |
       The service can distribute control-plane and worker-pool capacity across multiple
