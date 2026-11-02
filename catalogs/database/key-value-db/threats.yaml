@@ -132,8 +132,6 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KVDB.CP11
-            remarks: Multi-Region Replication
           - reference-id: CCC.Core.CP11
             remarks: Backup
           - reference-id: CCC.Core.CP12

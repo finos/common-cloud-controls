@@ -37,6 +37,9 @@ imports:
       - reference-id: CCC.Core.CN14
         strength: 0 # Not yet specified
         remarks: Maintain Recent Backups
+      - reference-id: CCC.Core.CN15
+        strength: 0 # Not yet specified
+        remarks: Enforce Transaction Rate Limits
 
 controls:
   - id: CCC.KVDB.CN01
@@ -128,25 +131,14 @@ controls:
 
   - id: CCC.KVDB.CN03
     group: Resource
-    title: Enforce Throughput Budgets and Hot-Partition Safeguards
+    title: Alert on Sustained Hot-Partition Throttling
     objective: |
-      Ensure that excessive request rates against keys or partitions are throttled
-      before they degrade availability for the workload or dependent services.
+      Ensure that sustained throttling against keys or partitions is published
+      to a monitored channel identifying the affected keys or partitions, so
+      hot partitions are detected and remediated before they degrade
+      availability for the workload or dependent services.
     assessment-requirements:
       - id: CCC.KVDB.CN03.AR01
-        text: |
-          When request rates against a key or partition exceed the configured
-          throughput budget, the service MUST throttle, delay, or reject the
-          excess requests.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Set throughput budgets per table and per partition key based on workload
-          baselines, and prefer adaptive throttling over hard failures where the
-          provider supports it.
-      - id: CCC.KVDB.CN03.AR02
         text: |
           When sustained throttling events occur, an alert MUST be published to a
           monitored channel identifying the affected keys or partitions.
@@ -160,11 +152,8 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KVDB.TH03
-            strength: 9
+            strength: 5 # partial: detection and alerting only; throttling is provided by imported CCC.Core.CN15
             remarks: Throughput Exhaustion or Hot-Partition Denial of Service
-          - reference-id: CCC.Core.TH12
-            strength: 7 # partial: covers throughput exhaustion, not all resource types
-            remarks: Resource Constraints are Exhausted
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -192,8 +181,8 @@ controls:
           test failover while lag is elevated to confirm recovery behavior.
       - id: CCC.KVDB.CN04.AR02
         text: |
-          When an application requires read-after-write freshness, reads MUST use
-          strongly consistent read options.
+          When a read requests strong consistency, the service MUST return data
+          reflecting all writes that were acknowledged before the read.
         applicability:
           - tlp-amber
           - tlp-red
@@ -219,9 +208,8 @@ controls:
     assessment-requirements:
       - id: CCC.KVDB.CN05.AR01
         text: |
-          When an application performs updates to items that may be concurrently
-          modified, writes MUST use conditional expressions or version checks so
-          that conflicting writes fail instead of overwriting.
+          When a write specifies a condition or version check, the service MUST
+          apply the write only when the condition holds.
         applicability:
           - tlp-green
           - tlp-amber
@@ -268,9 +256,9 @@ controls:
           require multi-party approval for restores in production.
       - id: CCC.KVDB.CN06.AR02
         text: |
-          When a restore operation targets a point-in-time snapshot, the target
-          snapshot identifier MUST be explicitly confirmed before the restore
-          executes.
+          When a restore operation targets a point-in-time snapshot, the service
+          MUST require explicit confirmation of the target snapshot identifier
+          before executing the restore.
         applicability:
           - tlp-amber
           - tlp-red
@@ -292,7 +280,7 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KVDB.TH06
-            strength: 8
+            strength: 3
             remarks: Backup and Restore Operations Are Disabled or Fail
           - reference-id: CCC.KVDB.TH07
             strength: 9
@@ -317,8 +305,9 @@ controls:
     assessment-requirements:
       - id: CCC.KVDB.CN07.AR01
         text: |
-          When a TTL policy is created or modified, the affected items and the
-          expiration duration MUST be explicitly validated before activation.
+          When a TTL policy is created or modified, the service MUST require
+          explicit validation of the affected items and expiration duration
+          before activation.
         applicability:
           - tlp-green
           - tlp-amber
@@ -379,8 +368,7 @@ controls:
           When static data-plane keys are used, the keys MUST be rotated within
           90 days of issuance.
         applicability:
-          - tlp-amber
-          - tlp-red
+          - tlp-green
         recommendation: |
           Automate rotation and track key age; alert when a static key
           approaches the rotation deadline.
@@ -401,7 +389,7 @@ controls:
 
   - id: CCC.KVDB.CN09
     group: Access
-    title: Deny Unauthenticated Requests Without System Disclosure
+    title: Deny Unauthorized Requests Without System Disclosure
     objective: |
       Ensure that responses to unauthorized requests do not disclose system
       details usable for attack planning.

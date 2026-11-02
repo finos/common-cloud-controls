@@ -43,6 +43,8 @@ imports:
         remarks: Command-line Interface
       - reference-id: CCC.Core.CP31
         remarks: Elastic Scaling
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.KVDB.CP01
@@ -123,9 +125,3 @@ capabilities:
       The service can execute multiple read and write operations across items as a
       single atomic transaction, so either all operations succeed or none are applied.
 
-  - id: CCC.KVDB.CP15
-    group: Encryption
-    title: Customer-Managed Encryption Keys
-    description: |
-      The service can encrypt stored data using customer-managed keys so key
-      lifecycle, rotation, and access policies remain under customer control.
