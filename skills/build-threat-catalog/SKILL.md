@@ -21,7 +21,7 @@ When the user asks to identify or create threats for a cloud service. For exampl
 
 The target service folder must already contain:
 
-- `metadata.yaml` (provides the service abbreviation, CSP service links, and `mapping-references`)
+- `metadata.yaml` (provides the service abbreviation, CSP service links, and any optional custom `mapping-references`)
 
 - `capabilities.yaml` (provides the capability surface threats are mapped against)
 
@@ -29,7 +29,7 @@ If either file is missing, stop and instruct the user to run the Capability Cata
 
 ## Reference Sources
 
-These four sources feed threat work along two distinct axes. **Discovery** sources inform *what* threats exist and *whether they are realistic*; they are consulted during Step 3/4 reasoning and need not appear in the YAML. **Mapping** sources become standalone MappingDocuments in the service's `mappings/` directory (one document per framework, Step 6) and are gated by `metadata.mapping-references` (see the gate rule below).
+These five sources feed threat work along two distinct axes. **Discovery** sources inform *what* threats exist and *whether they are realistic*; they are consulted during Step 3/4 reasoning and need not appear in the YAML. **Mapping** sources become standalone MappingDocuments in the service's `mappings/` directory (one document per framework, Step 6); each standalone MappingDocument declares its own `metadata.mapping-references` per `schemas/mappingdocument-schema.json` (see the eligibility rule below).
 
 | Source | `reference-id` | Role | Entry ID format | Canonical source |
 |---|---|---|---|---|
@@ -49,13 +49,13 @@ These four sources feed threat work along two distinct axes. **Discovery** sourc
 
 - **CSP Security Advisories** are not a stable framework with durable mapping IDs. By default they are a discovery and grounding source: use them in Step 4 to find documented, real-world failure modes for each capability across AWS, Azure, and GCP, and cite the relevant advisory in a threat's `remarks`. Only emit a structured `CSP-Advisory` external mapping if the team has explicitly declared `CSP-Advisory` in `metadata.mapping-references`.
 
-**Mapping-reference gate.** A framework may get a MappingDocument only if its `reference-id` is declared in `metadata.mapping-references`. If `MITRE-ATT&CK`, `D3FEND`, or `CISA-KEV` is not yet declared:
+**Mapping document eligibility.** Each standalone `MappingDocument` in `<target-path>/mappings/` is self-contained and declares its own `metadata.mapping-references` (`CCC.<ABBREVIATION>.Threats` and the target framework) per `schemas/mappingdocument-schema.json`:
 
-1. Still use it for discovery and realizability reasoning, and for `remarks`.
+1. Standard mapping frameworks in the Reference Sources table (`MITRE-ATT&CK`, `D3FEND`, `CISA-KEV`, `CWE`, `OWASP-Top-10`) are always eligible for standalone `MappingDocument` creation in Step 6 whenever Step 4 identifies confident threat mappings — even when the service's `metadata.yaml` has an empty `mapping-references` list or only lists `CCC.Core` (as produced by `build-capability-catalog`).
 
-2. Do not create a mapping document for it.
+2. Do not skip Step 6 merely because `metadata.yaml` omits those standard frameworks, and do not require editing `metadata.yaml` before emitting `mappings/threats-<framework-slug>.yaml`.
 
-3. Surface a recommendation in the Step 4 confirmation block to add the missing `reference-id`(s) to `metadata.mapping-references` (this is the metadata/Capability Catalog skill's responsibility, not this skill's — do not edit `metadata.yaml` here).
+3. Only non-standard or ad-hoc `CSP-Advisory` mapping documents require `CSP-Advisory` to be explicitly declared in `metadata.mapping-references` (or explicitly requested by the user in Step 4); otherwise keep CSP advisories as discovery and evidence citations in threat `remarks`.
 
 ## Step 1: Locate Service and Validate Prerequisites
 
@@ -68,11 +68,11 @@ These four sources feed threat work along two distinct axes. **Discovery** sourc
 3. Read `metadata.yaml` and extract:
    - The service abbreviation from `metadata.id` (e.g., `ObjStor` from `CCC.ObjStor`).
    - The `example-csp-services` entries (AWS, Azure, GCP names and documentation links).
-   - The `mapping-references` list — only these frameworks may receive MappingDocuments later.
+   - The `mapping-references` list (e.g., `CCC.Core` and any optional custom references such as `CSP-Advisory`).
 
 4. Check whether a `threats.yaml` already exists in the folder and note it.
 
-5. Compare the declared `mapping-references` against the Reference Sources table. Note which of `MITRE-ATT&CK`, `D3FEND`, and `CISA-KEV` are declared (usable as mappings) versus undeclared (discovery-only, per the mapping-reference gate).
+5. Check for any existing mapping documents under `<target-path>/mappings/threats-*.yaml`. Standard mapping frameworks from the Reference Sources table (`MITRE-ATT&CK`, `D3FEND`, `CISA-KEV`, `CWE`, `OWASP-Top-10`) are always usable for Step 6 MappingDocuments; `CSP-Advisory` is discovery/remarks-only unless declared in `metadata.mapping-references`.
 
 ### Output Format
 
@@ -84,8 +84,8 @@ Target path: <catalogs/.../...>
 Service ID: `CCC.<ABBREVIATION>`
 Prerequisites: `metadata.yaml: found|missing` | `capabilities.yaml: found|missing`
 Existing threats.yaml: `yes|no`
-Mapping references (declared): `MITRE-ATT&CK, D3FEND, CISA-KEV, CWE, ...`
-Mapping sources usable: `list declared` | Discovery-only (undeclared): `list undeclared`
+Mapping references in metadata.yaml: `CCC.Core, ... (or none)`
+Mapping sources usable for Step 6: `MITRE-ATT&CK, D3FEND, CISA-KEV, CWE, OWASP-Top-10` | Discovery/remarks-only: `CSP-Advisory (unless declared)`
 Confidence: `High|Medium|Low`
 
 Do not proceed to Step 2 if any prerequisite is missing.
@@ -144,7 +144,7 @@ Before drafting threats, work each capability from the Step 2 inventory against 
 
 1. **MITRE ATT&CK** — for each capability, identify the adversary techniques feasible on that surface, drawing from the Enterprise cloud platforms (IaaS, SaaS, Identity Provider, Office Suite). These technique IDs seed both the threat statement and its `MITRE-ATT&CK` mapping.
 
-2. **CISA KEV** — check whether weaknesses in this service category (or its common implementation patterns) appear in the KEV catalog. A KEV hit is strong evidence that the threat is realizable in the wild and should raise the threat's priority; record representative CVE IDs and their `dateAdded` for use in `remarks` or, where the gate allows, a sparing `CISA-KEV` mapping.
+2. **CISA KEV** — check whether weaknesses in this service category (or its common implementation patterns) appear in the KEV catalog. A KEV hit is strong evidence that the threat is realizable in the wild and should raise the threat's priority; record representative CVE IDs and their `dateAdded` for use in `remarks` or, when a threat corresponds directly to a weakness class with KEV entries, a sparing `CISA-KEV` mapping.
 
 3. **CSP Security Advisories** — review the AWS, Azure, and GCP security bulletins for the services behind each capability (see Reference Sources for URLs) to surface documented, provider-side failure modes. Use these to make threats concrete and provider-neutral (a real issue on one CSP usually points to an analogous risk on the others). Cite the advisory in the threat's `remarks`.
 
@@ -170,7 +170,7 @@ Before drafting threats, work each capability from the Step 2 inventory against 
    - Use present tense and passive voice when describing manifestation ("may be misconfigured", "could be exploited"). Avoid intent-based words (`accidental`, `malicious`, `deliberately`) and speculative hedging (`might possibly`). Focus on technical mechanisms, not attacker motivation.
    - Use the precise vocabulary from the style guide: `user`, `component`, `child resource`, `external system`.
 
-6. Identify external framework mappings for each threat, observing the **mapping-reference gate** (a framework may get a mapping document only if its `reference-id` is declared in `metadata.mapping-references`). These feed the MappingDocuments written in Step 6:
+6. Identify external framework mappings for each threat to feed the standalone MappingDocuments written in Step 6 (each MappingDocument declares its own `metadata.mapping-references`):
    - **`MITRE-ATT&CK`** — technique IDs (`Txxxx` / `Txxxx.xxx`) from Step 4a. Prefer cloud-platform techniques and specific sub-techniques.
    - **`D3FEND`** — defensive technique IDs (`D3-XXX`) that counter the threat's ATT&CK techniques. Optional; the bridge to the Control Catalog. Omit when there is no ATT&CK anchor.
    - **`CISA-KEV`** — `CVE-YYYY-NNNNN` IDs, used only as illustrative exploitation evidence for a matching weakness class. `remarks` must state the affected product and `dateAdded` and note the CVE is illustrative. Use sparingly; never force a mapping.
@@ -188,7 +188,7 @@ Return the proposed threats in a markdown table:
 |---|---|---|---|---|---|---|---|
 | `CCC.<ABBR>.TH01` | `group` | `title` | `CCC.<ABBR>.CP01` | T1020 | D3-OTF | CVE-2024-XXXXX, CWE-200 | GCP bulletin GCP-2024-NNN |
 
-(Leave a cell blank where no confident mapping or evidence exists. Frameworks shown in ATT&CK/D3FEND/KEV columns that are *not* declared in `metadata.mapping-references` are discovery-only and must not get a mapping document in Step 6 — they remain in `remarks` instead.)
+(Leave a cell blank where no confident mapping or evidence exists. Standard frameworks with confident mappings in Step 4 receive standalone MappingDocuments in Step 6; CSP advisories remain in `remarks` unless `CSP-Advisory` is declared in `metadata.mapping-references`.)
 
 At the end of Step 4, return a single confirmation block in this format:
 
@@ -196,10 +196,9 @@ Service ID: `CCC.<ABBREVIATION>`
 Imported core threats: `n`
 Service-specific threats: `n`
 Capabilities referenced: `n of total`
-Mapping frameworks used: `e.g. MITRE-ATT&CK, D3FEND, CWE`
-Discovery-only frameworks (not declared in metadata): `list, or none`
-Recommended metadata.mapping-references additions: `list, or none`
-Target files: <catalogs/.../.../threats.yaml> plus `mappings/threats-<framework>.yaml` per framework
+Mapping frameworks to emit in Step 6: `e.g. MITRE-ATT&CK, D3FEND, CWE`
+Discovery/remarks-only sources: `e.g. CSP-Advisory, or none`
+Target files: <catalogs/.../.../threats.yaml> plus `mappings/threats-<framework>.yaml` per framework with confident mappings
 
 Reply with one of the following:
 
@@ -277,10 +276,10 @@ External framework references are standalone Gemara MappingDocuments — one fil
 per target framework — in the service's `mappings/` directory. Use
 `schemas/mappingdocument-schema.json` as the source of truth for required and
 allowed fields, and an existing document (e.g.
-`catalogs/storage/object/mappings/threats-mitre-attack.yaml`) as a reference.
+`catalogs/networking/vpc/mappings/threats-mitre-attack.yaml`) as a reference.
 
-1. For each framework confirmed in Step 4 (and passing the mapping-reference
-   gate), create `<target-path>/mappings/threats-<framework-slug>.yaml` with a
+1. For each framework confirmed in Step 4 with confident threat mappings,
+   create `<target-path>/mappings/threats-<framework-slug>.yaml` with a
    lowercase framework slug (e.g. `threats-mitre-attack.yaml`,
    `threats-d3fend.yaml`, `threats-cwe.yaml`):
 
@@ -355,6 +354,6 @@ Return the mapping documents result in this format:
 Mapping documents: `catalogs/.../.../mappings/threats-<slug>.yaml`, ...
 Documents Status: `created|updated|pending-confirmation`
 Mappings emitted: `MITRE-ATT&CK: n | D3FEND: n | CISA-KEV: n | CWE: n | ...`
-Frameworks skipped (not in mapping-references): `list, or none`
+Frameworks skipped (no confident mappings): `list, or none`
 Validation: `passed|failed`
 Confidence: `High|Medium|Low`
