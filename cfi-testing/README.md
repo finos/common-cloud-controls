@@ -227,6 +227,8 @@ Before the site can find your results, add (or update) a row in [`website/src/da
 
 The `artifact-name` in your actions-config must match this filter (e.g. `finos-integration-azure-storage-account` matches `finos-integration-*`).
 
+For each branch, the downloader checks the configured workflow's completed runs newest-first, paginating runs and artifacts until it finds matching, unexpired artifacts or exhausts the available runs. Runs from unrelated workflows are not included.
+
 When adding a new repository or artifact naming scheme, update both an `actions-config` entry (for CI) and a row in `cfi-repositories.json` (for the website).
 
 #### Fetch results from GitHub Actions and start the site on localhost
@@ -240,7 +242,7 @@ npm run fetch:cfi --prefix website
 npm start --prefix website
 ```
 
-`GITHUB_TOKEN` is required — unauthenticated requests cannot download workflow artifacts. If the token is unset, `fetch:cfi` skips the download with a warning.
+`GITHUB_TOKEN` is required — unauthenticated requests cannot download workflow artifacts. Missing credentials, API errors, download errors, and extraction errors fail `fetch:cfi` and stop the website build rather than publish missing results. Expired artifacts and branches with no matching, unexpired artifacts are reported and skipped; existing cached results are kept where present.
 
 Open `http://localhost:3000/cfi` to browse your results.
 
