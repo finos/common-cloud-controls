@@ -84,7 +84,6 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
     if (hydrated) savePersisted({ templateId, drafts, tlps, settings });
   }, [hydrated, templateId, drafts, tlps, settings]);
 
-  const allTlps = tlps.length === ALL_TLPS.length;
   /** Toggles one level; at least one level always stays selected. */
   const toggleTlp = (t: Tlp) =>
     setTlps((cur) => {
@@ -161,15 +160,6 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
           <fieldset className={styles.field}>
             <legend className={styles.fieldLabel}>Data classification</legend>
             <div className={styles.segmented}>
-              <button
-                type="button"
-                title="Every classification"
-                aria-pressed={allTlps}
-                className={`${styles.segment} ${styles.tlpall} ${allTlps ? styles.segmentActive : ""}`}
-                onClick={() => setTlps(ALL_TLPS)}
-              >
-                ALL
-              </button>
               {TLP_LEVELS.map((l) => (
                 <button
                   type="button"

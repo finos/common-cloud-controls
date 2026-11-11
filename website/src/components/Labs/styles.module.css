@@ -210,9 +210,6 @@
 }
 
 /* FIRST TLP 2.0 colours, used only for the active selection. */
-.segmentActive.tlpall {
-  background: var(--gf-color-accent);
-}
 .segmentActive.tlpclear {
   background: #475569;
 }
@@ -903,4 +900,45 @@
 
 .lineButton:hover {
   background: var(--gf-color-accent-soft);
+}
+
+/* ── Controls vs requirements ───────────────────────────────────────────── */
+
+.sectionTitle {
+  margin: 0.75rem 0 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lab-muted);
+}
+
+.controlTally {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.explainer {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--lab-muted);
+}
+
+.filtersLabel {
+  align-self: center;
+  font-size: 0.78rem;
+  color: var(--lab-muted);
+  margin-right: 0.15rem;
+}
+
+.reqProgress {
+  font-size: 0.75rem;
+  color: var(--lab-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }

@@ -12,6 +12,32 @@ export const STATUS_META: Record<Status, { label: string; short: string; Icon: t
   na: { label: "Not applicable", short: "N/A", Icon: MinusCircle, className: styles.sNa },
 };
 
+/**
+ * Control-level wording is deliberately different from requirement-level wording:
+ * a control is only "fully met" when every one of its assessment requirements is satisfied.
+ */
+type ControlState = "met" | "pending" | "partial" | "notMet" | "live" | "na";
+
+const CONTROL_META: Record<ControlState, { label: string; status: Status }> = {
+  met: { label: "Fully met", status: "pass" },
+  pending: { label: "Awaiting live tests", status: "manual" },
+  partial: { label: "Partly met", status: "warn" },
+  notMet: { label: "Not met", status: "fail" },
+  live: { label: "Live test only", status: "manual" },
+  na: { label: "Not applicable", status: "na" },
+};
+
+const CONTROL_ORDER: ControlState[] = ["met", "pending", "partial", "notMet", "live", "na"];
+
+function controlState(r: ControlResult): ControlState {
+  if (r.status === "fail") return "notMet";
+  if (r.status === "warn") return "partial";
+  if (r.status === "manual") return "live";
+  if (r.status === "na") return "na";
+  // Every statically-checkable requirement passed; the control is only fully met if nothing needs a live test.
+  return r.requirements.some((x) => x.status === "manual") ? "pending" : "met";
+}
+
 const FILTERS: { key: "all" | Status; label: string }[] = [
   { key: "all", label: "All" },
   { key: "fail", label: "Failing" },
@@ -25,8 +51,8 @@ function StatusIcon({ status, size = 16 }: { status: Status; size?: number }) {
   return <Icon size={size} className={className} aria-label={label} role="img" />;
 }
 
-function StatusPill({ status }: { status: Status }) {
-  const { label, className } = STATUS_META[status];
+function StatusPill({ status, label = STATUS_META[status].label }: { status: Status; label?: string }) {
+  const { className } = STATUS_META[status];
   return (
     <span className={`${styles.pill} ${className}`}>
       <StatusIcon status={status} size={14} />
@@ -72,8 +98,9 @@ function ControlCard({ result, filter, onReveal, defaultOpen }: { result: Contro
   const { control } = result;
   const reqs = filter === "all" ? result.requirements : result.requirements.filter((r) => r.status === filter);
   const hidden = result.requirements.filter((r) => !reqs.includes(r));
-  const tally = (s: Status) => result.requirements.filter((r) => r.status === s).length;
-  const manual = tally("manual");
+  const applicable = result.requirements.filter((r) => r.status !== "na");
+  const satisfied = applicable.filter((r) => r.status === "pass").length;
+  const state = CONTROL_META[controlState(result)];
   return (
     <details className={styles.control} open={defaultOpen}>
       <summary className={styles.controlSummary}>
@@ -83,8 +110,12 @@ function ControlCard({ result, filter, onReveal, defaultOpen }: { result: Contro
           <span className={styles.controlTitle}>{control.title}</span>
         </div>
         <div className={styles.controlMeta}>
-          {result.status !== "manual" && manual > 0 && <span className={styles.manualCount}>+{manual} live</span>}
-          <StatusPill status={result.status} />
+          {applicable.length > 0 && (
+            <span className={styles.reqProgress}>
+              {satisfied}/{applicable.length} requirements satisfied
+            </span>
+          )}
+          <StatusPill status={state.status} label={state.label} />
         </div>
       </summary>
       <div className={styles.controlBody}>
@@ -122,6 +153,11 @@ export default function Results({ summary, onReveal, stale }: { summary: Evaluat
   const [filter, setFilter] = useState<"all" | Status>("all");
   const { counts, results } = summary;
   const total = counts.pass + counts.fail + counts.warn + counts.manual + counts.na;
+  const controlCounts = useMemo(() => {
+    const c = Object.fromEntries(CONTROL_ORDER.map((k) => [k, 0])) as Record<ControlState, number>;
+    for (const r of results) c[controlState(r)]++;
+    return c;
+  }, [results]);
 
   const groups = useMemo(() => {
     const visible = filter === "all" ? results : results.filter((r) => r.requirements.some((x) => x.status === filter));
@@ -136,6 +172,20 @@ export default function Results({ summary, onReveal, stale }: { summary: Evaluat
 
   return (
     <div className={`${styles.results} ${stale ? styles.stale : ""}`} aria-live="polite" aria-busy={stale}>
+      <h3 className={styles.sectionTitle}>Controls</h3>
+      <ul className={styles.controlTally}>
+        {CONTROL_ORDER.filter((k) => controlCounts[k] > 0).map((k) => (
+          <li key={k}>
+            <StatusPill status={CONTROL_META[k].status} label={`${controlCounts[k]} ${CONTROL_META[k].label.toLowerCase()}`} />
+          </li>
+        ))}
+      </ul>
+      <p className={styles.explainer}>
+        A control is <strong>fully met</strong> only when every one of its assessment requirements is satisfied. Controls whose statically-checkable
+        requirements all pass but that also need live tests are shown as <em>awaiting live tests</em>.
+      </p>
+
+      <h3 className={styles.sectionTitle}>Assessment requirements</h3>
       <div className={styles.scoreboard}>
         {(["pass", "fail", "warn", "manual"] as Status[]).map((s) => (
           <button
@@ -159,7 +209,8 @@ export default function Results({ summary, onReveal, stale }: { summary: Evaluat
         {total} assessment requirements across {results.length} controls apply at the selected data classification.
       </p>
 
-      <div className={styles.filters} role="group" aria-label="Filter requirements">
+      <div className={styles.filters} role="group" aria-label="Filter assessment requirements">
+        <span className={styles.filtersLabel}>Show requirements:</span>
         {FILTERS.map((f) => (
           <button type="button" key={f.key} className={`${styles.chip} ${filter === f.key ? styles.chipActive : ""}`} onClick={() => setFilter(f.key)} aria-pressed={filter === f.key}>
             {f.label}
