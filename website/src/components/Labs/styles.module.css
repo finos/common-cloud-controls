@@ -804,6 +804,19 @@
   white-space: nowrap;
 }
 
+.hiddenNote {
+  margin: 0 0 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background: var(--lab-na-bg);
+  font-size: 0.8rem;
+  color: var(--lab-muted);
+}
+
+.hiddenNote > span {
+  font-weight: 600;
+}
+
 .requirementList {
   list-style: none;
   margin: 0;

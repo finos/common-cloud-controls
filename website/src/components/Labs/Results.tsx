@@ -71,6 +71,7 @@ function RequirementRow({ r, onReveal }: { r: RequirementResult; onReveal(line: 
 function ControlCard({ result, filter, onReveal, defaultOpen }: { result: ControlResult; filter: "all" | Status; onReveal(line: number): void; defaultOpen: boolean }) {
   const { control } = result;
   const reqs = filter === "all" ? result.requirements : result.requirements.filter((r) => r.status === filter);
+  const hidden = result.requirements.filter((r) => !reqs.includes(r));
   const tally = (s: Status) => result.requirements.filter((r) => r.status === s).length;
   const manual = tally("manual");
   return (
@@ -93,6 +94,20 @@ function ControlCard({ result, filter, onReveal, defaultOpen }: { result: Contro
             {control.catalog} source <ExternalLink size={11} aria-hidden="true" />
           </a>
         </p>
+        {hidden.length > 0 && (
+          <p className={styles.hiddenNote}>
+            Showing {reqs.length} of {result.requirements.length} requirements ·{" "}
+            {(["fail", "warn", "pass", "manual", "na"] as Status[])
+              .filter((s) => hidden.some((r) => r.status === s))
+              .map((s) => (
+                <span key={s} className={STATUS_META[s].className}>
+                  {hidden.filter((r) => r.status === s).length} {STATUS_META[s].short.toLowerCase()}
+                </span>
+              ))
+              .reduce<React.ReactNode[]>((acc, el, i) => (i ? [...acc, ", ", el] : [el]), [])}{" "}
+            hidden by the filter. The badge shows the whole control.
+          </p>
+        )}
         <ul className={styles.requirementList}>
           {reqs.map((r) => (
             <RequirementRow key={r.requirement.id} r={r} onReveal={onReveal} />
