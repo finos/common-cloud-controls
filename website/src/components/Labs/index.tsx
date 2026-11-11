@@ -4,8 +4,8 @@ import { RotateCcw, Settings2, Info } from "lucide-react";
 import Editor, { type EditorHandle } from "./Editor";
 import Results from "./Results";
 import { evaluate, type EvaluationSummary } from "./engine";
-import { BUILT_IN_TEMPLATES } from "./templates";
-import type { LabsData, LabsSettings, LabsTemplate, Tlp } from "./types";
+import { BUILT_IN_TEMPLATES, CLOUDS, EXAMPLES } from "./templates";
+import type { CloudId, LabsData, LabsSettings, LabsTemplate, Tlp } from "./types";
 import styles from "./styles.module.css";
 
 const TLP_LEVELS: { value: Tlp; label: string; hint: string }[] = [
@@ -15,16 +15,49 @@ const TLP_LEVELS: { value: Tlp; label: string; hint: string }[] = [
   { value: "tlp-red", label: "RED", hint: "Named recipients only" },
 ];
 
+/** One list per setting, covering every cloud: entries for other clouds are simply never matched. */
 const DEFAULT_SETTINGS: LabsSettings = {
-  trustedRegions: ["eu-west-1", "eu-west-2", "us-east-1"],
-  approvedStorageClasses: ["STANDARD_IA", "INTELLIGENT_TIERING", "GLACIER_IR", "GLACIER", "DEEP_ARCHIVE"],
+  trustedRegions: [
+    // AWS
+    "eu-west-1",
+    "eu-west-2",
+    "us-east-1",
+    // Azure
+    "uksouth",
+    "ukwest",
+    "westeurope",
+    "northeurope",
+    "eastus",
+    // Google Cloud
+    "europe-west1",
+    "europe-west2",
+    "us-east1",
+  ],
+  approvedStorageClasses: [
+    // AWS
+    "STANDARD_IA",
+    "INTELLIGENT_TIERING",
+    "GLACIER_IR",
+    "GLACIER",
+    "DEEP_ARCHIVE",
+    // Azure access tiers
+    "COOL",
+    "COLD",
+    // Google Cloud
+    "NEARLINE",
+    "COLDLINE",
+    // Azure and Google Cloud
+    "ARCHIVE",
+  ],
   maxPresignedUrlSeconds: 3600,
 };
 
-const STORAGE_KEY = "ccc-labs:v1";
+// v2: templates became per-cloud and the default settings gained Azure and Google Cloud entries.
+const STORAGE_KEY = "ccc-labs:v2";
 
 interface Persisted {
-  templateId: string;
+  cloud: CloudId;
+  example: string;
   drafts: Record<string, string>;
   tlps: Tlp[];
   /** Pre-multi-select versions stored a single level. */
@@ -61,7 +94,8 @@ const splitList = (s: string) =>
 export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   const templates: LabsTemplate[] = useMemo(() => [...BUILT_IN_TEMPLATES, ...data.templates], [data.templates]);
 
-  const [templateId, setTemplateId] = useState(templates[0].id);
+  const [cloud, setCloud] = useState<CloudId>("aws");
+  const [example, setExample] = useState("hardened");
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [tlps, setTlps] = useState<Tlp[]>(["tlp-amber"]);
   const [settings, setSettings] = useState<LabsSettings>(DEFAULT_SETTINGS);
@@ -72,7 +106,8 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   // Restore the viewer's last session after hydration (localStorage isn't available during SSR).
   useEffect(() => {
     const p = loadPersisted();
-    if (p.templateId && templates.some((t) => t.id === p.templateId)) setTemplateId(p.templateId);
+    if (p.cloud && CLOUDS.some((c) => c.id === p.cloud)) setCloud(p.cloud);
+    if (p.example && templates.some((t) => t.example === p.example)) setExample(p.example);
     if (p.drafts) setDrafts(p.drafts);
     const savedTlps = (p.tlps ?? (p.tlp ? [p.tlp] : [])).filter((t) => ALL_TLPS.includes(t));
     if (savedTlps.length) setTlps(savedTlps);
@@ -81,8 +116,8 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   }, [templates]);
 
   useEffect(() => {
-    if (hydrated) savePersisted({ templateId, drafts, tlps, settings });
-  }, [hydrated, templateId, drafts, tlps, settings]);
+    if (hydrated) savePersisted({ cloud, example, drafts, tlps, settings });
+  }, [hydrated, cloud, example, drafts, tlps, settings]);
 
   /** Toggles one level; at least one level always stays selected. */
   const toggleTlp = (t: Tlp) =>
@@ -91,7 +126,14 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
       return next.length ? ALL_TLPS.filter((x) => next.includes(x)) : cur;
     });
 
-  const template = templates.find((t) => t.id === templateId) ?? templates[0];
+  const cloudTemplates = templates.filter((t) => t.cloud === cloud);
+  const template = cloudTemplates.find((t) => t.example === example) ?? cloudTemplates[0] ?? templates[0];
+  const templateId = template.id;
+  const cloudInfo = CLOUDS.find((c) => c.id === cloud)!;
+  const exampleOrder = (t: LabsTemplate) => {
+    const i = EXAMPLES.findIndex((e) => e.id === t.example);
+    return i < 0 ? EXAMPLES.length : i;
+  };
   const code = drafts[template.id] ?? template.code;
   const edited = drafts[template.id] !== undefined && drafts[template.id] !== template.code;
 
@@ -123,14 +165,14 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   const reveal = useCallback((line: number) => editorRef.current?.revealLine(line), []);
 
   return (
-    <Layout title="Labs" description="Edit Terraform in your browser and see which CCC Object Storage controls it satisfies.">
+    <Layout title="Labs" description="Edit Terraform for AWS, Azure or Google Cloud in your browser and see which CCC Object Storage controls it satisfies.">
       <main className={styles.page}>
         <header className={styles.hero}>
           <p className={styles.eyebrow}>Labs · Experimental</p>
           <h1 className={styles.title}>Controls Playground</h1>
           <p className={styles.lede}>
-            Edit an AWS S3 Terraform template and see, live, which <strong>{data.service.title}</strong> controls it satisfies. Everything runs in
-            your browser: nothing you type leaves this page.
+            Edit a Terraform template for Amazon S3, Azure Blob Storage or Google Cloud Storage and see, live, which{" "}
+            <strong>{data.service.title}</strong> controls it satisfies. Everything runs in your browser: nothing you type leaves this page.
           </p>
         </header>
 
@@ -145,11 +187,29 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
         </aside>
 
         <div className={styles.toolbar}>
+          <fieldset className={styles.field}>
+            <legend className={styles.fieldLabel}>Cloud</legend>
+            <div className={styles.segmented}>
+              {CLOUDS.map((c) => (
+                <button
+                  type="button"
+                  key={c.id}
+                  title={c.service}
+                  aria-pressed={cloud === c.id}
+                  className={`${styles.segment} ${styles.cloud} ${cloud === c.id ? styles.segmentActive : ""}`}
+                  onClick={() => setCloud(c.id)}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Starter template</span>
-            <select value={template.id} onChange={(e) => setTemplateId(e.target.value)} className={styles.select}>
-              {templates.map((t) => (
-                <option key={t.id} value={t.id}>
+            <span className={styles.fieldLabel}>Example</span>
+            <select value={template.example} onChange={(e) => setExample(e.target.value)} className={styles.select}>
+              {[...cloudTemplates].sort((a, b) => exampleOrder(a) - exampleOrder(b)).map((t) => (
+                <option key={t.id} value={t.example}>
                   {t.title}
                   {drafts[t.id] !== undefined && drafts[t.id] !== t.code ? " (edited)" : ""}
                 </option>
@@ -177,9 +237,9 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
 
           {buckets.length > 1 && (
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>Bucket in scope</span>
+              <span className={styles.fieldLabel}>Storage in scope</span>
               <select value={bucket} onChange={(e) => setBucket(e.target.value)} className={styles.select}>
-                <option value="">All buckets ({buckets.length})</option>
+                <option value="">All ({buckets.length})</option>
                 {buckets.map((b) => (
                   <option key={b} value={b}>
                     {b}
@@ -194,7 +254,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
           <section className={styles.editorPane} aria-labelledby="labs-editor-title">
             <div className={styles.paneHead}>
               <h2 id="labs-editor-title" className={styles.paneTitle}>
-                main.tf
+                main.tf <span className={styles.paneMeta}>· {cloudInfo.service}</span>
               </h2>
               <div className={styles.paneActions}>
                 {template.sourceUrl && (
@@ -225,7 +285,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
               </summary>
               <div className={styles.settingsBody}>
                 <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Trusted regions (CCC.Core.CN06, CN10)</span>
+                  <span className={styles.fieldLabel}>Trusted regions and locations, any cloud (CCC.Core.CN06, CN10)</span>
                   <input
                     className={styles.input}
                     defaultValue={settings.trustedRegions.join(", ")}
@@ -234,7 +294,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
                   />
                 </label>
                 <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Approved storage classes (CCC.ObjStor.CN10)</span>
+                  <span className={styles.fieldLabel}>Approved storage classes and tiers, any cloud (CCC.ObjStor.CN10)</span>
                   <input
                     className={styles.input}
                     defaultValue={settings.approvedStorageClasses.join(", ")}
@@ -243,7 +303,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
                   />
                 </label>
                 <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Max pre-signed URL lifetime, seconds (CCC.ObjStor.CN08)</span>
+                  <span className={styles.fieldLabel}>Max pre-signed URL / SAS lifetime, seconds (CCC.ObjStor.CN08)</span>
                   <input
                     className={styles.input}
                     type="number"
@@ -270,7 +330,9 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
               </h2>
               {summary && (
                 <span className={styles.paneMeta}>
-                  {summary.resourceCount} resources · {summary.bucketAddresses.length} bucket{summary.bucketAddresses.length === 1 ? "" : "s"}
+                  {summary.resourceCount} resources · {summary.bucketAddresses.length}{" "}
+                  {summary.clouds.length === 1 && summary.clouds[0] === "azure" ? "storage account" : "bucket"}
+                  {summary.bucketAddresses.length === 1 ? "" : "s"}
                 </span>
               )}
             </div>

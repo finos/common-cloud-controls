@@ -1,5 +1,7 @@
 /** Shared types for the Labs playground. Data is produced at build time by src/plugin/labs. */
 
+export type CloudId = "aws" | "azure" | "gcp";
+
 export type Tlp = "tlp-clear" | "tlp-green" | "tlp-amber" | "tlp-red";
 
 export interface LabsRequirement {
@@ -22,7 +24,11 @@ export interface LabsControl {
 }
 
 export interface LabsTemplate {
+  /** Unique id, conventionally `<cloud>-<example>`. */
   id: string;
+  cloud: CloudId;
+  /** The example this template belongs to; each example has a variant per cloud. */
+  example: string;
   title: string;
   description: string;
   code: string;
@@ -49,7 +55,7 @@ export interface Evidence {
   message: string;
   /** 1-based line in the editor the evidence points at. */
   line?: number;
-  /** Terraform address of the bucket this evidence is about, when per-bucket. */
+  /** Terraform address of the bucket or storage account this evidence is about, or the cloud for template-wide checks. */
   subject?: string;
 }
 

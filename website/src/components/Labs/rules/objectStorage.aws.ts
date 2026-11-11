@@ -15,7 +15,8 @@
 
 import type { HclBlock, HclValue } from "../hcl/parser";
 import { readPolicy, references, subBlocks, type PolicyStatement, type TfModel, type TfResource } from "../terraform/model";
-import type { Evidence, LabsSettings } from "../types";
+import type { LabsSettings } from "../types";
+import { fail, first, formatSeconds, isApprovedClass, isTrusted, locationsTrusted, na, pass, ruleFactories, warn, type BaseView, type ProviderRules } from "./common";
 
 // ── Per-bucket view of the template ───────────────────────────────────────────
 
@@ -41,18 +42,11 @@ export interface BucketView {
   region?: string;
 }
 
-export interface TemplateView {
-  model: TfModel;
-  buckets: BucketView[];
+export interface TemplateView extends BaseView<BucketView> {
   trails: TfResource[];
-  settings: LabsSettings;
 }
 
 const PAB_FLAGS = ["block_public_acls", "block_public_policy", "ignore_public_acls", "restrict_public_buckets"] as const;
-
-function first<T>(xs: T[]): T | undefined {
-  return xs[0];
-}
 
 export function buildTemplateView(model: TfModel, settings: LabsSettings): TemplateView {
   const accountPab = first(model.ofType("aws_s3_account_public_access_block"));
@@ -189,18 +183,7 @@ const PUBLIC_ACLS = ["public-read", "public-read-write", "authenticated-read"];
 
 // ── Rules ─────────────────────────────────────────────────────────────────────
 
-type BucketRule = (b: BucketView, t: TemplateView) => Evidence;
-type TemplateRule = (t: TemplateView) => Evidence;
-
-export type Rule = { scope: "bucket"; check: BucketRule } | { scope: "template"; check: TemplateRule };
-
-const bucket = (check: BucketRule): Rule => ({ scope: "bucket", check });
-const template = (check: TemplateRule): Rule => ({ scope: "template", check });
-
-const pass = (message: string, line?: number): Evidence => ({ status: "pass", message, line });
-const fail = (message: string, line?: number): Evidence => ({ status: "fail", message, line });
-const warn = (message: string, line?: number): Evidence => ({ status: "warn", message, line });
-const na = (message: string, line?: number): Evidence => ({ status: "na", message, line });
+const { bucket, template } = ruleFactories<BucketView, TemplateView>();
 
 // Encryption in transit -------------------------------------------------------
 
@@ -258,14 +241,25 @@ const adminActionsLogged = template((t) => {
   return pass(`${tr.address} records management events (who changed what, when, and the result).`, tr.block.line);
 });
 
-function dataEventsLogged(kind: "write" | "read"): Rule {
+/** True when a data_resource's values cover this bucket: all buckets ("arn:aws:s3"), or this bucket by reference or name. */
+function selectsBucket(b: BucketView, t: TemplateView, values: HclValue | undefined): boolean {
+  const resolved = t.model.resolve(values);
+  const items = resolved?.t === "list" ? resolved.items : resolved ? [resolved] : [];
+  return items.some((v) => {
+    const s = t.model.str(v) ?? (v.t === "str" ? v.v : "");
+    return /^arn:aws:s3(:::)?\/?$/.test(s) || references(v, b.res.address) || (!!b.bucketName && s.includes(`:::${b.bucketName}/`));
+  });
+}
+
+function dataEventsLogged(kind: "write" | "read") {
   return bucket((b, t) => {
     if (b.logging) return pass("S3 server access logging is enabled (records requester, time, operation and status).", b.logging.line);
     for (const tr of t.trails) {
       for (const s of subBlocks(tr.block, "event_selector")) {
         const rw = t.model.str(s.attrs.read_write_type?.value) ?? "All";
         const covers = rw === "All" || (kind === "write" ? rw === "WriteOnly" : rw === "ReadOnly");
-        if (covers && subBlocks(s, "data_resource").some((d) => t.model.str(d.attrs.type?.value) === "AWS::S3::Object")) {
+        const selected = subBlocks(s, "data_resource").some((d) => t.model.str(d.attrs.type?.value) === "AWS::S3::Object" && selectsBucket(b, t, d.attrs.values?.value));
+        if (covers && selected) {
           return pass(`${tr.address} captures S3 object ${kind} data events.`, s.line);
         }
       }
@@ -379,8 +373,7 @@ const presignedUrlExpiry = bucket((b, t) => {
 
 const approvedStorageClasses = bucket((b, t) => {
   if (!b.transitions.length) return na("No lifecycle transitions are configured.");
-  const approved = t.settings.approvedStorageClasses;
-  const bad = b.transitions.find((x) => !x.value || !approved.includes(x.value));
+  const bad = b.transitions.find((x) => !x.value || !isApprovedClass(x.value, t.settings));
   if (bad) return fail(`Lifecycle transitions to ${bad.value ?? "a computed storage class"}, which isn't an approved tier.`, bad.line);
   return pass(`All lifecycle transitions target approved tiers (${[...new Set(b.transitions.map((x) => x.value))].join(", ")}).`, b.transitions[0].line);
 });
@@ -390,45 +383,27 @@ const approvedStorageClasses = bucket((b, t) => {
 const regionTrusted = bucket((b, t) => {
   const { line } = t.model.awsRegion();
   if (!b.region) return warn("The region is unknown or computed at apply time (e.g. from an environment variable).", line ?? b.res.block.line);
-  if (t.settings.trustedRegions.includes(b.region)) return pass(`Deployed to ${b.region}, which is in the trusted list.`, line);
+  if (isTrusted(b.region, t.settings)) return pass(`Deployed to ${b.region}, which is in the trusted list.`, line);
   return fail(`Deployed to ${b.region}, which isn't in the trusted list (${t.settings.trustedRegions.join(", ") || "empty"}).`, line);
 });
 
-const childRegionsTrusted = template((t) => {
-  const aws = t.model.resources.filter((r) => r.mode === "resource" && r.type.startsWith("aws_"));
-  if (!aws.length) return na("No AWS resources in this template.");
-  const unknown = aws.filter((r) => !t.model.regionFor(r));
-  const outside = aws.filter((r) => {
-    const reg = t.model.regionFor(r);
-    return reg && !t.settings.trustedRegions.includes(reg);
-  });
-  if (outside.length) return fail(`${outside[0].address} deploys to ${t.model.regionFor(outside[0])}, outside the trusted list.`, outside[0].block.line);
-  if (unknown.length) return warn(`The region for ${unknown.length} resource(s) is unknown or computed.`, unknown[0].block.line);
-  return pass(`All ${aws.length} AWS resources deploy to trusted regions.`);
-});
+const childRegionsTrusted = template((t) => locationsTrusted(t, "aws_", "AWS", (r) => t.model.regionFor(r)));
 
 const replicationInPerimeter = bucket((b, t) => {
   if (!b.replicationDestinations.length) return na("No replication is configured.");
   for (const d of b.replicationDestinations) {
     const target = t.buckets.find((x) => references(d.value, x.res.address));
     if (!target) return warn("The replication destination isn't defined in this template, so its location can't be checked.", d.line);
-    if (!target.region || !t.settings.trustedRegions.includes(target.region)) {
+    if (!target.region || !isTrusted(target.region, t.settings)) {
       return fail(`Replicates to ${target.res.address} in ${target.region ?? "an unknown region"}, outside the trusted list.`, d.line);
     }
   }
   return pass("All replication destinations are in trusted regions.", b.replicationDestinations[0].line);
 });
 
-function formatSeconds(s: number): string {
-  if (s % 86400 === 0) return `${s / 86400}d`;
-  if (s % 3600 === 0) return `${s / 3600}h`;
-  if (s % 60 === 0) return `${s / 60}m`;
-  return `${s}s`;
-}
-
 // ── Registry ──────────────────────────────────────────────────────────────────
 
-export const RULES: Record<string, Rule> = {
+const RULES: Record<string, ReturnType<typeof bucket>> = {
   // CCC.Core (imported by CCC.ObjStor)
   "CCC.Core.CN01.AR01": minimumTls13,
   "CCC.Core.CN01.AR03": denyInsecureTransport,
@@ -463,4 +438,12 @@ export const RULES: Record<string, Rule> = {
   "CCC.ObjStor.CN09.AR01": publicAccessBlock,
   "CCC.ObjStor.CN09.AR02": publicAccessBlock,
   "CCC.ObjStor.CN10.AR01": approvedStorageClasses,
+};
+
+export const aws: ProviderRules<BucketView, TemplateView> = {
+  id: "aws",
+  label: "AWS",
+  prefix: "aws_",
+  build: buildTemplateView,
+  rules: RULES,
 };

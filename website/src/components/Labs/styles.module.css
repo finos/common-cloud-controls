@@ -209,6 +209,10 @@
   color: #fff;
 }
 
+.segmentActive.cloud {
+  background: var(--gf-color-accent);
+}
+
 /* FIRST TLP 2.0 colours, used only for the active selection. */
 .segmentActive.tlpclear {
   background: #475569;

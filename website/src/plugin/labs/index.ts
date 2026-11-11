@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import * as yaml from "js-yaml";
 import type { LoadContext, Plugin } from "@docusaurus/types";
-import type { LabsControl, LabsData, LabsTemplate } from "../../components/Labs/types";
+import type { CloudId, LabsControl, LabsData, LabsTemplate } from "../../components/Labs/types";
 
 /**
  * Builds the data for the /labs playground straight from the catalog source in
@@ -15,9 +15,70 @@ const GITHUB_BLOB = "https://github.com/finos/common-cloud-controls/blob/main/";
 const SERVICE_CATALOG = "catalogs/storage/object";
 const CORE_CATALOG = "catalogs/core/core";
 const FEATURE_DIRS = ["modules/features/object-storage", "modules/features/generic"];
-const FIXTURE_FILES = [
-  "modules/cloud-api-test/terraform/aws/modules/object-storage/main.tf",
-  "modules/cloud-api-test/terraform/aws/modules/logging/main.tf",
+const FIXTURE_ROOT = "modules/cloud-api-test/terraform";
+
+/**
+ * The behavioural-test fixtures for each cloud, flattened into one file. The module
+ * inputs are declared as variables (with the root module's defaults) so the
+ * playground can resolve locations, and module wiring is inlined where needed.
+ */
+const FIXTURES: { cloud: CloudId; files: string[]; header: string; rewrite?: [RegExp, string][]; service: string }[] = [
+  {
+    cloud: "aws",
+    service: "object storage + logging modules",
+    files: ["modules/object-storage/main.tf", "modules/logging/main.tf"],
+    // In the root module, the logging module receives the object-storage bucket's ARN.
+    rewrite: [[/var\.bucket_arn\b/g, "aws_s3_bucket.main.arn"]],
+    header: `provider "aws" {
+  region = var.region
+}
+
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
+`,
+  },
+  {
+    cloud: "azure",
+    service: "object storage + logging modules",
+    files: ["modules/object-storage/main.tf", "modules/logging/main.tf"],
+    header: `provider "azurerm" {
+  features {}
+}
+
+variable "location" {
+  type    = string
+  default = "westus2"
+}
+
+variable "resource_group" {
+  type    = string
+  default = "finos-ccc-integration"
+}
+`,
+    // In the root module, the logging module receives the object-storage account's id.
+    rewrite: [[/var\.storage_account_id/g,"azurerm_storage_account.main.id"]],
+  },
+  {
+    cloud: "gcp",
+    service: "object storage module",
+    files: ["modules/object-storage/main.tf"],
+    header: `provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+
+variable "project_id" {
+  type = string
+}
+
+variable "region" {
+  type    = string
+  default = "us-central1"
+}
+`,
+  },
 ];
 
 interface RawRequirement {
@@ -107,20 +168,27 @@ export function buildLabsData(repoRoot: string): LabsData {
     ...serviceControls.map((c) => toLabsControl(c, metadata.id, serviceFile, features)),
   ];
 
-  const fixtureParts = FIXTURE_FILES.filter((f) => fs.existsSync(path.join(repoRoot, f))).map(
-    (f) => `# ── ${f} ──\n\n${fs.readFileSync(path.join(repoRoot, f), "utf8").replace(/\r\n?/g, "\n").trim()}\n`,
-  );
-  const templates: LabsTemplate[] = fixtureParts.length
-    ? [
-        {
-          id: "ccc-fixture",
-          title: "CCC integration fixture",
-          description: "The AWS Terraform the CCC project uses to provision its behavioural-test environment (object storage + logging modules).",
-          code: `provider "aws" {\n  region = var.region\n}\n\nvariable "region" {\n  type    = string\n  default = "us-east-1"\n}\n\n${fixtureParts.join("\n")}`,
-          sourceUrl: GITHUB_BLOB + "modules/cloud-api-test/terraform/aws",
-        },
-      ]
-    : [];
+  const templates: LabsTemplate[] = [];
+  for (const fx of FIXTURES) {
+    const parts = fx.files
+      .map((f) => `${FIXTURE_ROOT}/${fx.cloud}/${f}`)
+      .filter((f) => fs.existsSync(path.join(repoRoot, f)))
+      .map((f) => {
+        let text = fs.readFileSync(path.join(repoRoot, f), "utf8").replace(/\r\n?/g, "\n").trim();
+        for (const [re, to] of fx.rewrite ?? []) text = text.replace(re, to);
+        return `# ── ${f} ──\n\n${text}\n`;
+      });
+    if (!parts.length) continue;
+    templates.push({
+      id: `${fx.cloud}-fixture`,
+      cloud: fx.cloud,
+      example: "fixture",
+      title: "CCC integration fixture",
+      description: `The Terraform the CCC project uses to provision its behavioural-test environment on this cloud (${fx.service}).`,
+      code: `${fx.header}\n${parts.join("\n")}`,
+      sourceUrl: GITHUB_BLOB + `${FIXTURE_ROOT}/${fx.cloud}`,
+    });
+  }
 
   return {
     service: { id: metadata.id, title: metadata.title, description: metadata.description.replace(/\s+/g, " ").trim() },
@@ -138,7 +206,7 @@ export default function pluginLabs(context: LoadContext): Plugin<LabsData> {
       return [
         path.join(repoRoot, SERVICE_CATALOG, "*.yaml"),
         path.join(repoRoot, CORE_CATALOG, "controls.yaml"),
-        ...FIXTURE_FILES.map((f) => path.join(repoRoot, f)),
+        ...FIXTURES.flatMap((fx) => fx.files.map((f) => path.join(repoRoot, FIXTURE_ROOT, fx.cloud, f))),
       ];
     },
 
