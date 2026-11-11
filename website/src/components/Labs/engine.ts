@@ -23,13 +23,14 @@ export type EvaluationOutcome =
   | { ok: false; error: string; line?: number };
 
 export interface EvaluationOptions {
-  tlp: Tlp;
+  /** Data classifications in scope; a requirement applies if it lists any of them. */
+  tlps: Tlp[];
   settings: LabsSettings;
   /** Restrict per-bucket rules to this bucket address (e.g. aws_s3_bucket.main). */
   bucket?: string;
 }
 
-export function evaluate(src: string, controls: LabsControl[], { tlp, settings, bucket }: EvaluationOptions): EvaluationOutcome {
+export function evaluate(src: string, controls: LabsControl[], { tlps, settings, bucket }: EvaluationOptions): EvaluationOutcome {
   let model;
   try {
     model = loadModel(src);
@@ -47,7 +48,7 @@ export function evaluate(src: string, controls: LabsControl[], { tlp, settings, 
   for (const control of controls) {
     const reqs: RequirementResult[] = [];
     for (const requirement of control.requirements) {
-      if (!requirement.applicability.includes(tlp)) continue;
+      if (!requirement.applicability.some((a) => tlps.includes(a as Tlp))) continue;
       const rule = RULES[requirement.id];
       let evidence: Evidence[];
       if (!rule) {

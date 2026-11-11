@@ -210,6 +210,9 @@
 }
 
 /* FIRST TLP 2.0 colours, used only for the active selection. */
+.segmentActive.tlpall {
+  background: var(--gf-color-accent);
+}
 .segmentActive.tlpclear {
   background: #475569;
 }

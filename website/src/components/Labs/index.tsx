@@ -26,9 +26,13 @@ const STORAGE_KEY = "ccc-labs:v1";
 interface Persisted {
   templateId: string;
   drafts: Record<string, string>;
-  tlp: Tlp;
+  tlps: Tlp[];
+  /** Pre-multi-select versions stored a single level. */
+  tlp?: Tlp;
   settings: LabsSettings;
 }
+
+const ALL_TLPS = TLP_LEVELS.map((l) => l.value);
 
 /** Per-viewer convenience only: the page works the same when storage is unavailable. */
 function loadPersisted(): Partial<Persisted> {
@@ -59,7 +63,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
 
   const [templateId, setTemplateId] = useState(templates[0].id);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
-  const [tlp, setTlp] = useState<Tlp>("tlp-amber");
+  const [tlps, setTlps] = useState<Tlp[]>(["tlp-amber"]);
   const [settings, setSettings] = useState<LabsSettings>(DEFAULT_SETTINGS);
   const [bucket, setBucket] = useState<string>("");
   const [hydrated, setHydrated] = useState(false);
@@ -70,14 +74,23 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
     const p = loadPersisted();
     if (p.templateId && templates.some((t) => t.id === p.templateId)) setTemplateId(p.templateId);
     if (p.drafts) setDrafts(p.drafts);
-    if (p.tlp) setTlp(p.tlp);
+    const savedTlps = (p.tlps ?? (p.tlp ? [p.tlp] : [])).filter((t) => ALL_TLPS.includes(t));
+    if (savedTlps.length) setTlps(savedTlps);
     if (p.settings) setSettings({ ...DEFAULT_SETTINGS, ...p.settings });
     setHydrated(true);
   }, [templates]);
 
   useEffect(() => {
-    if (hydrated) savePersisted({ templateId, drafts, tlp, settings });
-  }, [hydrated, templateId, drafts, tlp, settings]);
+    if (hydrated) savePersisted({ templateId, drafts, tlps, settings });
+  }, [hydrated, templateId, drafts, tlps, settings]);
+
+  const allTlps = tlps.length === ALL_TLPS.length;
+  /** Toggles one level; at least one level always stays selected. */
+  const toggleTlp = (t: Tlp) =>
+    setTlps((cur) => {
+      const next = cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t];
+      return next.length ? ALL_TLPS.filter((x) => next.includes(x)) : cur;
+    });
 
   const template = templates.find((t) => t.id === templateId) ?? templates[0];
   const code = drafts[template.id] ?? template.code;
@@ -93,8 +106,8 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   // Evaluation is cheap, but deferring keeps typing smooth on large templates.
   const deferredCode = useDeferredValue(code);
   const outcome = useMemo(
-    () => evaluate(deferredCode, data.controls, { tlp, settings, bucket: bucket || undefined }),
-    [deferredCode, data.controls, tlp, settings, bucket],
+    () => evaluate(deferredCode, data.controls, { tlps, settings, bucket: bucket || undefined }),
+    [deferredCode, data.controls, tlps, settings, bucket],
   );
 
   // Keep showing the last good results while the template has a syntax error.
@@ -148,14 +161,23 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
           <fieldset className={styles.field}>
             <legend className={styles.fieldLabel}>Data classification</legend>
             <div className={styles.segmented}>
+              <button
+                type="button"
+                title="Every classification"
+                aria-pressed={allTlps}
+                className={`${styles.segment} ${styles.tlpall} ${allTlps ? styles.segmentActive : ""}`}
+                onClick={() => setTlps(ALL_TLPS)}
+              >
+                ALL
+              </button>
               {TLP_LEVELS.map((l) => (
                 <button
                   type="button"
                   key={l.value}
-                  title={l.hint}
-                  aria-pressed={tlp === l.value}
-                  className={`${styles.segment} ${styles[l.value.replace("tlp-", "tlp")]} ${tlp === l.value ? styles.segmentActive : ""}`}
-                  onClick={() => setTlp(l.value)}
+                  title={`${l.hint}. Click to add or remove.`}
+                  aria-pressed={tlps.includes(l.value)}
+                  className={`${styles.segment} ${styles[l.value.replace("tlp-", "tlp")]} ${tlps.includes(l.value) ? styles.segmentActive : ""}`}
+                  onClick={() => toggleTlp(l.value)}
                 >
                   {l.label}
                 </button>

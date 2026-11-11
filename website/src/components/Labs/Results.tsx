@@ -105,7 +105,7 @@ function ControlCard({ result, filter, onReveal, defaultOpen }: { result: Contro
                 </span>
               ))
               .reduce<React.ReactNode[]>((acc, el, i) => (i ? [...acc, ", ", el] : [el]), [])}{" "}
-            hidden by the filter. The badge shows the whole control.
+            hidden by the “{FILTERS.find((f) => f.key === filter)?.label}” filter.
           </p>
         )}
         <ul className={styles.requirementList}>
@@ -156,7 +156,7 @@ export default function Results({ summary, onReveal, stale }: { summary: Evaluat
         )}
       </div>
       <p className={styles.barCaption}>
-        {total} assessment requirements across {results.length} controls apply at this TLP level.
+        {total} assessment requirements across {results.length} controls apply at the selected data classification.
       </p>
 
       <div className={styles.filters} role="group" aria-label="Filter requirements">
