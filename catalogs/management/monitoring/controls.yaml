@@ -353,3 +353,61 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH06
+  - id: CCC.Monitor.CN11
+    group: Observability
+    title: Validate ML-Based Detection Before Reliance
+    objective: |
+      Ensure that detection based on machine learning is validated on labeled
+      data before it is relied on to satisfy a monitoring control, so that alerts
+      are not trusted on the strength of performance scores that do not transfer
+      to the monitored telemetry.
+    assessment-requirements:
+      - id: CCC.Monitor.CN11.AR01
+        text: |
+          When a detector based on machine learning is used to satisfy a
+          monitoring control, the detector MUST be validated against labeled data
+          with threshold-independent metrics before it is relied on.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN11.AR02
+        text: |
+          When a detector based on machine learning is validated for use with a
+          monitoring control, the reported performance MUST state the anomaly
+          prevalence of the evaluation data.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN11.AR03
+        text: |
+          When a detector based on machine learning is validated for use with a
+          monitoring control, the reported performance MUST be compared against
+          the predict-all baseline, which flags every data point as anomalous, at
+          the anomaly prevalence of the evaluation data.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN11.AR04
+        text: |
+          When the distribution of the telemetry evaluated by a detector based on
+          machine learning changes materially, the validation of that detector
+          MUST be repeated.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitor.TH11

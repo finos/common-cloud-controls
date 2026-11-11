@@ -257,3 +257,21 @@ threats:
           - reference-id: CCC.Monitor.CP14
             strength: 0 # Not yet specified
             remarks: Cross-Account Monitoring Scope
+  - id: CCC.Monitor.TH11
+    group: Observability
+    title: Monitored Events are Missed by Unvalidated Detection Tooling
+    description: |
+      An alert condition may rely on a detector based on machine learning whose
+      performance has not been measured on labeled data. Operating-point metrics
+      such as precision and F1 score change with the anomaly prevalence of the
+      evaluation data, so scores from vendor benchmarks do not transfer to
+      production rates, and a detector can score acceptably while discriminating
+      worse than chance. Events the detector is relied on to detect then pass
+      without an alert. This impacts the availability of security and
+      operational information and delays incident response.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP17
+            strength: 0 # Not yet specified
+            remarks: Alerting
