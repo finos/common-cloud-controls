@@ -1,6 +1,6 @@
-# What to take from these journeys
+# What to take from the case study
 
-RBC and Morgan Stanley are approaching CCC from different directions. One is already using it in the review process for production deployments. The other is contributing Kubernetes requirements, an AKS blueprint and tests to FINOS, giving other firms a starting point they can use and improve. Both efforts are still developing.
+The RBC and Morgan Stanley case study illustrates the value of a shared approach to cloud controls: firms can apply common requirements across providers while contributing practical experience for others to build on.
 
 Both are chasing the same things: reviews that take less time, fewer gaps when the same control looks different on each cloud, and evidence that follows the control rather than a pile of Azure Policy and AWS Config.
 

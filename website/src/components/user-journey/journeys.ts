@@ -19,15 +19,9 @@ export const userJourneyItems: UserJourneyItem[] = [
     to: "/users/smaller-organizations",
   },
   {
-    slug: "morgan-stanley",
-    title: "Morgan Stanley",
-    logo: "/img/firms/MorganStanley.svg",
-    to: "/users/Morgan-Stanley",
-  },
-  {
-    slug: "rbc",
-    title: "RBC",
-    logo: "/img/firms/RBC_Royal_Bank.svg",
-    to: "/users/RBC",
+    slug: "rbc-morgan-stanley",
+    title: "RBC and Morgan Stanley",
+    logo: "https://github.com/user-attachments/assets/b2c275da-d858-4b39-a81f-5c889dc648f6",
+    to: "/users/rbc-morgan-stanley",
   },
 ];

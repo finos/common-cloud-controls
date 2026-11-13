@@ -72,8 +72,7 @@ const config: Config = {
           items: [
             { to: '/users/financial-institutions', label: 'Financial Institutions' },
             { to: '/users/smaller-organizations', label: 'Smaller Organizations' },
-            { to: '/users/Morgan-Stanley', label: 'Morgan Stanley' },
-            { to: '/users/RBC', label: 'RBC' },
+            { to: '/users/rbc-morgan-stanley', label: 'RBC and Morgan Stanley' },
           ],
         },
         { to: '/architecture', label: 'Architecture', position: 'right' },
