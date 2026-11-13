@@ -1,6 +1,6 @@
-import React, { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Layout from "@theme/Layout";
-import { RotateCcw, Settings2, Info } from "lucide-react";
+import { RotateCcw, Settings2, Info, Play } from "lucide-react";
 import Editor, { type EditorHandle } from "./Editor";
 import Results from "./Results";
 import { evaluate, type EvaluationSummary } from "./engine";
@@ -100,6 +100,8 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   const [tlps, setTlps] = useState<Tlp[]>(["tlp-amber"]);
   const [settings, setSettings] = useState<LabsSettings>(DEFAULT_SETTINGS);
   const [bucket, setBucket] = useState<string>("");
+  /** The code last applied (evaluated) for each template; templates without an entry use their built-in code. */
+  const [applied, setApplied] = useState<Record<string, string>>({});
   const [hydrated, setHydrated] = useState(false);
   const editorRef = useRef<EditorHandle>(null);
 
@@ -108,7 +110,11 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
     const p = loadPersisted();
     if (p.cloud && CLOUDS.some((c) => c.id === p.cloud)) setCloud(p.cloud);
     if (p.example && templates.some((t) => t.example === p.example)) setExample(p.example);
-    if (p.drafts) setDrafts(p.drafts);
+    if (p.drafts) {
+      setDrafts(p.drafts);
+      // Saved drafts are evaluated on load, as if they had just been applied.
+      setApplied(p.drafts);
+    }
     const savedTlps = (p.tlps ?? (p.tlp ? [p.tlp] : [])).filter((t) => ALL_TLPS.includes(t));
     if (savedTlps.length) setTlps(savedTlps);
     if (p.settings) setSettings({ ...DEFAULT_SETTINGS, ...p.settings });
@@ -138,17 +144,22 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   const edited = drafts[template.id] !== undefined && drafts[template.id] !== template.code;
 
   const setCode = useCallback((v: string) => setDrafts((d) => ({ ...d, [templateId]: v })), [templateId]);
-  const resetTemplate = () =>
-    setDrafts((d) => {
-      const { [templateId]: _, ...rest } = d;
-      return rest;
-    });
+  const without = (d: Record<string, string>) => {
+    const { [templateId]: _, ...rest } = d;
+    return rest;
+  };
+  const resetTemplate = () => {
+    setDrafts(without);
+    setApplied(without);
+  };
 
-  // Evaluation is cheap, but deferring keeps typing smooth on large templates.
-  const deferredCode = useDeferredValue(code);
+  // Results reflect the applied code only; edits are re-evaluated when the user applies them.
+  const appliedCode = applied[templateId] ?? template.code;
+  const dirty = code !== appliedCode;
+  const apply = useCallback(() => setApplied((a) => ({ ...a, [templateId]: code })), [templateId, code]);
   const outcome = useMemo(
-    () => evaluate(deferredCode, data.controls, { tlps, settings, bucket: bucket || undefined }),
-    [deferredCode, data.controls, tlps, settings, bucket],
+    () => evaluate(appliedCode, data.controls, { tlps, settings, bucket: bucket || undefined }),
+    [appliedCode, data.controls, tlps, settings, bucket],
   );
 
   // Keep showing the last good results while the template has a syntax error.
@@ -171,7 +182,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
           <p className={styles.eyebrow}>Labs · Experimental</p>
           <h1 className={styles.title}>Controls Playground</h1>
           <p className={styles.lede}>
-            Edit a Terraform template for Amazon S3, Azure Blob Storage or Google Cloud Storage and see, live, which{" "}
+            Edit a Terraform template for Amazon S3, Azure Blob Storage or Google Cloud Storage, apply your changes, and see which{" "}
             <strong>{data.service.title}</strong> controls it satisfies. Everything runs in your browser: nothing you type leaves this page.
           </p>
         </header>
@@ -262,15 +273,19 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
                     View source
                   </a>
                 )}
-                <button type="button" className={styles.ghostButton} onClick={resetTemplate} disabled={!edited}>
+                <button type="button" className={styles.ghostButton} onClick={resetTemplate} disabled={!edited && !dirty}>
                   <RotateCcw size={14} aria-hidden="true" /> Reset
+                </button>
+                <button type="button" className={styles.applyButton} onClick={apply} disabled={!dirty} title="Re-evaluate the template (Ctrl+Enter)">
+                  <Play size={14} aria-hidden="true" /> Apply
                 </button>
               </div>
             </div>
             <p className={styles.templateDesc}>{template.description}</p>
-            <Editor ref={editorRef} value={code} onChange={setCode} errorLine={error?.line} label={`Terraform for ${template.title}`} />
+            <Editor ref={editorRef} value={code} onChange={setCode} onApply={apply} errorLine={dirty ? undefined : error?.line} label={`Terraform for ${template.title}`} />
             <p id="labs-editor-help" className={styles.editorHelp}>
-              Tab indents. Press Esc then Tab to move focus out of the editor. Your edits are kept in this browser only.
+              Press Apply or Ctrl+Enter (⌘+Enter on Mac) to re-evaluate. Tab indents; press Esc then Tab to move focus out of the editor. Your
+              edits are kept in this browser only.
             </p>
             {error && (
               <div className={styles.errorBox} role="alert">
@@ -337,7 +352,17 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
               )}
             </div>
             {summary ? (
-              <Results summary={summary} onReveal={reveal} stale={!!error || deferredCode !== code} />
+              <>
+                {dirty && (
+                  <div className={styles.pendingNote} role="status">
+                    <span>The template has changes that haven't been applied. These results are for the last applied version.</span>
+                    <button type="button" className={styles.applyButton} onClick={apply}>
+                      <Play size={14} aria-hidden="true" /> Apply
+                    </button>
+                  </div>
+                )}
+                <Results summary={summary} onReveal={reveal} stale={!!error || dirty} />
+              </>
             ) : (
               <p className={styles.empty}>Fix the syntax error to see results.</p>
             )}

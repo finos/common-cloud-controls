@@ -10,6 +10,8 @@ export interface EditorHandle {
 interface EditorProps {
   value: string;
   onChange(value: string): void;
+  /** Called on Ctrl+Enter / Cmd+Enter. */
+  onApply?(): void;
   errorLine?: number;
   label: string;
 }
@@ -33,7 +35,7 @@ const HL_CLASSES = {
  * syntax-highlighted <pre>, so it needs no third-party editor dependency and
  * keeps native undo, selection, IME and accessibility behaviour.
  */
-const Editor = forwardRef<EditorHandle, EditorProps>(function Editor({ value, onChange, errorLine, label }, ref) {
+const Editor = forwardRef<EditorHandle, EditorProps>(function Editor({ value, onChange, onApply, errorLine, label }, ref) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [flashLine, setFlashLine] = useState<number | null>(null);
@@ -72,6 +74,11 @@ const Editor = forwardRef<EditorHandle, EditorProps>(function Editor({ value, on
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        onApply?.();
+        return;
+      }
       // Tab indents; Esc then Tab moves focus out of the editor as usual.
       if (e.key === "Escape") {
         escapePressed.current = true;
@@ -100,7 +107,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>(function Editor({ value, on
       }
       escapePressed.current = false;
     },
-    [onChange, value],
+    [onApply, onChange, value],
   );
 
   return (
