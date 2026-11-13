@@ -49,7 +49,7 @@ const config: Config = {
     ],
   ],
 
-  plugins: ["./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts"],
+  plugins: ["./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts", "./src/plugin/labs/index.ts"],
 
   themeConfig: {
     style: "dark",
@@ -86,6 +86,7 @@ const config: Config = {
         },
         { to: '/validators', label: 'Validators', position: 'right' },
         { to: "/cfi", label: "Test Results", position: "right" },
+        { to: "/labs", label: "Labs", position: "right" },
         { to: "/contributors", label: "Contributors", position: "right" },
         {
           href: 'https://github.com/finos/common-cloud-controls',
@@ -137,6 +138,10 @@ const config: Config = {
         {
           label: "Test Results",
           to: "/cfi",
+        },
+        {
+          label: "Labs",
+          to: "/labs",
         },
         {
           label: "Contributors",
