@@ -1,0 +1,56 @@
+---
+title: Smaller Organizations
+description: How smaller organizations use FINOS CCC as a practical cloud security checklist
+hide_table_of_contents: true
+---
+
+import ContentPage from '@site/src/components/ContentPage';
+import styles from '@site/src/components/AdvanceAutomatedGovernence/styles.module.css';
+import MonoIcon from "../../components/MonoIcon";
+
+<ContentPage subtitle="Use Cases" title="Smaller Organizations" toc={toc}>
+<div className={styles.footerImage}>
+    <MonoIcon />
+</div>
+
+**Use Case:** A smaller organization may not have a dedicated cloud security team. Responsibility for cloud controls may belong to one security engineer, cloud architect, platform engineer, or compliance specialist.
+
+The organization needs a practical way to understand which controls matter without creating a complete cloud control framework from the beginning.
+
+## How FINOS CCC Can Be Used
+
+The person responsible for cloud security can use the catalogs as a structured checklist and learning resource.
+
+A typical workflow could include:
+
+    * Identify the cloud services used by the organization.
+    * Find the corresponding service capabilities in the catalogs.
+    * Review the associated threats to understand the main risks.
+    * Select the controls that are relevant to the organization's environment.
+    * Review available tests to determine whether the controls are implemented correctly.
+    * Prioritize controls based on risk, starting with identity, network exposure, encryption, logging, and data protection.
+    * Record controls that require manual verification or future improvement.
+
+**Example:** A small financial technology company runs an application using cloud storage, serverless functions, and a managed database.
+
+The person responsible for security uses FINOS CCC to:
+
+    * Understand the main threats affecting each service;
+    * Create an initial cloud security baseline;
+    * Identify configuration checks that can be automated;
+    * Verify existing cloud configurations using available tests;
+    * Create a prioritized remediation backlog;
+    * Provide evidence to customers, auditors, or business stakeholders.
+
+**Outcomes:** the organization gains:
+
+    * A consistent cloud security review process;
+    * Reusable mappings between FINOS CCC and internal controls;
+    * Better traceability between threats, controls, tests, and evidence;
+    * Reduced duplication across cloud platforms and security teams;
+    * Opportunities to automate control validation.
+
+<div className={styles.footerImage}>
+    <MonoIcon />
+</div>
+</ContentPage>

@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
 import { pipeline } from 'stream/promises';
 import type { Readable } from 'stream';
 import type { CFISourceDetails } from '../src/types/cfi';
 
-const execAsync = promisify(exec);
+const execAsync = promisify(execFile);
 
 const OUTPUT_DIR = path.join(__dirname, '../src/data');
 const GITHUB_API = 'https://api.github.com';
@@ -366,7 +366,7 @@ async function unzipArtifact(
         fs.mkdirSync(repoDir, { recursive: true });
  
         try {
-            await execAsync(`unzip -o "${zipPath}" -d "${extractDir}"`);
+            await execAsync('unzip', ['-o', zipPath, '-d', extractDir]);
             console.log(`📦 Extraction completed for ${cleanName}-${branchDirSuffix}`);
         } catch (error) {
             console.error(`❌ Extraction failed for ${cleanName}-${branchDirSuffix}:`, error);
@@ -417,7 +417,7 @@ async function downloadCFIArtifacts(): Promise<void> {
 
     // Check if unzip command is available
     try {
-        await execAsync('which unzip');
+        await execAsync('which', ['unzip']);
         console.log('✅ System unzip command found');
     } catch (error) {
         console.error('❌ System unzip command not found. Please install unzip or ensure it\'s in your PATH');
