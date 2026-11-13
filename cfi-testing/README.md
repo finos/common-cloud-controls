@@ -55,6 +55,7 @@ Start from an existing config that matches your module and cloud:
 
 - [`privateer-config/finos-integration/`](privateer-config/finos-integration/) — FinOS integration Terraform fixtures
 - [`privateer-config/avm/`](privateer-config/avm/) — Azure Verified Modules
+  - [`azure-avm-kubernetes-finos-ccc.yml`](privateer-config/avm/azure-avm-kubernetes-finos-ccc.yml) — a private AKS cluster from the AVM AKS module's [FINOS CCC example](https://github.com/Azure/terraform-azurerm-avm-res-containerservice-managedcluster/tree/main/examples/finos-ccc) ([Terraform Registry](https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest/examples/finos-ccc)). The example disables public API access and AKS Run Command, so run the tests from inside the cluster's network. The [FINOS CCC workshop](https://github.com/ysg410/ccc-managed-k8s/tree/main/workshop/aks) deploys the example, creates the test fixtures and runs this config from a jumpbox.
 
 ### 3. Environment variables in Privateer config files
 
@@ -86,13 +87,12 @@ Published release artifacts (e.g. `CCC.Core_v2025.10-controls.yaml`) may already
 From the repository root, invoke [`run-compliance-tests.sh`](run-compliance-tests.sh).  For example:
 
 ```bash
-# AWS VPC (good fixture):
+# AWS VPC fixture:
 source modules/cloud-api-test/environment-config/aws-env.sh
 ./cfi-testing/run-compliance-tests.sh \
-  -c privateer-config/finos-integration/vpc/aws-vpc-good.yml \
-  -S awsVpcGood \
-  -s vpc \
-  -g '@Behavioural'
+  -c privateer-config/finos-integration/vpc/aws-vpc.yml \
+  -S awsVpc \
+  -s vpc
 ```
 
 Paths passed to `-c` are relative to `cfi-testing/`; the script resolves them automatically.
@@ -128,7 +128,7 @@ As described above - create a privateer configuration file that you have tested 
 
 Add a YAML file under [`actions-config/`](actions-config/). The CCC GitHub actions workflow discovers every `*.yaml` in that directory and runs one matrix job per file.
 
-Example ([`actions-config/azure-storage-finos.yaml`](actions-config/azure-storage-finos.yaml)):
+Example ([`actions-config/finos-integration-azure-storage-account.yaml`](actions-config/finos-integration-azure-storage-account.yaml)):
 
 ```yaml
 cfi:
@@ -159,6 +159,30 @@ cfi:
 | `test-configuration` | Path to the Privateer config, relative to the actions-config file |
 | `privateer-service` | Service key passed to `-S` |
 | `path` / `git` / `name` / `description` | Metadata surfaced on the CCC website |
+| `start-compute` | When `false`, CI does not park/unpark CCC scale-fixtures (use for infra owned outside this repo) |
+
+### External / non-compliant VPC fixtures
+
+CCC integration terraform ships a single cheap VPC. CN03 peering checks also use `@Behavioural @vpc`, so the FINOS good VPC job will fail until a second network and peer vars are supplied. Provide that topology yourself — CCC does not apply or park it:
+
+```yaml
+# Example only — owned by whoever provides the non-compliant / multi-VPC stack
+cfi:
+  id: <provider>-vpc-noncompliant
+  artifact-name: <provider>-vpc-noncompliant
+  provider: aws
+  source-secrets: <THEIR_ENV>
+  service: vpc
+  start-compute: false
+  path: remote/...
+  git: https://github.com/...
+  test-on-branches:
+    - main
+  test-configuration: ../privateer-config/.../vpc-noncompliant.yml
+  privateer-service: awsVpcNoncompliant
+```
+
+Set peer vars (`allowed-requester-vpc-ids`, `disallowed-requester-vpc-ids`, `non-allowlisted-requester-vpc-id`) on that external Privateer config. Same idea as [`actions-config/azure-avm-virtual-machines.yaml`](actions-config/azure-avm-virtual-machines.yaml).
 
 ### 2. Load Secrets into Common Cloud Controls
 
@@ -203,6 +227,8 @@ Before the site can find your results, add (or update) a row in [`website/src/da
 
 The `artifact-name` in your actions-config must match this filter (e.g. `finos-integration-azure-storage-account` matches `finos-integration-*`).
 
+For each branch, the downloader checks the configured workflow's completed runs newest-first, paginating runs and artifacts until it finds matching, unexpired artifacts or exhausts the available runs. Runs from unrelated workflows are not included.
+
 When adding a new repository or artifact naming scheme, update both an `actions-config` entry (for CI) and a row in `cfi-repositories.json` (for the website).
 
 #### Fetch results from GitHub Actions and start the site on localhost
@@ -216,7 +242,7 @@ npm run fetch:cfi --prefix website
 npm start --prefix website
 ```
 
-`GITHUB_TOKEN` is required — unauthenticated requests cannot download workflow artifacts. If the token is unset, `fetch:cfi` skips the download with a warning.
+`GITHUB_TOKEN` is required — unauthenticated requests cannot download workflow artifacts. Missing credentials, API errors, download errors, and extraction errors fail `fetch:cfi` and stop the website build rather than publish missing results. Expired artifacts and branches with no matching, unexpired artifacts are reported and skipped; existing cached results are kept where present.
 
 Open `http://localhost:3000/cfi` to browse your results.
 

@@ -89,6 +89,9 @@ func (s *AWSServerlessComputingService) CheckUserProvisioned() error {
 func (s *AWSServerlessComputingService) ElevateAccessForInspection() error { return nil }
 func (s *AWSServerlessComputingService) ResetAccess() error                { return nil }
 func (s *AWSServerlessComputingService) TearDown() error                   { return nil }
+func (s *AWSServerlessComputingService) Start(string) error                { return nil }
+func (s *AWSServerlessComputingService) Stop(string) error                 { return nil }
+func (s *AWSServerlessComputingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *AWSServerlessComputingService) UpdateResourcePolicy() error {
 	functionID := s.config.Get("function-name", "resource")

@@ -7,7 +7,7 @@ Feature: CCC.Core.CN06.AR01 - Resource Location Compliance
   Background:
     Given a cloud api for "{config}" in "api"
 
-  @Behavioural @object-storage @vpc @virtual-machines @serverless-computing
+  @Behavioural @object-storage @vpc @virtual-machines @serverless-computing @kubernetes
   Scenario: Resource region can be retrieved for compliance verification
     Given I call "{api}" with "GetServiceAPI" using argument "{service-type}"
     And I refer to "{result}" as "theService"
@@ -15,6 +15,4 @@ Feature: CCC.Core.CN06.AR01 - Resource Location Compliance
     Then "{result}" is not an error
     And I refer to "{result}" as "region"
     And I attach "{region}" to the test output as "Resource Region"
-    Then "{permitted-regions}" is an array of objects with at least the following contents
-      | value    |
-      | {region} |
+    Then the permitted regions include "{region}"

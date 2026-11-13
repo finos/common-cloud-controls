@@ -1,9 +1,9 @@
 imports:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.CN02
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
@@ -18,7 +18,10 @@ imports:
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
-        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.IAM.CN01
@@ -53,9 +56,9 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.TH03
+          - reference-id: CCC.IAM.TH04
             strength: 0 # Not yet specified
-            remarks: Additional Cloud Credentials Creation
+            remarks: Credentials are Created Without Authorization
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -101,7 +104,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH06
             strength: 0 # Not yet specified
-            remarks: IAM Policies Modification
+            remarks: IAM Policies are Modified Without Authorization
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -120,8 +123,9 @@ controls:
     title: Restrict Role Assumption / Delegation
     objective: |
       Limit which principals can assume a role or impersonate a service
-      identity to only those required. This prevents unintended cross-account
-      or public access by securing the "who can act as this identity" boundary.
+      identity, and which roles a principal may pass to a resource, to only
+      those required. This prevents unintended cross-account or public access
+      by securing the "who can act as this identity" boundary.
     assessment-requirements:
       - id: CCC.IAM.CN03.AR01
         text: |
@@ -142,12 +146,39 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
+      - id: CCC.IAM.CN03.AR03
+        text: |
+          When a policy grants a principal permission to pass or attach a role
+          or service identity to a resource, the policy MUST name the specific
+          roles or service identities that may be passed.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN03.AR04
+        text: |
+          When a role or service identity trusts a principal from another account
+          or an external system, the trust policy MUST require a caller-supplied
+          identifier, such as an external ID or audience, that is unique to the
+          trusting account.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.TH02
+          - reference-id: CCC.IAM.TH03
             strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
+          - reference-id: CCC.IAM.TH08
+            strength: 0 # Not yet specified
+            remarks: Privilege Escalation via Indirect Role Usage
+          - reference-id: CCC.IAM.TH12
+            strength: 0 # Not yet specified
+            remarks: IAM Role is Coerced into Unauthorized Cross-Account Actions (Confused Deputy)
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -270,7 +301,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH09
             strength: 0 # Not yet specified
-            remarks: Long-Lived Static Credentials
+            remarks: Static Credentials Outlive Their Rotation Period
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
@@ -286,13 +317,23 @@ controls:
     title: Automate Identity De-provisioning
     objective: |
       Ensure that when an identity is terminated in the central Identity Provider
-      (IdP), ts corresponding access to cloud resources is revoked automatically.
+      (IdP), its corresponding access to cloud resources is revoked automatically.
     assessment-requirements:
       - id: CCC.IAM.CN07.AR01
         text: |
           When a user account is disabled or deleted in the organization's IdP, the
-          corresponding cloud identity and its access policies MUST be disabled or
-          deleted within 24 hours.
+          corresponding cloud identity MUST be disabled or deleted within 24 hours.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN07.AR02
+        text: |
+          When a user account is disabled or deleted in the organization's IdP, the
+          access policies attached to the corresponding cloud identity MUST be
+          detached or deleted within 24 hours.
         applicability:
           - tlp-clear
           - tlp-green
@@ -319,7 +360,7 @@ controls:
     group: Access
     title: Maximum Age for Unused Credentials
     objective: |
-      Ensure that unused IAM credentals are removed to reduce exposure
+      Ensure that unused IAM credentials are removed to reduce exposure
       in the event of potential compromise.
     assessment-requirements:
       - id: CCC.IAM.CN08.AR01
@@ -340,7 +381,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH11
             strength: 0 # Not yet specified
-            remarks: Unused Credentials
+            remarks: Unused Credentials Remain Active
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
@@ -378,7 +419,7 @@ controls:
             remarks: Valid Cloud Credentials Abuse
           - reference-id: CCC.IAM.TH09
             strength: 0 # Not yet specified
-            remarks: Long-Lived Static Credentials
+            remarks: Static Credentials Outlive Their Rotation Period
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -394,7 +435,7 @@ controls:
       API requests are made by a single identity, such as API requests
       commonly associated with privilege escalation tactics, originating
       from an external or malicious IP address or performed by a previously
-      dormant identity, which may indicate that credentals may be compromised,
+      dormant identity, which may indicate that credentials may be compromised,
       as well as for password brute-force attempts and account lockouts.
     assessment-requirements:
       - id: CCC.IAM.CN10.AR01
@@ -445,8 +486,19 @@ controls:
       - id: CCC.IAM.CN11.AR01
         text: |
           When a cloud account or organization is provisioned, the native automated
-          access and usage analysis services MUST be enabled to continuously monitor
-          for external or public access to resources, and unused access.
+          access analysis service MUST be enabled to continuously monitor for
+          external or public access to resources.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN11.AR02
+        text: |
+          When a cloud account or organization is provisioned, the native automated
+          usage analysis service MUST be enabled to continuously monitor for
+          permissions that identities hold but do not use.
         applicability:
           - tlp-clear
           - tlp-green
@@ -458,13 +510,19 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH02
             strength: 0 # Not yet specified
+            remarks: Overly-Permissive IAM Policy
+          - reference-id: CCC.IAM.TH03
+            strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
+          - reference-id: CCC.IAM.TH07
+            strength: 0 # Not yet specified
+            remarks: Identity Inherits Excessive Permissions Through Group Membership
           - reference-id: CCC.IAM.TH10
             strength: 0 # Not yet specified
             remarks: Orphaned Federated Identity Retains Access
           - reference-id: CCC.IAM.TH11
             strength: 0 # Not yet specified
-            remarks: Unused Credentials
+            remarks: Unused Credentials Remain Active
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -478,3 +536,88 @@ controls:
           - reference-id: CA-7
             strength: 0 # Not yet specified
           - reference-id: RA-5
+  - id: CCC.IAM.CN12
+    group: Access
+    title: Restrict IAM Role Creation
+    objective: |
+      Ensure that only designated administrative principals can create roles
+      or service identities, closing a persistence and privilege escalation path.
+    assessment-requirements:
+      - id: CCC.IAM.CN12.AR01
+        text: |
+          When an identity policy for a non-administrative principal is evaluated,
+          it MUST NOT grant permissions for creating roles or service identities.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN12.AR02
+        text: |
+          When a non-administrative principal attempts to create a role or service
+          identity, the service MUST deny the action.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.IAM.TH05
+            strength: 0 # Not yet specified
+            remarks: Roles are Created Without Authorization
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AA-05
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-2
+            strength: 0 # Not yet specified
+          - reference-id: AC-6
+  - id: CCC.IAM.CN13
+    group: Access
+    title: Enforce Multi-Factor Authentication for Human Identities
+    objective: |
+      Ensure that no human identity can authenticate to the cloud environment
+      with a single factor, so that a compromised password alone grants no access.
+    assessment-requirements:
+      - id: CCC.IAM.CN13.AR01
+        text: |
+          When a human identity exists, an MFA enforcement policy MUST apply
+          to it.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN13.AR02
+        text: |
+          When a root, global administrator or break-glass account exists, it
+          MUST have a phishing-resistant MFA method enrolled.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.IAM.TH13
+            strength: 0 # Not yet specified
+            remarks: Multi-Factor Authentication is Not Enforced
+          - reference-id: CCC.Core.TH01
+            strength: 0 # Not yet specified
+            remarks: Access is Granted to Unauthorized Users
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AA-03
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: IA-2

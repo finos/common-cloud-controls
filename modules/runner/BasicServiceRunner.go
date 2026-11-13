@@ -17,7 +17,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/cloud-testing-dsl"
 	"github.com/finos/common-cloud-controls/reporters"
-	generic "github.com/robmoffat/standard-cucumber-steps/go"
+	generic "github.com/finos/cucumber-testing-steps/go"
 )
 
 // TestSuite for running cloud tests
@@ -78,7 +78,6 @@ func (suite *TestSuite) InitializeServiceScenario(sc *godog.ScenarioContext, par
 		return ctx, nil
 	})
 
-	// Register all cloud steps (which includes generic steps)
 	suite.RegisterSteps(sc)
 }
 
@@ -94,7 +93,31 @@ func enrichParamsProps(params types.TestParams) types.TestParams {
 		}
 		params.Props[k] = v
 	}
+	if raw, ok := params.Props["permitted-regions"]; ok {
+		params.Props["permitted-regions"] = normalizePermittedRegions(raw)
+	}
 	return params
+}
+
+// normalizePermittedRegions accepts YAML string lists ([westus2]) or
+// [{value: westus2}] so CCC.Core.CN06.AR01 can match GetResourceRegion.
+func normalizePermittedRegions(raw any) any {
+	items, ok := raw.([]interface{})
+	if !ok {
+		return raw
+	}
+	out := make([]interface{}, 0, len(items))
+	for _, item := range items {
+		switch typed := item.(type) {
+		case map[string]interface{}:
+			out = append(out, typed)
+		case string:
+			out = append(out, map[string]interface{}{"value": typed})
+		default:
+			out = append(out, map[string]interface{}{"value": fmt.Sprint(item)})
+		}
+	}
+	return out
 }
 
 // BasicServiceRunner provides functionality for running service-specific compliance tests
@@ -215,10 +238,6 @@ func (r *BasicServiceRunner) runTests(ctx context.Context, resources []types.Tes
 		// This allows narrowing down tests (e.g., "--tags '@CCC.Core.CN01 @Policy'")
 		if len(r.Config.Tags) > 0 {
 			resource.TagFilter = append(resource.TagFilter, r.Config.Tags...)
-		} else {
-			// Default run: exclude @NEGATIVE and @OPT_IN scenarios so only @MAIN and
-			// @Behavioural scenarios run unless the caller explicitly requests them via --tags.
-			resource.TagFilter = append(resource.TagFilter, "~@NEGATIVE", "~@OPT_IN")
 		}
 
 		log.Printf("\n🔬 Running tests for resource %d/%d:", i+1, len(resources))
@@ -346,7 +365,7 @@ func (r *BasicServiceRunner) printSummary(stats TestStats) {
 // discoverFeaturePaths returns Godog paths under modules/features/{service}/<catalog>/,
 // always including modules/features/generic/ (shared CCC.Core scenarios).
 // Services with PerPort scenarios also include modules/features/port/.
-// virtual-machines and serverless-computing also include modules/features/vpc/
+// virtual-machines, serverless-computing, and kubernetes also include modules/features/vpc/
 // for shared CN06 coverage until that scenario is moved to generic.
 func (r *BasicServiceRunner) discoverFeaturePaths() ([]string, error) {
 	return collectFeaturePaths(RepoRoot(), r.Config.ServiceName)
@@ -375,10 +394,10 @@ func collectFeaturePaths(repoRoot, serviceName string) ([]string, error) {
 
 	appendCatalogDirs(filepath.Join(featuresRoot, "generic"))
 
-	if serviceName == "object-storage" || serviceName == "virtual-machines" {
+	if serviceName == "object-storage" || serviceName == "virtual-machines" || serviceName == "kubernetes" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "port"))
 	}
-	if serviceName == "virtual-machines" || serviceName == "serverless-computing" {
+	if serviceName == "virtual-machines" || serviceName == "serverless-computing" || serviceName == "kubernetes" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "vpc"))
 	}
 

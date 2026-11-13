@@ -15,14 +15,14 @@ on:
 
 env:
   # Gemara CUE module version the source catalogs target, resolved from the
-  # CUE Central Registry. Bump in lockstep with `gemaraSpecVersion` in
-  # delivery-toolkit/cmd/compile.go.
-  GEMARA_SPEC_REF: v1.2.0
+  # CUE Central Registry. Must equal gemara.SchemaVersion of the go-gemara
+  # release pinned in delivery-toolkit/go.mod (the compiler stamps that value).
+  GEMARA_SPEC_REF: v1.5.0
   GEMARA_MODULE: github.com/gemaraproj/gemara
   # Pin cue so CI is reproducible. cue vet is the validator: it resolves the
   # Gemara module from the registry and unifies each compiled YAML against
   # the matching #<ArtifactType> definition.
-  CUE_VERSION: v0.16.0
+  CUE_VERSION: v0.17.1
 
 jobs:
   gemara-schema-check:

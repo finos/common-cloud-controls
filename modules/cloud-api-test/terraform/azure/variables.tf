@@ -1,6 +1,6 @@
 variable "location" {
-  type    = string
-  default = "westus2"
+  type        = string
+  default     = "westus2"
   description = "Azure region for integration fixtures. westus2 used by default due eastus capacity limits on small SKUs."
 }
 
@@ -19,11 +19,26 @@ variable "enable_serverless_computing" {
 variable "integration_runner_client_id" {
   type        = string
   default     = ""
-  description = "Application (client) ID of the principal that runs integration tests (GitHub AZURE_CLIENT_ID). Resolved to a Key Vault secret reader policy on apply."
+  description = "Application (client) ID of the principal that runs integration tests (GitHub AZURE_CLIENT_ID). Granted Key Vault secret Get/List and AKS Azure RBAC Cluster Admin on apply."
 }
 
 variable "key_vault_secret_reader_object_ids" {
   type        = list(string)
   default     = []
   description = "Additional Entra object IDs granted Key Vault secret Get/List on finoscccintkvsec."
+}
+
+variable "k8s_version" {
+  type        = string
+  description = "AKS Kubernetes version; null lets Azure choose the default supported version."
+  default     = null
+}
+
+variable "webhook_probe_image" {
+  type        = string
+  description = <<-EOT
+    Container image for the in-cluster CN11.AR03 admission-webhook probe.
+    CI/deploy-azure.sh also kubectl-sets the live Deployment to the just-pushed ACR digest.
+  EOT
+  default     = "finoscccintacr.azurecr.io/finos-ccc-admission-webhook-probe@sha256:6f8d2c45f6f69852bee7df1c71483b3502471de95be924df113c4e5e6477bbb8"
 }

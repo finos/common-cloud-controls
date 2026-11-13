@@ -1,0 +1,18 @@
+cfi:
+  id: azure-avm-serverless-computing
+  artifact-name: azure-avm-serverless-computing
+  provider: azure
+  source-secrets: AZURE_AVM_ENV
+  service: serverless-computing
+  start-compute: false
+  priority: 10
+  name: CCC Azure AVM Serverless Function Terraform Module
+  description: >-
+    Control-informed AVM Flex Consumption function app deployment from
+    ccc-cfi-compliance remote/azure/avm (Azure/avm-res-web-site @ 0.22.0).
+  path: remote/azure/avm
+  test-on-branches:
+    - main
+  git: https://github.com/Azure/terraform-azurerm-avm-res-web-site
+  test-configuration: ../privateer-config/avm/azure-avm-serverless-computing.yml
+  privateer-service: azureServerlessComputing

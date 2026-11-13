@@ -201,6 +201,7 @@ func (s *AzureVPCService) CreateTestResourceInSubnet(subnetID string) (map[strin
 		return nil, fmt.Errorf("failed waiting for test VM %s: %w", vmName, err)
 	}
 
+	trackTestResource(&s.createdTestResources, vmName)
 	return map[string]interface{}{
 		"ResourceId":   vmName,
 		"ResourceType": "Microsoft.Compute/virtualMachines",
@@ -279,6 +280,7 @@ func (s *AzureVPCService) DeleteTestResource(resourceID string) (map[string]inte
 	vm, err := clients.vms.Get(s.ctx, s.resourceGroup, resourceIDStr, nil)
 	if err != nil {
 		if isAzureResourceNotFound(err) {
+			untrackTestResource(&s.createdTestResources, resourceIDStr)
 			return map[string]interface{}{
 				"ResourceId": resourceIDStr,
 				"Deleted":    true,
@@ -300,6 +302,7 @@ func (s *AzureVPCService) DeleteTestResource(resourceID string) (map[string]inte
 	delPoller, err := clients.vms.BeginDelete(s.ctx, s.resourceGroup, resourceIDStr, nil)
 	if err != nil {
 		if isAzureResourceNotFound(err) {
+			untrackTestResource(&s.createdTestResources, resourceIDStr)
 			return map[string]interface{}{"ResourceId": resourceIDStr, "Deleted": true, "Reason": "resource already absent"}, nil
 		}
 		return nil, fmt.Errorf("failed to delete test VM %q: %w", resourceIDStr, err)
@@ -317,6 +320,7 @@ func (s *AzureVPCService) DeleteTestResource(resourceID string) (map[string]inte
 		_ = s.azureDeleteNIC(clients, nicName)
 	}
 
+	untrackTestResource(&s.createdTestResources, resourceIDStr)
 	return map[string]interface{}{
 		"ResourceId": resourceIDStr,
 		"Deleted":    true,

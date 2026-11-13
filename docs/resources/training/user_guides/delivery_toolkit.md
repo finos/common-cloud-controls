@@ -21,7 +21,7 @@ The Delivery Toolkit consists of several Go files, each serving a specific purpo
    Converts catalog data into a YAML file and saves it in the specified output directory.
 
 5. **`compile.go`**  
-   Compiles one catalog asset (capabilities, threats, or controls) into a single self-describing Gemara artifact, ready for validation and publishing via grcli.
+   Compiles one catalog (capabilities, threats, or controls) into a single self-describing Gemara artifact, ready for validation and publishing via grcli.
 
 6. **`utils.go`**  
    Provides shared utility functions to streamline development across the toolkit.
@@ -127,7 +127,7 @@ Here are some example commands for testing the toolkit locally:
   File generated successfully: artifacts/release_notes.md
   ```
 
-- **Compile a Catalog Asset**
+- **Compile a Catalog**
 
   ```bash
   go run . compile --build-target storage/object --type capabilities --version v2026.04 --output-dir artifacts
@@ -149,9 +149,9 @@ Here are some example commands for testing the toolkit locally:
 
 The Artifact Pipeline is the backbone of the Delivery Toolkit, leveraging GitHub Actions to:
 
-- Compile a single typed catalog asset from version-controlled source.
-- Validate it against the Gemara spec and publish it to grc.store.
-- Cut a GitHub release carrying the same artifact.
+- Compile each selected typed catalog from version-controlled source.
+- Validate each against the Gemara spec and publish it to grc.store.
+- Cut one GitHub release carrying every published artifact.
 
 ### Steps to Execute
 
@@ -160,9 +160,9 @@ The Artifact Pipeline is the backbone of the Delivery Toolkit, leveraging GitHub
    ![Actions Tab](imgs/delivery_toolkit/image.png)
 3. Select the **Release Catalog** workflow on the left-hand side.
 4. Click **Run workflow** and supply the inputs:
-   - **build_target** — the catalog to release as `family/service` (e.g. `storage/object`).
-   - **asset_type** — `capabilities`, `threats`, or `controls`.
-   - **version** — the release version stamped into the artifact (e.g. `v2026.04`, or `v2026.04-rc1` for a release candidate).
+   - **build_target** — the family/service whose catalogs to release (e.g. `storage/object`).
+   - **capabilities** / **threats** / **controls** — tick each catalog to release (at least one). Ticked catalogs release one after another into the same GitHub release, whose notes list a grc.store link per catalog.
+   - **version** — the release version stamped into each artifact (e.g. `v2026.04`, or `v2026.04-rc1` for a release candidate).
    - **dry_run** — optional; compile + validate + build the bundle without publishing to grc.store or cutting a GitHub release.
 
    > **Note**: The process may take a few minutes to complete. A `version` containing `rc` is automatically published as a prerelease — there is no manual tag editing step.

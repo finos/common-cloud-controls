@@ -3,7 +3,7 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
@@ -15,108 +15,163 @@ imports:
         remarks: Data is Replicated to Untrusted or External Locations
       - reference-id: CCC.Core.TH05
         strength: 0 # Not yet specified
-        remarks: Data is Corrupted During Replication
-      - reference-id: CCC.Core.TH06
-        strength: 0 # Not yet specified
-        remarks: Data is Lost or Corrupted
+        remarks: Interference with Replication Processes
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH08
         strength: 0 # Not yet specified
-        remarks: Cost Management Data is Manipulated
+        remarks: Runtime Metrics are Manipulated
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
-      - reference-id: CCC.Core.TH10
-        strength: 0 # Not yet specified
-        remarks: Alerts are Intercepted
-      - reference-id: CCC.Core.TH11
-        strength: 0 # Not yet specified
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
         remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH13
         strength: 0 # Not yet specified
         remarks: Resource Tags are Manipulated
-      - reference-id: CCC.Core.TH14
-        strength: 0 # Not yet specified
-        remarks: Older Resource Versions are Exploited
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
       - reference-id: CCC.Core.TH16
         strength: 0 # Not yet specified
-        remarks: Logging and Monitoring are Disabled
+        remarks: Publications are Disabled
       - reference-id: CCC.Core.TH17
         strength: 0 # Not yet specified
-        remarks: Unauthorized Network Access via Misconfigured Rules
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        strength: 0 # Not yet specified
+        remarks: Encryption Key is Misused
+      - reference-id: CCC.Core.TH19
+        strength: 0 # Not yet specified
+        remarks: Metrics are Read by Unauthorized Entities
 threats:
   - id: CCC.Vector.TH01
     group: Data
-    title: Embedding Extraction and Model Inversion
-    description: Attackers may infer or reconstruct original data by probing vector
-      similarity APIs, especially with unrestricted access. This enables model inversion
-      attacks, membership inference, and unauthorized data leakage from stored embeddings.
+    title: Source Data is Reconstructed from Stored Embeddings
+    description: |
+      Embeddings stored by the service or returned by similarity queries may be
+      probed repeatedly by a user with query access, or exported in bulk, and
+      inverted with a reconstruction model. The text, images, or personal data
+      from which the embeddings were derived are recovered, and the presence of
+      specific records in the index is inferred. Confidentiality of the source
+      data is lost even though the raw data was never stored in the service.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.CP01
+            remarks: Embedding Storage
           - reference-id: CCC.Vector.CP03
-          - reference-id: CCC.Vector.CP06
+            remarks: Similarity Search
   - id: CCC.Vector.TH02
     group: Ingestion
-    title: Embedding and Index Poisoning
-    description: Adversaries may insert malicious or adversarial vectors into the index
-      through ingestion endpoints, polluting the dataset and degrading search quality,
-      or subtly steering results toward specific outcomes.
+    title: Index is Poisoned by Crafted Embeddings or Content
+    description: |
+      Vectors or source content submitted through ingestion endpoints, pulled
+      from connected data sources, or vectorized by an integrated embedding
+      model may be crafted so that they rank highly for targeted queries.
+      Search results are steered toward chosen records or degraded for
+      legitimate ones, and downstream applications consume the manipulated
+      results. Integrity of the index and of every system that relies on it
+      is compromised.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.CP02
-          - reference-id: CCC.Vector.CP05
-          - reference-id: CCC.Vector.CP07
+            remarks: Vector Indexing
+          - reference-id: CCC.Vector.CP13
+            remarks: Integrated Embedding Generation
+          - reference-id: CCC.Core.CP29
+            remarks: Active Ingestion
+          - reference-id: CCC.Core.CP30
+            remarks: Passive Ingestion
   - id: CCC.Vector.TH03
-    group: Data
-    title: Cross-modal or Metadata Leakage
-    description: Attackers may infer sensitive information through metadata filters
-      or by correlating embeddings across modalities (e.g., voice and face), bypassing
-      surface-level access controls.
+    group: Access
+    title: Query Results Include Records the Requester is Not Authorized to Read
+    description: |
+      Document-level access controls may be enforced on one query path but not
+      applied to vector similarity, hybrid, or metadata-filtered queries, or
+      metadata filters may be used to confirm attribute values of records the
+      requester cannot retrieve. Records, metadata fields, or correlations
+      across vector fields derived from different modalities are returned or
+      inferred. Confidentiality of the stored records is lost.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.CP04
+            remarks: Metadata Filtering
           - reference-id: CCC.Vector.CP10
+            remarks: Multi-modal Vector Support
+          - reference-id: CCC.Vector.CP11
+            remarks: Document-Level Access Control
   - id: CCC.Vector.TH04
     group: Data
-    title: Index Corruption or Downgrade
-    description: Attackers with unauthorized access or excessive permissions may tamper
-      with or roll back index versions, potentially restoring poisoned data or breaking
-      downstream integrations.
+    title: Queries are Served from a Replaced or Stale Index
+    description: |
+      The index behind a query endpoint or alias may be swapped, redeployed, or
+      re-pointed by an identity with excess permissions, or rebuilt from a
+      stale or poisoned source. Queries are answered from an index whose
+      contents were not reviewed, and the change is not visible to consuming
+      applications. Integrity and availability of search results are
+      compromised.
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.CP07
-          - reference-id: CCC.Vector.CP11
+          - reference-id: CCC.Vector.CP02
+            remarks: Vector Indexing
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+          - reference-id: CCC.Core.CP14
+            remarks: API Access
   - id: CCC.Vector.TH05
     group: Ingestion
-    title: Embedding Format or Dimension Attacks
-    description: Poor validation of embedding formats or dimensions can cause service
-      crashes or logic errors. This can result in denial of service or incorrect similarity
-      results.
+    title: Malformed Vectors Cause Failures or Incorrect Results
+    description: |
+      Vectors submitted with unexpected dimensionality, numeric type, or
+      degenerate values such as NaN, infinity, zero magnitude under cosine
+      similarity, or extreme magnitude may be accepted when validation is
+      incomplete. Indexing or query components fail, or similarity scores are
+      distorted for every query that encounters the vector. Availability of
+      the service and integrity of results are impacted.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.CP08
+            remarks: Embedding Format Compatibility
           - reference-id: CCC.Vector.CP09
+            remarks: Vector Dimension Management
   - id: CCC.Vector.TH06
     group: Data
-    title: Search Result Manipulation via ANN Bias
-    description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
-      or biased results. Adversaries may exploit these differences to evade detection
-      or bias AI responses.
+    title: Search Results are Manipulated via Approximate Search Error
+    description: |
+      Approximate nearest neighbor algorithms trade recall for speed and return
+      results that vary with index structure and tuning parameters. Vectors may
+      be positioned so that they are omitted from, or injected into, the
+      approximate result set while an exact search would rank them differently,
+      allowing records to evade similarity-based detection or to bias generated
+      responses. Integrity of search results is compromised.
     capabilities:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.Vector.CP02
+            remarks: Vector Indexing
           - reference-id: CCC.Vector.CP12
+            remarks: Approximate or Exact Search Modes
+  - id: CCC.Vector.TH07
+    group: MachineLearning
+    title: Content is Disclosed to or Altered by an Embedding Model Endpoint
+    description: |
+      When the service generates embeddings by calling a model endpoint, raw
+      content is transmitted to that endpoint and the vectors it returns are
+      trusted without verification. A misconfigured, third-party, or
+      substituted endpoint receives sensitive content, or returns embeddings
+      that misrepresent the content. Confidentiality of the content and
+      integrity of the index are compromised.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.CP13
+            remarks: Integrated Embedding Generation
+          - reference-id: CCC.Core.CP29
+            remarks: Active Ingestion

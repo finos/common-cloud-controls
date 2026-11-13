@@ -3,31 +3,31 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent unencrypted requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure data encryption at rest for all stored data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
-        remarks: Implement multi-factor authentication (MFA) for access
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
-        remarks: Log all access and changes
+        remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
-        remarks: Prevent access from untrusted entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent deployment in restricted regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
-        remarks: Alert on unusual enumeration activity
+        remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
-        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+        remarks: Ensure Integrity of Access Logs
       - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
-        remarks: Prevent data replication to destinations outside of defined trust perimeter
+        remarks: Restrict Data Replication to Trust Perimeter
 
 controls:
   - id: CCC.Message.CN01
@@ -52,7 +52,7 @@ controls:
         entries:
           - reference-id: CCC.Core.TH01
             strength: 0 # Not yet specified
-            remarks: Access control is misconfigured
+            remarks: Access is Granted to Unauthorized Users
     guidelines:
       - reference-id: NIST-CSF
         entries:

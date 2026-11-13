@@ -3,6 +3,8 @@ import path from 'path';
 import axios from 'axios';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { pipeline } from 'stream/promises';
+import type { Readable } from 'stream';
 import type { CFISourceDetails } from '../src/types/cfi';
 
 const execAsync = promisify(exec);
@@ -90,7 +92,7 @@ function artifactBaseId(artifactName: string, artifactFilter: string): string {
 }
 
 /** Resolve numeric workflow id (required for reliable run filtering). */
-async function getWorkflowId(owner: string, repo: string, workflowFile: string): Promise<number | null> {
+async function getWorkflowId(owner: string, repo: string, workflowFile: string): Promise<number> {
     const cacheKey = `${owner}/${repo}/${workflowFile}`;
     const cached = workflowIdCache.get(cacheKey);
     if (cached !== undefined) {
@@ -113,7 +115,7 @@ async function getWorkflowId(owner: string, repo: string, workflowFile: string):
         return response.data.id;
     } catch (error) {
         console.warn(`⚠️  Could not resolve ${workflowFile} workflow id for ${owner}/${repo}: ${error}`);
-        return null;
+        throw error;
     }
 }
 
@@ -133,33 +135,34 @@ async function getLatestRunWithArtifactsForBranch(
     workflowPath: string,
     artifactFilter: string
 ): Promise<GitHubWorkflowRun | null> {
-    const branchQuery = `&branch=${encodeURIComponent(branchName)}`;
-
     try {
-        const response = await axios.get<GitHubWorkflowRuns>(
-            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs?workflow_id=${workflowId}&status=completed&per_page=30${branchQuery}`,
-            { headers: githubHeaders() }
-        );
+        for (let page = 1; ; page++) {
+            const response = await axios.get<GitHubWorkflowRuns>(
+                `${GITHUB_API}/repos/${owner}/${repo}/actions/workflows/${workflowId}/runs`,
+                {
+                    headers: githubHeaders(),
+                    params: { status: 'completed', branch: branchName, per_page: 100, page },
+                }
+            );
 
-        for (const candidate of response.data.workflow_runs) {
-            if (candidate.path !== workflowPath) {
-                continue;
-            }
-            if (candidate.conclusion === 'cancelled') {
-                continue;
+            for (const candidate of response.data.workflow_runs) {
+                if (candidate.path !== workflowPath || candidate.conclusion === 'cancelled') {
+                    continue;
+                }
+
+                const artifacts = await getArtifacts(owner, repo, candidate.id);
+                if (artifacts.some((artifact) => artifactMatchesFilter(artifact.name, artifactFilter) && !isArtifactGone(artifact))) {
+                    return candidate;
+                }
             }
 
-            const artifacts = await getArtifacts(owner, repo, candidate.id);
-            // Only treat a run as usable when it still has a matching artifact that has not expired,
-            // so we don't select a run whose artifacts would all 410 on download.
-            if (artifacts.some((artifact) => artifactMatchesFilter(artifact.name, artifactFilter) && !isArtifactGone(artifact))) {
-                return candidate;
+            if (response.data.workflow_runs.length < 100) {
+                return null;
             }
         }
-        return null;
     } catch (error) {
         console.warn(`⚠️  Could not fetch workflow runs for ${owner}/${repo} branch ${branchName}: ${error}`);
-        return null;
+        throw error;
     }
 }
 
@@ -223,22 +226,28 @@ async function listAllBranchNames(owner: string, repo: string): Promise<string[]
         return names;
     } catch (error) {
         console.warn(`⚠️  Could not list branches for ${owner}/${repo}: ${error}`);
-        return [];
+        throw error;
     }
 }
 
 async function getArtifacts(owner: string, repo: string, runId: number): Promise<GitHubArtifact[]> {
     const headers = githubHeaders();
+    const artifacts: GitHubArtifact[] = [];
 
     try {
-        const response = await axios.get<{ artifacts: GitHubArtifact[] }>(
-            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs/${runId}/artifacts`,
-            { headers }
-        );
-        return response.data.artifacts;
+        for (let page = 1; ; page++) {
+            const response = await axios.get<{ artifacts: GitHubArtifact[] }>(
+                `${GITHUB_API}/repos/${owner}/${repo}/actions/runs/${runId}/artifacts`,
+                { headers, params: { per_page: 100, page } }
+            );
+            artifacts.push(...response.data.artifacts);
+            if (response.data.artifacts.length < 100) {
+                return artifacts;
+            }
+        }
     } catch (error) {
         console.warn(`⚠️  Could not fetch artifacts for run ${runId} in ${owner}/${repo}: ${error}`);
-        return [];
+        throw error;
     }
 }
 
@@ -270,17 +279,12 @@ async function downloadArtifact(
     try {
         console.log(`⬇️  Downloading ${artifact.name} from ${owner}/${repo}...`);
 
-        const response = await axios.get(artifact.archive_download_url, {
+        const response = await axios.get<Readable>(artifact.archive_download_url, {
             responseType: 'stream',
             headers,
         });
 
-        const writer = fs.createWriteStream(outputPath);
-        await new Promise<void>((resolve, reject) => {
-            response.data.pipe(writer);
-            writer.on('finish', resolve);
-            writer.on('error', reject);
-        });
+        await pipeline(response.data, fs.createWriteStream(outputPath));
 
         console.log(`✅ Downloaded ${artifact.name} to ${outputPath}`);
         return 'downloaded';
@@ -387,6 +391,7 @@ async function unzipArtifact(
                     console.error(`❌ Invalid JSON in ${ocsfFile}:`, error);
                     fs.unlinkSync(ocsfPath);
                     console.log(`🗑️  Removed corrupted file: ${ocsfFile}`);
+                    throw error;
                 }
             }
         }
@@ -397,6 +402,7 @@ async function unzipArtifact(
         console.log(`🗑️  Cleaned up ${zipPath}`);
     } catch (error) {
         console.error(`❌ Error unzipping ${artifactName}: ${error}`);
+        throw error;
     }
 }
 
@@ -406,8 +412,7 @@ async function downloadCFIArtifacts(): Promise<void> {
         console.warn('⚠️  GITHUB_TOKEN environment variable is not set.');
         console.warn('⚠️  GitHub requires authentication to download workflow artifacts.');
         console.warn('⚠️  Please set GITHUB_TOKEN environment variable with a valid GitHub personal access token.');
-        console.warn('⚠️  Skipping CFI artifacts download.');
-        return;
+        throw new Error('GITHUB_TOKEN is required to download CFI artifacts.');
     }
 
     // Check if unzip command is available
@@ -416,14 +421,14 @@ async function downloadCFIArtifacts(): Promise<void> {
         console.log('✅ System unzip command found');
     } catch (error) {
         console.error('❌ System unzip command not found. Please install unzip or ensure it\'s in your PATH');
-        return;
+        throw error;
     }
 
     // Read the CFI repositories configuration
     const configPath = path.join(OUTPUT_DIR, 'cfi-repositories.json');
     if (!fs.existsSync(configPath)) {
         console.error('❌ CFI repositories configuration file not found:', configPath);
-        return;
+        throw new Error(`CFI repositories configuration file not found: ${configPath}`);
     }
 
     const config: CFIRepositories = JSON.parse(fs.readFileSync(configPath, 'utf8'));
@@ -443,10 +448,6 @@ async function downloadCFIArtifacts(): Promise<void> {
             const artifactFilter = repo['artifact-filter'];
 
             const workflowId = await getWorkflowId(owner, repoName, repo.workflow);
-            if (workflowId === null) {
-                console.log(`⚠️  Skipping ${repo.name}: ${repo.workflow} workflow not found`);
-                continue;
-            }
             console.log(`🔧 Workflow ${repo.workflow} id: ${workflowId}`);
 
             const branchNames = await resolveBranchNames(owner, repoName, repo);
@@ -500,6 +501,9 @@ async function downloadCFIArtifacts(): Promise<void> {
                 for (const artifact of liveArtifacts) {
                     const outputPath = path.join(repoOutputDir, `${artifact.name}-${branchDirSuffix}.zip`);
                     const outcome = await downloadArtifact(owner, repoName, artifact, outputPath);
+                    if (outcome === 'error') {
+                        throw new Error(`Failed to download ${artifact.name} for ${repo.name} branch ${branchLabel}`);
+                    }
                     if (outcome !== 'downloaded') {
                         console.warn(
                             `⏭️  Skipping ${artifact.name} (${outcome}); leaving existing cached data untouched`
@@ -536,6 +540,7 @@ async function downloadCFIArtifacts(): Promise<void> {
 
         } catch (error) {
             console.error(`❌ Error processing ${repo.name}: ${error}`);
+            throw error;
         }
     }
 
@@ -558,4 +563,4 @@ if (require.main === module) {
     });
 }
 
-export { downloadCFIArtifacts };
+export { downloadCFIArtifacts, getArtifacts, getLatestRunWithArtifactsForBranch };

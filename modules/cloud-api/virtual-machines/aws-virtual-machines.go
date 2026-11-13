@@ -3,7 +3,6 @@ package virtualmachines
 import (
 	"context"
 	"fmt"
-	"net"
 	"strings"
 	"time"
 
@@ -219,49 +218,35 @@ func (s *AWSVirtualMachinesService) GetVolumeEncryptionStatus(instanceID string)
 }
 
 func (s *AWSVirtualMachinesService) AttemptInboundConnection(instanceID string, port int) (*ConnectionAttemptResult, error) {
-	resolved, err := s.resolveInstanceID(instanceID)
+	host, err := resolveInboundHost(s.config.Get("host-name"), func() (string, error) {
+		return s.DiscoverPublicIP(instanceID)
+	})
 	if err != nil {
 		return nil, err
 	}
-	host := strings.TrimSpace(s.config.Get("host-name"))
-	if host == "" {
-		out, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{InstanceIds: []string{resolved}})
-		if err != nil {
-			return nil, fmt.Errorf("failed to resolve VM host for %q: %w", instanceID, err)
-		}
-		for _, res := range out.Reservations {
-			for _, inst := range res.Instances {
-				host = strings.TrimSpace(aws.ToString(inst.PublicIpAddress))
-				if host == "" {
-					host = strings.TrimSpace(aws.ToString(inst.PrivateIpAddress))
-				}
-				if host != "" {
-					break
-				}
+	if port <= 0 {
+		port = cfgPort(s.config)
+	}
+	return dialInbound(host, port)
+}
+
+func (s *AWSVirtualMachinesService) DiscoverPublicIP(instanceID string) (string, error) {
+	resolved, err := s.resolveInstanceID(lifecycleResourceID(instanceID, s.config.Get("resource")))
+	if err != nil {
+		return "", err
+	}
+	out, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{InstanceIds: []string{resolved}})
+	if err != nil {
+		return "", fmt.Errorf("describe EC2 instance %q: %w", resolved, err)
+	}
+	for _, res := range out.Reservations {
+		for _, inst := range res.Instances {
+			if ip := strings.TrimSpace(aws.ToString(inst.PublicIpAddress)); ip != "" {
+				return ip, nil
 			}
 		}
 	}
-	if host == "" {
-		return nil, fmt.Errorf("hostName not set and could not discover instance IP for %q", instanceID)
-	}
-	if port <= 0 {
-		return nil, fmt.Errorf("port must be > 0")
-	}
-
-	address := fmt.Sprintf("%s:%d", host, port)
-	conn, err := net.DialTimeout("tcp", address, 3*time.Second)
-	if err != nil {
-		return &ConnectionAttemptResult{
-			Connected: false,
-			Error:     err.Error(),
-		}, nil
-	}
-	remote := conn.RemoteAddr().String()
-	_ = conn.Close()
-	return &ConnectionAttemptResult{
-		Connected:  true,
-		RemoteAddr: remote,
-	}, nil
+	return "", fmt.Errorf("EC2 instance %q has no public IP yet", resolved)
 }
 
 func tagValue(tags []ec2types.Tag, key string) string {

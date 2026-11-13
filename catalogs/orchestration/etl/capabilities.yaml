@@ -2,13 +2,13 @@ imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CP01
-        remarks: Encryption in Transit
+        remarks: Encryption in Transit Enabled by Default
       - reference-id: CCC.Core.CP02
-        remarks: Encryption at Rest
+        remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
-        remarks: Access control
+        remarks: Access Control
       - reference-id: CCC.Core.CP07
         remarks: Event Publication
       - reference-id: CCC.Core.CP09

@@ -16,6 +16,9 @@ resource "azurerm_network_security_group" "this" {
   }
 }
 
+# Azure retired Basic/Dynamic public IPs (new creates blocked after 2025-03-31).
+# Standard SKU requires Static allocation; the address is stable across deallocate/start.
+# AWS/GCP keep ephemeral public IPs; cloud-api still discovers the live address on all three.
 resource "azurerm_public_ip" "this" {
   name                = "finos-ccc-integration-vm-pip"
   location            = var.location

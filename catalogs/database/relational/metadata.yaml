@@ -20,7 +20,10 @@ metadata:
       service: Cloud SQL
       url: https://cloud.google.com/sql/docs
   applicability-categories: []
-  mapping-references: []
+  mapping-references:
+    - id: NIST-CSF
+      title: NIST Cybersecurity Framework 2.0
+      version: "2.0"
 
 release-details:
   - version: "2025.05"

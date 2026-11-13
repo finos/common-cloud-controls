@@ -3,6 +3,7 @@ extends: relaxed
 ignore:
   - .config
   - website
+  - artifacts
   - .gitvote.yml
   - .git
   - .github/workflows

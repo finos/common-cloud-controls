@@ -85,6 +85,8 @@ type LoggingConfig struct {
 	// KQL table name for flow logs (default: AzureNetworkAnalytics_CL when
 	// Traffic Analytics is enabled).
 	AzureFlowLogTable string
+	// KQL table name for Kubernetes audit logs (default: AKSAudit, then AzureDiagnostics).
+	AzureKubernetesAuditTable string
 
 	// GCP — Cloud Logging is project-scoped via gcp-project-id in CloudParams.
 	// Optional override for the flow logs log name (default:
@@ -100,6 +102,20 @@ func (c Config) LoggingConfig() LoggingConfig {
 		AzureStorageLogTable:         c.Get("azure-storage-log-table"),
 		AzureStorageAccountName:      c.Get("azure-storage-account"),
 		AzureFlowLogTable:            c.Get("azure-flow-log-table"),
+		AzureKubernetesAuditTable:    c.Get("azure-k8s-audit-table"),
 		GCPFlowLogName:               c.Get("gcp-flow-log-name"),
+	}
+}
+
+// KubernetesConfig holds cluster coordinates used to derive a client-go REST
+// config from the CSP SDK (kubernetes-cluster-name + CloudParams + ambient credentials).
+type KubernetesConfig struct {
+	KubernetesClusterName string
+}
+
+// KubernetesConfig returns typed kubernetes settings from flat Privateer vars.
+func (c Config) KubernetesConfig() KubernetesConfig {
+	return KubernetesConfig{
+		KubernetesClusterName: c.Get("kubernetes-cluster-name", "resource"),
 	}
 }

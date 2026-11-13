@@ -36,11 +36,6 @@ mappings:
   relationship: relates-to
   targets:
   - entry-id: T1110
-- id: CCC.RDMS.TH03-mitre-attack
-  source: CCC.RDMS.TH03
-  relationship: relates-to
-  targets:
-  - entry-id: T1490
 - id: CCC.RDMS.TH04-mitre-attack
   source: CCC.RDMS.TH04
   relationship: relates-to

@@ -1,0 +1,382 @@
+# CCC.K8S behavioural tests against a private AKS cluster deployed from the AVM
+# AKS module's FINOS CCC example:
+# https://github.com/Azure/terraform-azurerm-avm-res-containerservice-managedcluster/tree/main/examples/finos-ccc
+# https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest/examples/finos-ccc
+#
+# Run it locally from inside the cluster's network, for example from a jumpbox in
+# a peered VNet whose private DNS resolves the API server. The example disables
+# public API access and AKS Run Command (CCC.K8S.CN01), so command-invoke cannot
+# work and GitHub-hosted runners cannot reach the cluster. This config uses
+# direct transport.
+#
+# Before running:
+#   - Create the test fixtures this config names: the ccc-test and
+#     ccc-network-control namespaces, the admission webhook probe, a storage
+#     account read by the ccc-wi-sa workload identity and a test-user-no-access
+#     service principal with no role assignments. The FINOS CCC workshop
+#     (https://github.com/ysg410/ccc-managed-k8s, workshop/aks) automates all of
+#     it: ccc-tests/k8s-fixtures.yaml, ccc-tests/webhook-probe.yaml and
+#     scripts/40-setup-ccc-tests.sh.
+#   - Export, from the example's Terraform outputs and those fixtures:
+#       AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_LOCATION, AZURE_RESOURCE_GROUP,
+#       AZURE_AKS_NAME, AZURE_AKS_PRIVATE_FQDN, AZURE_AKS_OIDC_ISSUER_URL,
+#       AZURE_LOG_ANALYTICS_WORKSPACE_ID (the workspace customer ID, a GUID),
+#       AZURE_WI_STORAGE_ACCOUNT,
+#       AZURE_TEST_USER_NO_ACCESS_USER_NAME / _CLIENT_ID / _CLIENT_SECRET / _OBJECT_ID,
+#       REACHABILITY_PROBE_MODE / _URL / _OBSERVER / _SHARED_SECRET
+#       (MODE=local with an empty URL and secret probes from where the tests run).
+#   - Set permitted-regions below to the cluster's region: the plugin does not
+#     expand ${VAR} inside lists.
+#   - Let the tests query the example's Log Analytics workspace (see
+#     azure-log-analytics-workspace-id below).
+#
+#   ./cfi-testing/run-compliance-tests.sh -c privateer-config/avm/azure-avm-kubernetes-finos-ccc.yml \
+#     -S azureKubernetes -s kubernetes -t 60m
+#
+# Differences from azure-avm-kubernetes.yml:
+#   - direct transport (see above).
+#   - Every image in the manifests below is digest-pinned and the "compliant" Pods
+#     satisfy Pod Security "restricted", because the ccc-test namespace enforces
+#     both. Each negative manifest violates only the rule its scenario is about.
+#   - CCC.Core.CN04 audit queries read the resource-specific AKSAudit table that
+#     the example's diagnostic setting writes (azure-k8s-audit-table).
+#   - Only test-user-no-access is configured: it is the only identity the
+#     kubernetes scenarios use.
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+services:
+  azureKubernetes:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.K8S
+      applicability:
+        - tlp-amber
+        - tlp-clear
+        - tlp-green
+        - tlp-red
+    vars:
+      service: kubernetes
+      service-type: kubernetes
+      tags: "@Behavioural @kubernetes"
+      provider: azure
+      timeout: 60m
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.K8S: DEV
+
+      # Cluster under test (from the example's Terraform outputs)
+      region: "${AZURE_LOCATION}"
+      resource: "${AZURE_AKS_NAME}"
+      kubernetes-cluster-name: "${AZURE_AKS_NAME}"
+      azure-aks-name: "${AZURE_AKS_NAME}"
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-tenant-id: "${AZURE_TENANT_ID}"
+      azure-resource-group: "${AZURE_RESOURCE_GROUP}"
+      private-fqdn: "${AZURE_AKS_PRIVATE_FQDN}"
+      oidc-issuer-url: "${AZURE_AKS_OIDC_ISSUER_URL}"
+      azure-aks-kube-transport: direct
+      permitted-regions:
+        - centralus # set to the cluster's region (${VAR} is not expanded in lists)
+      # Log Analytics workspace customer ID (GUID), not the ARM ID. The example
+      # sends all AKS logs here, but its workspace refuses queries from the public
+      # internet: allow internet queries (or use Azure Monitor Private Link) or the
+      # CCC.Core.CN04 queries fail with 403.
+      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      # CCC.Core.CN04.AR02/AR03: the harness's AKS audit query (azure-logging.go)
+      # filters on verb, user, ClusterName, ResourceId and ResultType, which the
+      # resource-specific AKSAudit table (the example's diagnostic setting) does not
+      # have, so it falls back to the empty AzureDiagnostics table. The table value
+      # is pasted at the start of the query: add the expected columns here.
+      azure-k8s-audit-table: >-
+        AKSAudit | extend verb = tolower(Verb), user = tostring(User.username),
+        ClusterName = '', ResourceId = _ResourceId, ResultType = ''
+
+      # CN02.AR02: ClusterRoles owned by AKS add-ons, which AKS reconciles (the
+      # harness already skips system:, kube-, aks-, azure-policy ...).
+      # cilium-operator: AKS-managed Cilium (Helm release cilium, managed by Eno).
+      # ama-logs-reader: Container Insights (Helm release aks-managed-azure-monitor-logs);
+      # reads only the secret aad-msi-auth-token.
+      system-role-prefixes:
+        - "system:"
+        - "kube-"
+        - "cilium-operator"
+        - "ama-logs-reader"
+
+      # CN15: the example's required tags (variables.tf validation).
+      required-metadata-keys:
+        - environment
+        - owner
+        - data-classification
+      governance-metadata-target: cluster
+      governance-metadata-patch:
+        owner: ccc-unauthorized-change
+
+      # CN09 / CN12 / CN13
+      min-supported-version: "1.31"
+      approved-autoscaler-max: 10
+      approved-hpa-max-replicas: 10
+      kubelet-ports: "10250,10255"
+      node-mgmt-ports: "22,3389"
+      node-probe-timeout-ms: 5000
+
+      # CN01: "untrusted" API reachability. remote = an observer outside the
+      # approved network (the workshop tunnels one from a laptop with
+      # scripts/55-run-ccc-tests-from-laptop.sh); local = probed from where the
+      # tests run, which is inside the approved network.
+      reachability-probe-mode: "${REACHABILITY_PROBE_MODE}"
+      reachability-probe-url: "${REACHABILITY_PROBE_URL}"
+      reachability-probe-observer: "${REACHABILITY_PROBE_OBSERVER}"
+      reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"
+      reachability-probe-timeout-ms: 5000
+
+      # In-cluster fixtures (workshop ccc-tests/k8s-fixtures.yaml)
+      test-workload-namespace: ccc-test
+      test-workload-service-account: ccc-wi-sa
+      test-workload-service-account-unbound: ccc-wi-sa-unbound
+      protected-secret-name: ccc-protected-secret
+      unrelated-secret-name: ccc-unrelated-secret
+      secret-watch-timeout-ms: 3000
+
+      # CN03.AR01: storage account + blob read by the ccc-wi-sa workload identity
+      wi-probe-action: probe-read
+      wi-probe-resource: "${AZURE_WI_STORAGE_ACCOUNT}"
+      wi-probe-container: probe
+      wi-probe-object: probe.txt
+      wi-probe-expected: ccc-wi-probe-ok
+
+      # CN06
+      network-probe-selector: "role=network-probe"
+      isolated-probe-selector: "role=isolated-probe"
+      security-probe-selector: "role=security-probe"
+      network-probe-image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662"
+      pvc-consumer-image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662"
+      network-probe-port: 8080
+      network-probe-protocol: tcp
+      network-allowlist-host: "ccc-allowed.ccc-network-control.svc"
+      network-denylist-host: "ccc-denied.ccc-network-control.svc"
+      network-control-host: "ccc-control.ccc-network-control.svc"
+      network-control-namespace: ccc-network-control
+
+      # CN11.AR03 (workshop ccc-tests/webhook-probe.yaml)
+      webhook-probe-namespace: ccc-admission-webhook-probe
+      webhook-probe-test-namespace: ccc-admission-webhook-test
+      webhook-probe-deployment: ccc-admission-webhook-probe
+      webhook-probe-service: ccc-admission-webhook-probe
+      webhook-probe-configuration: ccc-admission-webhook-probe
+
+      # Admission manifests (server-side dry run only)
+      unapproved-tag-image-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-unapproved-image
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:latest
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      privileged-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-privileged
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              securityContext:
+                privileged: true
+      privileged-controller-update-manifest: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-privileged-deploy
+          namespace: ccc-test
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: ccc-privileged-deploy
+          template:
+            metadata:
+              labels:
+                app: ccc-privileged-deploy
+            spec:
+              containers:
+                - name: pause
+                  image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+                  securityContext:
+                    privileged: true
+      insecure-security-context-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-insecure-context
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              securityContext:
+                allowPrivilegeEscalation: true
+                capabilities: { drop: ["ALL"] }
+      static-credential-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-static-creds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              env:
+                - name: AZURE_CLIENT_SECRET
+                  value: "not-a-real-secret"
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      compliant-no-static-cred-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-no-static-creds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      missing-resource-bounds-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-missing-bounds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      compliant-resource-bounds-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-compliant-bounds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      quota-exceed-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-quota-exceed
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: "32", memory: 64Gi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      disallowed-pvc-manifest: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-disallowed-pvc
+          namespace: ccc-test
+        spec:
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests: { storage: 1Gi }
+          storageClassName: ccc-blocked-sc
+      compliant-pvc-manifest: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-compliant-pvc
+          namespace: ccc-test
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests: { storage: 1Gi }
+          storageClassName: ccc-approved-sc
+      webhook-compliant-probe-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-webhook-probe
+          namespace: ccc-admission-webhook-test
+          labels:
+            ccc.finos.org/webhook-probe-object: "true"
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"

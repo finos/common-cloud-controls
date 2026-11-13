@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ccc-reachability-probe
+  namespace: ccc-test-infra
+spec:
+  # The in-memory nonce cache is process-local. Keep one replica unless a
+  # shared replay store or sticky routing is added.
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ccc-reachability-probe
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ccc-reachability-probe
+    spec:
+      containers:
+        - name: probe
+          image: ghcr.io/finos/common-cloud-controls/reachability-probe:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OBSERVER_NAME
+              value: finos-public-probe
+            - name: TARGET_ALLOWLIST
+              # Replace with exact fixture endpoints before deployment.
+              value: api.example.invalid
+            - name: PORT_ALLOWLIST
+              value: "22,443,3389"
+            - name: SHARED_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ccc-reachability-probe
+                  key: shared-secret
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ccc-reachability-probe
+  namespace: ccc-test-infra
+spec:
+  selector:
+    app.kubernetes.io/name: ccc-reachability-probe
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

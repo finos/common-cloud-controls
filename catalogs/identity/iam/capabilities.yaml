@@ -3,8 +3,6 @@ imports:
     entries:
       - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.CP02
-        remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
@@ -15,128 +13,141 @@ imports:
         remarks: API Access
       - reference-id: CCC.Core.CP17
         remarks: Alerting
-      - reference-id: CCC.Core.CP20
-        remarks: Resource Tagging
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP32
+        remarks: Deletion Protection
 
 capabilities:
   - id: CCC.IAM.CP01
     group: Access
     title: Global Identities
     description: |
-      IAM identities are global across all regions. They are created
-      and managed from a single global namespace.
+      The service always manages identities in a single global namespace, so an
+      identity and its credentials are valid in every region without regional
+      configuration.
   - id: CCC.IAM.CP02
     group: Access
     title: IAM Users
     description: |
-      Ability to create, manage, list and delete IAM users.
-      IAM user represents a single person or application.
+      The service can create, list, modify and delete user identities, each
+      representing a single person or application that authenticates directly
+      to the provider's identity platform.
   - id: CCC.IAM.CP03
     group: Access
     title: Long-Term Credentials
     description: |
-      Ability to create, manage, list and delete long-term
-      credentials such as access keys and service account keys.
+      The service can issue long-term credentials, such as access keys, client
+      secrets or service account keys, that remain valid until they are deleted
+      or expire.
   - id: CCC.IAM.CP04
     group: Access
     title: Password Management
     description: |
-      Ability to create, change and delete IAM user passwords.
+      The service can set, change and reset passwords for user identities, and
+      may be configured with a password policy that enforces complexity, history
+      and expiry requirements.
   - id: CCC.IAM.CP05
     group: Access
     title: IAM Groups
     description: |
-      Ability to create, manage, list and delete IAM groups.
-      IAM group is a collection of users, roles or other groups.
+      The service can create, list, modify and delete groups of identities so
+      that permissions assigned to the group apply to every member.
   - id: CCC.IAM.CP06
     group: Access
-    title: IAM Roles / Service Principals
+    title: IAM Roles and Service Principals
     description: |
-      Ability to create, manage, list and delete IAM roles.
-      IAM role is an identity for applications or services to
-      access resources.
+      The service can create, list, modify and delete roles or service
+      principals, which are identities that applications and services use to
+      access resources without a human user.
   - id: CCC.IAM.CP07
     group: Access
     title: Managed Identities
     description: |
-      Identity assigned to cloud resources (e.g., VMs, Functions) which
-      are managed by the cloud vendor.
+      The service can assign an identity to a child resource such as a virtual
+      machine or function, and automatically manages and rotates that identity's
+      credentials.
   - id: CCC.IAM.CP08
     group: Access
     title: Federated Identity - SAML
     description: |
-      Support for user authentication outside the cloud service
-      provider using SAML. Authenticated federated identities can
-      assume IAM roles.
+      The service may be configured to trust an external identity provider using
+      SAML 2.0, so that users authenticated by that provider can obtain cloud
+      credentials or assume roles.
   - id: CCC.IAM.CP09
     group: Access
     title: Federated Identity - OIDC
     description: |
-      Support for user authentication outside the cloud service
-      provider using OIDC. Authenticated federated identities can
-      assume IAM roles.
+      The service may be configured to trust an external identity provider using
+      OpenID Connect, so that users or workloads authenticated by that provider
+      can obtain cloud credentials or assume roles.
   - id: CCC.IAM.CP10
     group: Access
     title: Custom Roles
     description: |
-      Ability to create, manage, list and delete custom roles.
-      Custom roles are user-defined roles that defines what
-      actions are allowed.
+      The service can create, list, modify and delete user-defined roles that
+      specify exactly which actions are permitted, in addition to the roles the
+      provider defines.
   - id: CCC.IAM.CP11
     group: Access
     title: Resource-Level Access
     description: |
-      Ability to restrict where actions are allowed, rather than
-      the entire service. Defines the scope of the assignment.
+      The service can scope a permission grant to specific resources or resource
+      hierarchies rather than to the entire service.
   - id: CCC.IAM.CP12
     group: Access
     title: Policy Conditions
     description: |
-      Ability to use conditions to add additional restrictions
-      to the permission being granted. Allow access control rules
-      to apply only when certain conditions are met.
+      The service can attach conditions to a permission grant so that the grant
+      applies only when attributes of the request, principal or resource match.
   - id: CCC.IAM.CP13
     group: Access
     title: Temporary Credentials
     description: |
-      Ability to grant short-lived security credentials that provide
-      access to resources for a limited period of time. These credentials
-      are typically issued for a specific session or task and expire
-      after a predefined duration.
+      The service can issue short-lived credentials for a session or task that
+      expire automatically after a defined duration.
   - id: CCC.IAM.CP14
     group: Access
-    title: Multi-Factor Authentication (MFA)
+    title: Multi-Factor Authentication
     description: |
-      Support for enforcing MFA on user accounts and roles. Essential
-      for securing root/admin users.
+      The service may be configured to require a second authentication factor
+      when a user signs in, and can require that MFA was used as a condition on
+      sensitive actions.
   - id: CCC.IAM.CP15
     group: Access
-    title: Role Assumption / Delegation
+    title: Role Assumption and Delegation
     description: |
-      Ability to temporarily assume another role or delegate access.
-      Commonly used for user impersonation or temporary privilege
-      elevation.
+      The service can allow an authenticated principal to temporarily assume
+      another role or impersonate a service identity, obtaining that identity's
+      permissions for a limited session.
   - id: CCC.IAM.CP16
     group: Access
     title: Access Boundaries
     description: |
-      Ability to define a boundary around the maximum effective permissions
-      allowed for an identity at a higher level.
+      The service may be configured with a boundary that caps the maximum
+      effective permissions an identity can hold, regardless of the permissions
+      granted to it. On providers without this feature, delegated permission
+      grants have no upper bound.
   - id: CCC.IAM.CP17
     group: Access
     title: Deny Permissions by Default
     description: |
-      By default, no identity (user, group, role, service) has access to
-      any resource, unless explicit permissions are granted.
+      The service always denies access to every resource unless a permission has
+      been explicitly granted to the requesting identity.
   - id: CCC.IAM.CP18
     group: Observability
     title: Audit Tooling
     description: |
-      Provide tools to simulate or analyze permission used by a roles,
-      and ability to export reports of who has access and whether it's
-      being used, etc. These tools will increase the visibility,
-      auditability and compliance of identities.
+      The service can simulate or analyze the permissions an identity holds or
+      has used, and can report which identities have access to a resource and
+      whether that access is exercised.
+  - id: CCC.IAM.CP19
+    group: Access
+    title: Long-Term Credential Expiry
+    description: |
+      The service may be configured to set a maximum lifetime on a long-term
+      credential so that it stops working automatically once that lifetime is
+      reached. On providers without this feature for a credential type, the
+      credential remains valid until it is rotated or deleted.

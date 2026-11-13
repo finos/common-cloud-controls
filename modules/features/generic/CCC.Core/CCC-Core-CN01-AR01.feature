@@ -7,7 +7,7 @@ Feature: CCC.Core.CN01.AR01
   Background:
     Given a cloud api for "{config}" in "api"
 
-  @Behavioural @PerPort @tls @object-storage @virtual-machines
+  @Behavioural @PerPort @tls @object-storage @virtual-machines @kubernetes
   Scenario: Service accepts TLS 1.3 encrypted traffic
     Given an openssl s_client request using "tls1_3" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"
@@ -30,7 +30,7 @@ Feature: CCC.Core.CN01.AR01
     And we wait for a period of "40" ms
     Then "{connection.State}" is "closed"
 
-  @Behavioural @PerPort @tls @object-storage @virtual-machines
+  @Behavioural @PerPort @tls @object-storage @virtual-machines @kubernetes
   Scenario: Service rejects TLS 1.0 traffic
     Given an openssl s_client request using "tls1" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"

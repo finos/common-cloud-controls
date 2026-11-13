@@ -136,6 +136,18 @@ mappings:
   targets:
   - entry-id: CWE-494
     remarks: Download of Code Without Integrity Check
+- id: CCC.K8S.TH19-cwe
+  source: CCC.K8S.TH19
+  relationship: relates-to
+  targets:
+  - entry-id: CWE-269
+    remarks: Improper Privilege Management
+- id: CCC.K8S.TH20-cwe
+  source: CCC.K8S.TH20
+  relationship: relates-to
+  targets:
+  - entry-id: CWE-522
+    remarks: Insufficiently Protected Credentials
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.

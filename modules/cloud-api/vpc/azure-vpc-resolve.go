@@ -14,6 +14,20 @@ func (s *AzureVPCService) resolveVNetName(vnetIDOrName string) (string, error) {
 		return "", fmt.Errorf("vnet id is required")
 	}
 
+	if configured := strings.TrimSpace(s.config.Get("receiver-vpc-id")); configured != "" {
+		resourceName := strings.TrimSpace(s.config.Get("resource"))
+		// Alias only the configured receiver name — never rewrite requester IDs/names.
+		if resourceName != "" && id == resourceName {
+			if strings.Contains(configured, "/virtualNetworks/") {
+				parts := strings.Split(configured, "/virtualNetworks/")
+				if len(parts) == 2 && strings.TrimSpace(parts[1]) != "" {
+					return strings.TrimSpace(parts[1]), nil
+				}
+			}
+			return configured, nil
+		}
+	}
+
 	if strings.Contains(id, "/virtualNetworks/") {
 		parts := strings.Split(id, "/virtualNetworks/")
 		if len(parts) == 2 && strings.TrimSpace(parts[1]) != "" {
