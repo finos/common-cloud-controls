@@ -13,10 +13,10 @@
  * are shown as "Live test only" in the UI.
  */
 
-import type { HclBlock, HclValue } from "../hcl/parser";
-import { readPolicy, references, subBlocks, type PolicyStatement, type TfModel, type TfResource } from "../terraform/model";
-import type { LabsSettings } from "../types";
-import { fail, first, formatSeconds, isApprovedClass, isTrusted, locationsTrusted, na, pass, ruleFactories, warn, type BaseView, type ProviderRules } from "./common";
+import type { HclBlock, HclValue } from "../../hcl/parser";
+import { readPolicy, references, subBlocks, type PolicyStatement, type TfModel, type TfResource } from "../../terraform/model";
+import type { LabsSettings } from "../../types";
+import { fail, first, formatSeconds, isApprovedClass, isTrusted, locationsTrusted, na, pass, ruleFactories, warn, type BaseView, type ProviderRules } from "../common";
 
 // ── Per-bucket view of the template ───────────────────────────────────────────
 
@@ -444,6 +444,7 @@ export const aws: ProviderRules<BucketView, TemplateView> = {
   id: "aws",
   label: "AWS",
   prefix: "aws_",
+  noun: { one: "bucket", many: "buckets" },
   build: buildTemplateView,
   rules: RULES,
 };

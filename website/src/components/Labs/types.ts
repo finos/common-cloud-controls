@@ -2,6 +2,9 @@
 
 export type CloudId = "aws" | "azure" | "gcp";
 
+/** CCC services the playground can check, named after their test-fixture folders. */
+export type ServiceId = "object-storage" | "secrets" | "vpc" | "logging" | "serverless-computing" | "virtual-machines";
+
 export type Tlp = "tlp-clear" | "tlp-green" | "tlp-amber" | "tlp-red";
 
 export interface LabsRequirement {
@@ -24,10 +27,11 @@ export interface LabsControl {
 }
 
 export interface LabsTemplate {
-  /** Unique id, conventionally `<cloud>-<example>`. */
+  /** Unique id, conventionally `<service>/<cloud>-<example>`. */
   id: string;
+  service: ServiceId;
   cloud: CloudId;
-  /** The example this template belongs to; each example has a variant per cloud. */
+  /** The example (hardening level or scenario) this template belongs to; each has a variant per cloud. */
   example: string;
   title: string;
   description: string;
@@ -35,9 +39,19 @@ export interface LabsTemplate {
   sourceUrl?: string;
 }
 
-export interface LabsData {
-  service: { id: string; title: string; description: string };
+export interface LabsService {
+  id: ServiceId;
+  /** Catalog id, e.g. CCC.ObjStor. */
+  catalogId: string;
+  title: string;
+  description: string;
+  /** The service's own controls, preceded by the CCC.Core controls its catalog imports. */
   controls: LabsControl[];
+}
+
+export interface LabsData {
+  services: LabsService[];
+  /** Templates generated at build time (the CCC integration fixtures). */
   templates: LabsTemplate[];
 }
 
@@ -55,7 +69,7 @@ export interface Evidence {
   message: string;
   /** 1-based line in the editor the evidence points at. */
   line?: number;
-  /** Terraform address of the bucket or storage account this evidence is about, or the cloud for template-wide checks. */
+  /** Terraform address of the primary resource this evidence is about, or the cloud for template-wide checks. */
   subject?: string;
 }
 
@@ -64,6 +78,10 @@ export interface LabsSettings {
   approvedStorageClasses: string[];
   /** Maximum allowed pre-signed URL lifetime in seconds (organisation-defined threshold). */
   maxPresignedUrlSeconds: number;
+  /** Minimum number of days logs must be kept (CCC.Logging.CN02). */
+  minLogRetentionDays: number;
+  /** Maximum number of days between automatic secret rotations (CCC.SecMgmt.CN01). */
+  maxSecretRotationDays: number;
 }
 
 export interface RequirementResult {

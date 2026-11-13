@@ -1,9 +1,9 @@
-import type { ExampleSource } from "./index";
+import type { ExampleSource } from "../index";
 
 /** AWS (Amazon S3) variants of each example. */
-export const AWS_EXAMPLES: ExampleSource[] = [
+export const EXAMPLES: ExampleSource[] = [
   {
-    example: "minimal",
+    example: "basic",
     description: "A bare S3 bucket relying on AWS defaults. A good place to start fixing things.",
     code: `provider "aws" {
   region = "eu-west-2"
@@ -11,6 +11,83 @@ export const AWS_EXAMPLES: ExampleSource[] = [
 
 resource "aws_s3_bucket" "data" {
   bucket = "acme-trading-data"
+}
+`,
+  },
+  {
+    example: "intermediate",
+    description:
+      "A common S3 baseline: versioning, default encryption, public access blocked and HTTPS enforced. It still lacks object lock, a customer-managed key, TLS 1.3, audit logging and storage tiering.",
+    code: `provider "aws" {
+  region = "eu-west-2"
+}
+
+resource "aws_s3_bucket" "data" {
+  bucket = "acme-trading-data"
+}
+
+resource "aws_s3_bucket_versioning" "data" {
+  bucket = aws_s3_bucket.data.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# Encrypted with the AWS-managed KMS key rather than a customer-managed one.
+resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
+  bucket = aws_s3_bucket.data.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "aws:kms"
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "data" {
+  bucket                  = aws_s3_bucket.data.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_ownership_controls" "data" {
+  bucket = aws_s3_bucket.data.id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
+resource "aws_s3_bucket_logging" "data" {
+  bucket        = aws_s3_bucket.data.id
+  target_bucket = "acme-central-access-logs" # managed in the logging account
+  target_prefix = "data/"
+}
+
+data "aws_iam_policy_document" "data" {
+  statement {
+    sid     = "DenyInsecureTransport"
+    effect  = "Deny"
+    actions = ["s3:*"]
+    resources = [
+      aws_s3_bucket.data.arn,
+      "\${aws_s3_bucket.data.arn}/*",
+    ]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "data" {
+  bucket = aws_s3_bucket.data.id
+  policy = data.aws_iam_policy_document.data.json
 }
 `,
   },

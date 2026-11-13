@@ -4,8 +4,9 @@ import { RotateCcw, Settings2, Info, Play } from "lucide-react";
 import Editor, { type EditorHandle } from "./Editor";
 import Results from "./Results";
 import { evaluate, type EvaluationSummary } from "./engine";
-import { BUILT_IN_TEMPLATES, CLOUDS, EXAMPLES } from "./templates";
-import type { CloudId, LabsData, LabsSettings, LabsTemplate, Tlp } from "./types";
+import { SERVICE_RULES } from "./rules";
+import { BUILT_IN_TEMPLATES, CLOUDS, EXAMPLES, SERVICES } from "./templates";
+import type { CloudId, LabsData, LabsSettings, LabsTemplate, ServiceId, Tlp } from "./types";
 import styles from "./styles.module.css";
 
 const TLP_LEVELS: { value: Tlp; label: string; hint: string }[] = [
@@ -50,12 +51,15 @@ const DEFAULT_SETTINGS: LabsSettings = {
     "ARCHIVE",
   ],
   maxPresignedUrlSeconds: 3600,
+  minLogRetentionDays: 365,
+  maxSecretRotationDays: 90,
 };
 
-// v2: templates became per-cloud and the default settings gained Azure and Google Cloud entries.
-const STORAGE_KEY = "ccc-labs:v2";
+// v3: templates became per-service, so the draft keys changed.
+const STORAGE_KEY = "ccc-labs:v3";
 
 interface Persisted {
+  service: ServiceId;
   cloud: CloudId;
   example: string;
   drafts: Record<string, string>;
@@ -85,6 +89,28 @@ function savePersisted(p: Persisted) {
   }
 }
 
+/** A positive whole-number organisation setting, committed when the field loses focus. */
+function NumberSetting({ label, value, onChange }: { label: string; value: number; onChange(n: number): void }) {
+  return (
+    <label className={styles.field}>
+      <span className={styles.fieldLabel}>{label}</span>
+      <input
+        className={styles.input}
+        type="number"
+        min={1}
+        defaultValue={value}
+        key={value}
+        onBlur={(e) => {
+          const n = Number(e.target.value);
+          if (n > 0) onChange(n);
+        }}
+      />
+    </label>
+  );
+}
+
+const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
 const splitList = (s: string) =>
   s
     .split(/[\s,]+/)
@@ -94,12 +120,14 @@ const splitList = (s: string) =>
 export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   const templates: LabsTemplate[] = useMemo(() => [...BUILT_IN_TEMPLATES, ...data.templates], [data.templates]);
 
+  const [service, setService] = useState<ServiceId>("object-storage");
   const [cloud, setCloud] = useState<CloudId>("aws");
   const [example, setExample] = useState("hardened");
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [tlps, setTlps] = useState<Tlp[]>(["tlp-amber"]);
   const [settings, setSettings] = useState<LabsSettings>(DEFAULT_SETTINGS);
-  const [bucket, setBucket] = useState<string>("");
+  /** Restricts per-resource rules to one primary resource; empty means all of them. */
+  const [subject, setSubject] = useState<string>("");
   /** The code last applied (evaluated) for each template; templates without an entry use their built-in code. */
   const [applied, setApplied] = useState<Record<string, string>>({});
   const [hydrated, setHydrated] = useState(false);
@@ -108,6 +136,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   // Restore the viewer's last session after hydration (localStorage isn't available during SSR).
   useEffect(() => {
     const p = loadPersisted();
+    if (p.service && data.services.some((s) => s.id === p.service)) setService(p.service);
     if (p.cloud && CLOUDS.some((c) => c.id === p.cloud)) setCloud(p.cloud);
     if (p.example && templates.some((t) => t.example === p.example)) setExample(p.example);
     if (p.drafts) {
@@ -119,11 +148,11 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
     if (savedTlps.length) setTlps(savedTlps);
     if (p.settings) setSettings({ ...DEFAULT_SETTINGS, ...p.settings });
     setHydrated(true);
-  }, [templates]);
+  }, [templates, data.services]);
 
   useEffect(() => {
-    if (hydrated) savePersisted({ cloud, example, drafts, tlps, settings });
-  }, [hydrated, cloud, example, drafts, tlps, settings]);
+    if (hydrated) savePersisted({ service, cloud, example, drafts, tlps, settings });
+  }, [hydrated, service, cloud, example, drafts, tlps, settings]);
 
   /** Toggles one level; at least one level always stays selected. */
   const toggleTlp = (t: Tlp) =>
@@ -132,14 +161,24 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
       return next.length ? ALL_TLPS.filter((x) => next.includes(x)) : cur;
     });
 
-  const cloudTemplates = templates.filter((t) => t.cloud === cloud);
+  const serviceData = data.services.find((s) => s.id === service) ?? data.services[0];
+  const products = SERVICES.find((s) => s.id === serviceData.id)!.products;
+  const cloudTemplates = templates.filter((t) => t.service === serviceData.id && t.cloud === cloud);
   const template = cloudTemplates.find((t) => t.example === example) ?? cloudTemplates[0] ?? templates[0];
   const templateId = template.id;
-  const cloudInfo = CLOUDS.find((c) => c.id === cloud)!;
   const exampleOrder = (t: LabsTemplate) => {
     const i = EXAMPLES.findIndex((e) => e.id === t.example);
     return i < 0 ? EXAMPLES.length : i;
   };
+  // Hardening levels first, then any scenarios this service has.
+  const exampleGroups = (["level", "scenario"] as const)
+    .map((group) => ({
+      group,
+      templates: cloudTemplates
+        .filter((t) => (EXAMPLES.find((e) => e.id === t.example)?.group ?? "scenario") === group)
+        .sort((a, b) => exampleOrder(a) - exampleOrder(b)),
+    }))
+    .filter((g) => g.templates.length);
   const code = drafts[template.id] ?? template.code;
   const edited = drafts[template.id] !== undefined && drafts[template.id] !== template.code;
 
@@ -158,8 +197,8 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   const dirty = code !== appliedCode;
   const apply = useCallback(() => setApplied((a) => ({ ...a, [templateId]: code })), [templateId, code]);
   const outcome = useMemo(
-    () => evaluate(appliedCode, data.controls, { tlps, settings, bucket: bucket || undefined }),
-    [appliedCode, data.controls, tlps, settings, bucket],
+    () => evaluate(appliedCode, serviceData.controls, SERVICE_RULES[serviceData.id], { tlps, settings, subject: subject || undefined }),
+    [appliedCode, serviceData, tlps, settings, subject],
   );
 
   // Keep showing the last good results while the template has a syntax error.
@@ -168,22 +207,22 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
   const summary = outcome.ok ? outcome.summary : lastGood.current;
   const error = outcome.ok === false ? outcome : null;
 
-  const buckets = summary?.bucketAddresses ?? [];
+  const subjects = summary?.subjects ?? [];
   useEffect(() => {
-    if (bucket && summary && !summary.bucketAddresses.includes(bucket)) setBucket("");
-  }, [bucket, summary]);
+    if (subject && summary && !summary.subjects.includes(subject)) setSubject("");
+  }, [subject, summary]);
 
   const reveal = useCallback((line: number) => editorRef.current?.revealLine(line), []);
 
   return (
-    <Layout title="Labs" description="Edit Terraform for AWS, Azure or Google Cloud in your browser and see which CCC Object Storage controls it satisfies.">
+    <Layout title="Labs" description="Edit Terraform for AWS, Azure or Google Cloud in your browser and see which CCC controls it satisfies.">
       <main className={styles.page}>
         <header className={styles.hero}>
           <p className={styles.eyebrow}>Labs · Experimental</p>
           <h1 className={styles.title}>Controls Playground</h1>
           <p className={styles.lede}>
-            Edit a Terraform template for Amazon S3, Azure Blob Storage or Google Cloud Storage, apply your changes, and see which{" "}
-            <strong>{data.service.title}</strong> controls it satisfies. Everything runs in your browser: nothing you type leaves this page.
+            Pick a CCC service and a cloud, start from a basic, intermediate or hardened Terraform template, then edit it and apply your changes
+            to see which controls it satisfies. Everything runs in your browser: nothing you type leaves this page.
           </p>
         </header>
 
@@ -198,6 +237,17 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
         </aside>
 
         <div className={styles.toolbar}>
+          <label className={styles.field}>
+            <span className={styles.fieldLabel}>Service</span>
+            <select value={serviceData.id} onChange={(e) => setService(e.target.value as ServiceId)} className={styles.select}>
+              {data.services.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title}
+                </option>
+              ))}
+            </select>
+          </label>
+
           <fieldset className={styles.field}>
             <legend className={styles.fieldLabel}>Cloud</legend>
             <div className={styles.segmented}>
@@ -205,7 +255,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
                 <button
                   type="button"
                   key={c.id}
-                  title={c.service}
+                  title={products[c.id]}
                   aria-pressed={cloud === c.id}
                   className={`${styles.segment} ${styles.cloud} ${cloud === c.id ? styles.segmentActive : ""}`}
                   onClick={() => setCloud(c.id)}
@@ -219,11 +269,15 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
           <label className={styles.field}>
             <span className={styles.fieldLabel}>Example</span>
             <select value={template.example} onChange={(e) => setExample(e.target.value)} className={styles.select}>
-              {[...cloudTemplates].sort((a, b) => exampleOrder(a) - exampleOrder(b)).map((t) => (
-                <option key={t.id} value={t.example}>
-                  {t.title}
-                  {drafts[t.id] !== undefined && drafts[t.id] !== t.code ? " (edited)" : ""}
-                </option>
+              {exampleGroups.map((g) => (
+                <optgroup key={g.group} label={g.group === "level" ? "Hardening level" : "Scenarios"}>
+                  {g.templates.map((t) => (
+                    <option key={t.id} value={t.example}>
+                      {t.title}
+                      {drafts[t.id] !== undefined && drafts[t.id] !== t.code ? " (edited)" : ""}
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </label>
@@ -246,12 +300,12 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
             </div>
           </fieldset>
 
-          {buckets.length > 1 && (
+          {summary && subjects.length > 1 && (
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>Storage in scope</span>
-              <select value={bucket} onChange={(e) => setBucket(e.target.value)} className={styles.select}>
-                <option value="">All ({buckets.length})</option>
-                {buckets.map((b) => (
+              <span className={styles.fieldLabel}>{capitalise(summary.noun.one)} in scope</span>
+              <select value={subject} onChange={(e) => setSubject(e.target.value)} className={styles.select}>
+                <option value="">All ({subjects.length})</option>
+                {subjects.map((b) => (
                   <option key={b} value={b}>
                     {b}
                   </option>
@@ -265,7 +319,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
           <section className={styles.editorPane} aria-labelledby="labs-editor-title">
             <div className={styles.paneHead}>
               <h2 id="labs-editor-title" className={styles.paneTitle}>
-                main.tf <span className={styles.paneMeta}>· {cloudInfo.service}</span>
+                main.tf <span className={styles.paneMeta}>· {products[cloud]}</span>
               </h2>
               <div className={styles.paneActions}>
                 {template.sourceUrl && (
@@ -300,7 +354,7 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
               </summary>
               <div className={styles.settingsBody}>
                 <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Trusted regions and locations, any cloud (CCC.Core.CN06, CN10)</span>
+                  <span className={styles.fieldLabel}>Trusted regions and locations, any cloud</span>
                   <input
                     className={styles.input}
                     defaultValue={settings.trustedRegions.join(", ")}
@@ -308,29 +362,38 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
                     onBlur={(e) => setSettings((s) => ({ ...s, trustedRegions: splitList(e.target.value) }))}
                   />
                 </label>
-                <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Approved storage classes and tiers, any cloud (CCC.ObjStor.CN10)</span>
-                  <input
-                    className={styles.input}
-                    defaultValue={settings.approvedStorageClasses.join(", ")}
-                    key={`classes-${settings.approvedStorageClasses.join()}`}
-                    onBlur={(e) => setSettings((s) => ({ ...s, approvedStorageClasses: splitList(e.target.value).map((x) => x.toUpperCase()) }))}
+                {serviceData.id === "secrets" && (
+                  <NumberSetting
+                    label="Max days between secret rotations (CCC.SecMgmt.CN01)"
+                    value={settings.maxSecretRotationDays}
+                    onChange={(n) => setSettings((s) => ({ ...s, maxSecretRotationDays: n }))}
                   />
-                </label>
-                <label className={styles.field}>
-                  <span className={styles.fieldLabel}>Max pre-signed URL / SAS lifetime, seconds (CCC.ObjStor.CN08)</span>
-                  <input
-                    className={styles.input}
-                    type="number"
-                    min={1}
-                    defaultValue={settings.maxPresignedUrlSeconds}
-                    key={`presign-${settings.maxPresignedUrlSeconds}`}
-                    onBlur={(e) => {
-                      const n = Number(e.target.value);
-                      if (n > 0) setSettings((s) => ({ ...s, maxPresignedUrlSeconds: n }));
-                    }}
+                )}
+                {serviceData.id === "logging" && (
+                  <NumberSetting
+                    label="Minimum log retention, days (CCC.Logging.CN02)"
+                    value={settings.minLogRetentionDays}
+                    onChange={(n) => setSettings((s) => ({ ...s, minLogRetentionDays: n }))}
                   />
-                </label>
+                )}
+                {serviceData.id === "object-storage" && (
+                  <>
+                    <label className={styles.field}>
+                      <span className={styles.fieldLabel}>Approved storage classes and tiers, any cloud (CCC.ObjStor.CN10)</span>
+                      <input
+                        className={styles.input}
+                        defaultValue={settings.approvedStorageClasses.join(", ")}
+                        key={`classes-${settings.approvedStorageClasses.join()}`}
+                        onBlur={(e) => setSettings((s) => ({ ...s, approvedStorageClasses: splitList(e.target.value).map((x) => x.toUpperCase()) }))}
+                      />
+                    </label>
+                    <NumberSetting
+                      label="Max pre-signed URL / SAS lifetime, seconds (CCC.ObjStor.CN08)"
+                      value={settings.maxPresignedUrlSeconds}
+                      onChange={(n) => setSettings((s) => ({ ...s, maxPresignedUrlSeconds: n }))}
+                    />
+                  </>
+                )}
                 <button type="button" className={styles.ghostButton} onClick={() => setSettings(DEFAULT_SETTINGS)}>
                   <RotateCcw size={14} aria-hidden="true" /> Restore defaults
                 </button>
@@ -341,13 +404,11 @@ export default function LabsPage({ data }: { data: LabsData }): ReactNode {
           <section className={styles.resultsPane} aria-labelledby="labs-results-title">
             <div className={styles.paneHead}>
               <h2 id="labs-results-title" className={styles.paneTitle}>
-                Control coverage
+                {serviceData.title} coverage
               </h2>
               {summary && (
                 <span className={styles.paneMeta}>
-                  {summary.resourceCount} resources · {summary.bucketAddresses.length}{" "}
-                  {summary.clouds.length === 1 && summary.clouds[0] === "azure" ? "storage account" : "bucket"}
-                  {summary.bucketAddresses.length === 1 ? "" : "s"}
+                  {summary.resourceCount} resource{summary.resourceCount === 1 ? "" : "s"} ·{summary.subjects.length} {summary.subjects.length === 1 ? summary.noun.one : summary.noun.many}
                 </span>
               )}
             </div>

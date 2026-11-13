@@ -1,9 +1,9 @@
 import { HclSyntaxError } from "./hcl/parser";
 import { loadModel } from "./terraform/model";
-import { PROVIDERS } from "./rules";
+import type { ProviderRules } from "./rules/common";
 import type { CloudId, ControlResult, Evidence, LabsControl, LabsSettings, RequirementResult, Status, Tlp } from "./types";
 
-/** Higher = worse. Used to combine evidence from several buckets. */
+/** Higher = worse. Used to combine evidence from several resources. */
 const SEVERITY: Record<Status, number> = { na: 0, pass: 1, manual: 2, warn: 3, fail: 4 };
 
 function worst(statuses: Status[]): Status {
@@ -12,8 +12,10 @@ function worst(statuses: Status[]): Status {
 
 export interface EvaluationSummary {
   results: ControlResult[];
-  /** Terraform addresses of the storage buckets (or Azure storage accounts) found in the template. */
-  bucketAddresses: string[];
+  /** Terraform addresses of the service's primary resources (buckets, secrets, VPCs, ...) found in the template. */
+  subjects: string[];
+  /** What the primary resources are called; generic when the template mixes clouds that name them differently. */
+  noun: { one: string; many: string };
   /** Clouds whose resources appear in the template. */
   clouds: CloudId[];
   resourceCount: number;
@@ -28,13 +30,24 @@ export interface EvaluationOptions {
   /** Data classifications in scope; a requirement applies if it lists any of them. */
   tlps: Tlp[];
   settings: LabsSettings;
-  /** Restrict per-bucket rules to this address (e.g. aws_s3_bucket.main or azurerm_storage_account.main). */
-  bucket?: string;
+  /** Restrict per-resource rules to this primary resource's address (e.g. aws_s3_bucket.main). */
+  subject?: string;
+}
+
+function nounOf(ps: ProviderRules[]): { one: string; many: string } {
+  const nouns = [...new Map(ps.map((p) => [p.noun.many, p.noun])).values()];
+  return nouns.length === 1 ? nouns[0] : { one: "primary resource", many: "primary resources" };
 }
 
 const LIVE_ONLY = "This requirement depends on runtime behaviour; it can only be verified against a live deployment.";
 
-export function evaluate(src: string, controls: LabsControl[], { tlps, settings, bucket }: EvaluationOptions): EvaluationOutcome {
+/** Evaluates a template against a service's controls, using that service's rule set for each cloud. */
+export function evaluate(
+  src: string,
+  controls: LabsControl[],
+  providers: ProviderRules[],
+  { tlps, settings, subject: only }: EvaluationOptions,
+): EvaluationOutcome {
   let model;
   try {
     model = loadModel(src);
@@ -44,15 +57,15 @@ export function evaluate(src: string, controls: LabsControl[], { tlps, settings,
   }
 
   // Every cloud whose resources appear in the template is checked with its own rule set.
-  const active = PROVIDERS.filter((p) => model.resources.some((r) => r.type.startsWith(p.prefix))).map((p) => {
+  const active = providers.filter((p) => model.resources.some((r) => r.type.startsWith(p.prefix))).map((p) => {
     const view = p.build(model, settings);
-    const selected = bucket && view.buckets.some((b) => b.res.address === bucket);
-    // When one resource is selected, other clouds' per-bucket rules have nothing in scope.
-    const inScope = selected ? view.buckets.filter((b) => b.res.address === bucket) : bucket ? [] : view.buckets;
+    const selected = only && view.buckets.some((b) => b.res.address === only);
+    // When one resource is selected, other clouds' per-resource rules have nothing in scope.
+    const inScope = selected ? view.buckets.filter((b) => b.res.address === only) : only ? [] : view.buckets;
     return { p, view, inScope, selected };
   });
-  const bucketAddresses = active.flatMap((a) => a.view.buckets.map((b) => b.res.address));
-  const scoped = bucket && bucketAddresses.includes(bucket) ? active.filter((a) => a.selected) : active;
+  const subjects = active.flatMap((a) => a.view.buckets.map((b) => b.res.address));
+  const scoped = only && subjects.includes(only) ? active.filter((a) => a.selected) : active;
   const multi = scoped.length > 1;
   const counts: Record<Status, number> = { pass: 0, fail: 0, warn: 0, manual: 0, na: 0 };
 
@@ -73,7 +86,7 @@ export function evaluate(src: string, controls: LabsControl[], { tlps, settings,
         automated = true;
         if (rule.scope === "template") evidence.push({ ...rule.check(view), subject });
         else if (inScope.length) for (const b of inScope) evidence.push({ ...rule.check(b, view), subject: b.res.address });
-        else evidence.push({ status: "na", subject, message: `No ${p.label} storage buckets or accounts in this template.` });
+        else evidence.push({ status: "na", subject, message: `No ${p.label} ${p.noun.many} in this template.` });
       }
       if (!evidence.length) {
         evidence.push(active.length ? { status: "manual", message: LIVE_ONLY } : { status: "na", message: "No AWS, Azure or Google Cloud resources in this template." });
@@ -92,7 +105,8 @@ export function evaluate(src: string, controls: LabsControl[], { tlps, settings,
     ok: true,
     summary: {
       results,
-      bucketAddresses,
+      subjects,
+      noun: nounOf(active.map((a) => a.p)),
       clouds: active.map((a) => a.p.id),
       resourceCount: model.resources.filter((r) => r.mode === "resource").length,
       counts,

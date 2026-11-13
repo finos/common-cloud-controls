@@ -11,10 +11,10 @@
  * behavioural tests in modules/features.
  */
 
-import type { HclValue } from "../hcl/parser";
-import { references, subBlocks, textOf, type TfModel, type TfResource } from "../terraform/model";
-import type { LabsSettings } from "../types";
-import { fail, first, formatSeconds, isApprovedClass, isTrusted, locationsTrusted, na, normaliseRegion, pass, ruleFactories, warn, type BaseView, type ProviderRules } from "./common";
+import type { HclValue } from "../../hcl/parser";
+import { references, subBlocks, textOf, type TfModel, type TfResource } from "../../terraform/model";
+import type { LabsSettings } from "../../types";
+import { azureLocation, fail, first, formatSeconds, isApprovedClass, isTrusted, locationsTrusted, na, normaliseRegion, pass, ruleFactories, warn, type BaseView, type ProviderRules } from "../common";
 
 interface Located<T> {
   value: T;
@@ -119,16 +119,6 @@ function rawText(v: HclValue | undefined): string {
 }
 
 /** Resolves a location, following `azurerm_resource_group.x.location`-style references within the template. */
-function locationOf(model: TfModel, v: HclValue | undefined, depth = 0): string | undefined {
-  const r = model.resolve(v);
-  if (r?.t === "ref") {
-    const m = /^(data\.)?(\w+)\.([\w-]+)\.location$/.exec(r.path);
-    const res = m && depth < 5 ? model.find(m[1] ? "data" : "resource", m[2], m[3]) : undefined;
-    return res ? locationOf(model, res.block.attrs.location?.value, depth + 1) : undefined;
-  }
-  return model.str(r);
-}
-
 function categoriesOf(model: TfModel, res: TfResource) {
   const categories = new Set<string>();
   const groups = new Set<string>();
@@ -165,7 +155,7 @@ export function buildAzureView(model: TfModel, settings: LabsSettings): AzureVie
     const view: AccountView = {
       res,
       name,
-      location: locationOf(model, b.attrs.location?.value),
+      location: azureLocation(model, b.attrs.location?.value),
       minTls: attr("min_tls_version", (v) => model.str(v)),
       httpsOnly: attr(["https_traffic_only_enabled", "enable_https_traffic_only"], (v) => model.bool(v)),
       allowNestedPublic: attr(["allow_nested_items_to_be_public", "allow_blob_public_access"], (v) => model.bool(v)),
@@ -454,7 +444,7 @@ const regionTrusted = bucket((a, t) => {
 });
 
 const childRegionsTrusted = template((t) =>
-  locationsTrusted(t, "azurerm_", "Azure", (r) => (r.block.attrs.location ? locationOf(t.model, r.block.attrs.location.value) : null)),
+  locationsTrusted(t, "azurerm_", "Azure", (r) => (r.block.attrs.location ? azureLocation(t.model, r.block.attrs.location.value) : null)),
 );
 
 const replicationInPerimeter = bucket((a, t) => {
@@ -482,6 +472,7 @@ export const azure: ProviderRules<AccountView, AzureView> = {
   id: "azure",
   label: "Azure",
   prefix: "azurerm_",
+  noun: { one: "storage account", many: "storage accounts" },
   build: buildAzureView,
   rules: {
     "CCC.Core.CN01.AR01": minimumTls13,

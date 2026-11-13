@@ -13,10 +13,10 @@
  * they show as "Live test only".
  */
 
-import type { HclBlock, HclValue } from "../hcl/parser";
-import { references, subBlocks, type TfModel, type TfResource } from "../terraform/model";
-import type { LabsSettings } from "../types";
-import { fail, first, isApprovedClass, isTrusted, locationsTrusted, na, pass, ruleFactories, warn, type BaseView, type ProviderRules } from "./common";
+import type { HclBlock, HclValue } from "../../hcl/parser";
+import { references, subBlocks, type TfModel, type TfResource } from "../../terraform/model";
+import type { LabsSettings } from "../../types";
+import { fail, first, isApprovedClass, isTrusted, locationsTrusted, na, pass, ruleFactories, warn, type BaseView, type ProviderRules } from "../common";
 
 interface Located<T> {
   value: T;
@@ -375,6 +375,7 @@ export const gcp: ProviderRules<GcsBucketView, GcpView> = {
   id: "gcp",
   label: "Google Cloud",
   prefix: "google_",
+  noun: { one: "bucket", many: "buckets" },
   build: buildGcpView,
   rules: {
     // CCC.Core.CN01.AR03 (deny plain HTTP) has no Cloud Storage setting: live test only.

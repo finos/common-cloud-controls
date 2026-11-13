@@ -1,9 +1,9 @@
-import type { ExampleSource } from "./index";
+import type { ExampleSource } from "../index";
 
 /** Azure (Blob Storage, azurerm provider) variants of each example. */
-export const AZURE_EXAMPLES: ExampleSource[] = [
+export const EXAMPLES: ExampleSource[] = [
   {
-    example: "minimal",
+    example: "basic",
     description: "A bare storage account and private container relying on azurerm defaults. A good place to start fixing things.",
     code: `provider "azurerm" {
   features {}
@@ -25,6 +25,70 @@ resource "azurerm_storage_account" "data" {
 resource "azurerm_storage_container" "data" {
   name               = "data"
   storage_account_id = azurerm_storage_account.data.id
+}
+`,
+  },
+  {
+    example: "intermediate",
+    description:
+      "A common Blob Storage baseline: zone-redundant, HTTPS-only, no anonymous access, versioning and soft delete, with blob logs sent to a workspace. It still uses Microsoft-managed keys and allows shared keys, with no immutability, SAS policy or tiering.",
+    code: `provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_resource_group" "main" {
+  name     = "acme-trading"
+  location = "uksouth"
+}
+
+resource "azurerm_storage_account" "data" {
+  name                     = "acmetradingdata"
+  resource_group_name      = azurerm_resource_group.main.name
+  location                 = azurerm_resource_group.main.location
+  account_tier             = "Standard"
+  account_replication_type = "ZRS"
+
+  min_tls_version                 = "TLS1_2"
+  https_traffic_only_enabled      = true
+  allow_nested_items_to_be_public = false
+
+  blob_properties {
+    versioning_enabled = true
+
+    delete_retention_policy {
+      days = 14
+    }
+
+    container_delete_retention_policy {
+      days = 14
+    }
+  }
+}
+
+resource "azurerm_storage_container" "data" {
+  name                  = "data"
+  storage_account_id    = azurerm_storage_account.data.id
+  container_access_type = "private"
+}
+
+resource "azurerm_log_analytics_workspace" "audit" {
+  name                = "acme-audit"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  retention_in_days   = 90
+}
+
+resource "azurerm_monitor_diagnostic_setting" "blob" {
+  name                       = "blob-data-plane"
+  target_resource_id         = "\${azurerm_storage_account.data.id}/blobServices/default"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.audit.id
+
+  enabled_log {
+    category = "StorageWrite"
+  }
+  enabled_log {
+    category = "StorageDelete"
+  }
 }
 `,
   },

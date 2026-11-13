@@ -1,14 +1,17 @@
 /**
  * Shared building blocks for the per-cloud rule sets.
  *
- * Each cloud provider module turns the Terraform model into its own view of the
- * storage resources it understands (S3 buckets, Azure storage accounts, GCS
- * buckets) and maps CCC assessment-requirement IDs to rules over that view.
+ * Each service has one rule set per cloud. A rule set turns the Terraform model
+ * into its own view of the service's primary resources (S3 buckets, Azure
+ * storage accounts, Key Vault secrets, VPCs, functions, ...) and maps CCC
+ * assessment-requirement IDs to rules over that view.
  */
 
+import type { HclValue } from "../hcl/parser";
 import type { TfModel, TfResource } from "../terraform/model";
 import type { CloudId, Evidence, LabsSettings } from "../types";
 
+/** One of the service's primary resources (named "bucket" for historical reasons: it was object storage first). */
 export interface BaseBucket {
   res: TfResource;
 }
@@ -29,6 +32,8 @@ export interface ProviderRules<B extends BaseBucket = BaseBucket, T extends Base
   label: string;
   /** Terraform resource-type prefix for this provider, e.g. "aws_". */
   prefix: string;
+  /** What the primary resources are called, e.g. { one: "bucket", many: "buckets" }. */
+  noun: { one: string; many: string };
   build(model: TfModel, settings: LabsSettings): T;
   rules: Record<string, Rule<B, T>>;
 }
@@ -92,4 +97,36 @@ export function locationsTrusted(
   const unknown = located.filter((r) => !regionOf(r));
   if (unknown.length) return warn(`The location of ${unknown.length} ${label} resource(s) is unknown or computed.`, unknown[0].block.line);
   return pass(`All ${label} resources deploy to trusted locations.`);
+}
+
+/**
+ * Resolves an Azure `location`, following references such as
+ * `azurerm_resource_group.main.location` to the referenced resource's own location.
+ */
+export function azureLocation(model: TfModel, v: HclValue | undefined, depth = 0): string | undefined {
+  const r = model.resolve(v);
+  if (r?.t === "ref") {
+    const m = /^(data\.)?(\w+)\.([\w-]+)\.location$/.exec(r.path);
+    const res = m && depth < 5 ? model.find(m[1] ? "data" : "resource", m[2], m[3]) : undefined;
+    return res ? azureLocation(model, res.block.attrs.location?.value, depth + 1) : undefined;
+  }
+  return model.str(r);
+}
+
+/** The region of the default google provider, if determinable. */
+export function gcpProviderRegion(model: TfModel): string | undefined {
+  const p = model.providers.find((b) => b.labels[0] === "google" && !b.attrs.alias) ?? model.providers.find((b) => b.labels[0] === "google");
+  return p ? model.str(p.attrs.region?.value) : undefined;
+}
+
+/**
+ * The location of a Google Cloud resource: its `location` or `region`, else the region of its
+ * `zone` (e.g. europe-west2-a → europe-west2). Returns null when the resource has none of these.
+ */
+export function gcpLocation(model: TfModel, r: TfResource): string | null | undefined {
+  const a = r.block.attrs;
+  if (a.location) return model.str(a.location.value);
+  if (a.region) return model.str(a.region.value);
+  if (a.zone) return model.str(a.zone.value)?.replace(/-[a-z]$/, "");
+  return null;
 }

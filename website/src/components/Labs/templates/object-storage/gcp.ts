@@ -1,9 +1,9 @@
-import type { ExampleSource } from "./index";
+import type { ExampleSource } from "../index";
 
 /** Google Cloud (Cloud Storage, google provider) variants of each example. */
-export const GCP_EXAMPLES: ExampleSource[] = [
+export const EXAMPLES: ExampleSource[] = [
   {
-    example: "minimal",
+    example: "basic",
     description: "A bare Cloud Storage bucket relying on google provider defaults. A good place to start fixing things.",
     code: `provider "google" {
   project = "acme-trading"
@@ -13,6 +13,35 @@ export const GCP_EXAMPLES: ExampleSource[] = [
 resource "google_storage_bucket" "data" {
   name     = "acme-trading-data"
   location = "EUROPE-WEST2"
+}
+`,
+  },
+  {
+    example: "intermediate",
+    description:
+      "A common Cloud Storage baseline: uniform access, public access prevention, versioning and access logs. It still uses Google-managed keys, with no retention policy, data-access audit logs or organisation policies.",
+    code: `provider "google" {
+  project = "acme-trading"
+  region  = "europe-west2"
+}
+
+resource "google_storage_bucket" "data" {
+  name                        = "acme-trading-data"
+  location                    = "EUROPE-WEST2"
+  uniform_bucket_level_access = true
+  public_access_prevention    = "enforced"
+
+  versioning {
+    enabled = true
+  }
+
+  soft_delete_policy {
+    retention_duration_seconds = 604800 # 7 days, the default
+  }
+
+  logging {
+    log_bucket = "acme-central-access-logs" # managed in the logging project
+  }
 }
 `,
   },
