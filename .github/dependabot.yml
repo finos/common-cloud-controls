@@ -1,0 +1,31 @@
+# Keeps the Go toolchain deps (go-gemara in particular) and the GitHub Actions
+# pins from drifting. Weekly, grouped, so each run is one PR per ecosystem.
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directories:
+      - "/delivery-toolkit"
+      - "/modules/ccc-behavioural-plugin"
+      - "/modules/cloud-api"
+      - "/modules/cloud-api-test"
+      - "/modules/cloud-testing-dsl"
+      - "/modules/probes/admission-webhook"
+      - "/modules/probes/reachability"
+      - "/modules/reporters"
+      - "/modules/runner"
+    schedule:
+      interval: weekly
+    groups:
+      go-deps:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(deps)"
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(ci)"
