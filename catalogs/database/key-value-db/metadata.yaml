@@ -1,0 +1,27 @@
+metadata:
+  id: CCC.KVDB
+  title: CCC Key-Value Database
+  description: |
+    Key-value database services support storing and retrieving data using
+    unique identifiers, enabling low-latency access for application state,
+    caching, session data, and other non-relational workloads.
+  category-ids:
+    - CCC.Database
+  version: ""
+  last-modified: "2026-09-26T00:00:00Z"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon DynamoDB
+      url: https://docs.aws.amazon.com/amazondynamodb/
+    - provider: Azure
+      service: Azure Cosmos DB
+      url: https://learn.microsoft.com/azure/cosmos-db/
+    - provider: GCP
+      service: Cloud Firestore
+      url: https://cloud.google.com/firestore
+  applicability-categories: []
+  mapping-references:
+    - id: NIST_800_53
+      title: NIST SP 800-53 Rev. 5
+      version: Rev. 5
+      url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
