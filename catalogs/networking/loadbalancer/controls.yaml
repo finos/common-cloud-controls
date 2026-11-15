@@ -58,9 +58,9 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-7
+          - reference-id: PR.AA-03
             strength: 0 # Not yet specified
-            remarks: Least functionality is enforced
+            remarks: Users, services, and hardware are authenticated
       - reference-id: NIST_800_53
         entries:
           - reference-id: SC-23
@@ -98,9 +98,9 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.DS-2
+          - reference-id: PR.DS-02
             strength: 0 # Not yet specified
-            remarks: Data in transit is protected
+            remarks: The confidentiality, integrity, and availability of data-in-transit are protected
       - reference-id: NIST_800_53
         entries:
           - reference-id: SC-13

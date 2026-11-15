@@ -46,7 +46,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: ID.RA-1
+          - reference-id: ID.RA-01
       - reference-id: NIST_800_53
         entries:
           - reference-id: RA-5
@@ -74,7 +74,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.IP-6
+          - reference-id: ID.AM-08
       - reference-id: NIST_800_53
         entries:
           - reference-id: SI-12

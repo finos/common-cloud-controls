@@ -133,7 +133,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: DE.CM-1
+          - reference-id: DE.CM-01
       - reference-id: NIST_800_53
         entries:
           - reference-id: AU-5
@@ -167,7 +167,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: DE.CM-1
+          - reference-id: DE.CM-01
       - reference-id: NIST_800_53
         entries:
           - reference-id: AU-2

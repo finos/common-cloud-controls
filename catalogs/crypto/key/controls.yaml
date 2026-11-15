@@ -74,9 +74,9 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-4
+          - reference-id: PR.AA-05
             strength: 0 # Not yet specified
-            remarks: Access to assets is managed
+            remarks: Access permissions, entitlements, and authorizations are defined in a policy, managed, enforced, and reviewed, and incorporate the principles of least privilege and separation of duties
       - reference-id: NIST_800_53
         entries:
           - reference-id: AC-6
@@ -124,9 +124,9 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.DS-1
+          - reference-id: PR.DS-01
             strength: 0 # Not yet specified
-            remarks: Data at rest is protected
+            remarks: The confidentiality, integrity, and availability of data-at-rest are protected
       - reference-id: NIST_800_53
         entries:
           - reference-id: SC-12
@@ -166,9 +166,9 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.DS-1
+          - reference-id: PR.DS-01
             strength: 0 # Not yet specified
-            remarks: Data at rest is protected
+            remarks: The confidentiality, integrity, and availability of data-at-rest are protected
       - reference-id: NIST_800_53
         entries:
           - reference-id: SC-28

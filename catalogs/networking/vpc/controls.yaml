@@ -50,7 +50,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-5
+          - reference-id: PR.IR-01
       - reference-id: CCM
         entries:
           - reference-id: TVM-02
@@ -94,7 +94,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-3
+          - reference-id: PR.IR-01
       - reference-id: CCM
         entries:
           - reference-id: SEF-05
@@ -138,7 +138,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-3
+          - reference-id: PR.IR-01
       - reference-id: CCM
         entries:
           - reference-id: IVS-01
@@ -170,7 +170,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.PT-1
+          - reference-id: PR.PS-04
       - reference-id: ISO_27001
         entries:
           - reference-id: 2013 A.12.4.1
