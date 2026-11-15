@@ -49,7 +49,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-3
+          - reference-id: PR.AA-05
       - reference-id: ISO_27001
         entries:
           - reference-id: 2013 A.9.1.1
@@ -95,7 +95,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-4
+          - reference-id: PR.AA-05
             strength: 0 # Not yet specified
       - reference-id: NIST_800_53
         entries:
@@ -138,7 +138,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-4
+          - reference-id: PR.AA-05
             strength: 0 # Not yet specified
       - reference-id: NIST_800_53
         entries:
@@ -179,7 +179,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.DS-5
+          - reference-id: PR.DS-02
       - reference-id: CCM
         entries:
           - reference-id: DSI-05
@@ -220,7 +220,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.IP-1
+          - reference-id: PR.PS-01
       - reference-id: CCM
         entries:
           - reference-id: TVM-02
@@ -263,7 +263,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.IP-12
+          - reference-id: PR.PS-02
       - reference-id: CCM
         entries:
           - reference-id: TVM-01
@@ -305,7 +305,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-3
+          - reference-id: PR.IR-01
       - reference-id: CCM
         entries:
           - reference-id: SEF-05
@@ -348,7 +348,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-4
+          - reference-id: PR.AA-05
             strength: 0 # Not yet specified
       - reference-id: CCM
         entries:

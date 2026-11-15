@@ -182,9 +182,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-3
-            strength: 0 # Not yet specified
-          - reference-id: PR.AC-4
+          - reference-id: PR.AA-05
             strength: 0 # Not yet specified
       - reference-id: NIST_800_53
         entries:
@@ -221,7 +219,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-6
+          - reference-id: PR.AA-05
       - reference-id: NIST_800_53
         entries:
           - reference-id: AC-2

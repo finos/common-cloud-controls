@@ -54,9 +54,9 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-5
+          - reference-id: PR.IR-01
             strength: 0 # Not yet specified
-            remarks: Network integrity is protected
+            remarks: Networks and environments are protected from unauthorized logical access and usage
       - reference-id: NIST_800_53
         entries:
           - reference-id: SC-7
@@ -90,9 +90,9 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.DS-4
+          - reference-id: PR.IR-04
             strength: 0 # Not yet specified
-            remarks: Adequate capacity to ensure availability
+            remarks: Adequate resource capacity to ensure availability is maintained
       - reference-id: NIST_800_53
         entries:
           - reference-id: SC-5

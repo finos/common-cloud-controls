@@ -93,7 +93,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-1
+          - reference-id: PR.AA-03
       - reference-id: NIST_800_53
         entries:
           - reference-id: AC-7
@@ -122,7 +122,7 @@ controls:
     guidelines:
       - reference-id: NIST-CSF
         entries:
-          - reference-id: PR.AC-4
+          - reference-id: PR.AA-05
             strength: 0 # Not yet specified
       - reference-id: NIST_800_53
         entries:
