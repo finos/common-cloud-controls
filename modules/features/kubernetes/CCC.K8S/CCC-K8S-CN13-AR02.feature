@@ -17,4 +17,5 @@ Feature: CCC.K8S.CN13.AR02 - Enforce namespace resource quotas
     Then "{result}" is not an error
     And "{result.Quotas}" is not nil
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{quota-exceed-workload-manifest}"
-    Then "{result}" is an error
+    Then "{result}" is not an error
+    And "{result.Denied}" is true

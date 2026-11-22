@@ -14,7 +14,8 @@ Feature: CCC.K8S.CN05.AR02 - Enforce secure Linux runtime settings
   @Behavioural @kubernetes
   Scenario: Enforce secure Linux runtime settings
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{insecure-security-context-manifest}"
-    Then "{result}" is an error
+    Then "{result}" is not an error
+    And "{result.Denied}" is true
     When I call "{kubeClient}" with "GetWorkloadRuntimeSecurity" using arguments "{uid}" and "{security-probe-selector}"
     Then "{result}" is not an error
     And I refer to "{result}" as "runtime"

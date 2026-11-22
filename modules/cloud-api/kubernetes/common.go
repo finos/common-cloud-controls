@@ -24,6 +24,7 @@ import (
 	rbacv1 "k8s.io/api/rbac/v1"
 	storagev1 "k8s.io/api/storage/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	apiresource "k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -286,6 +287,21 @@ func isAuthzDenied(err error) bool {
 	}
 	msg := strings.ToLower(err.Error())
 	return strings.Contains(msg, "forbidden") || strings.Contains(msg, "unauthorized")
+}
+
+// rbacDeniedMessage matches the RBAC authorizer's message, such as
+// `User "x" cannot create resource "pods" in API group "" in the namespace "y"`.
+var rbacDeniedMessage = regexp.MustCompile(`"[^"]*" cannot [a-z]+ resource `)
+
+// isRBACDenied reports whether the caller was not authenticated or not
+// authorized. Admission denials (ValidatingAdmissionPolicy, Pod Security,
+// ResourceQuota, LimitRange, webhooks) are also HTTP 403 Forbidden but are
+// policy decisions, so they do not match.
+func isRBACDenied(err error) bool {
+	if apierrors.IsUnauthorized(err) {
+		return true
+	}
+	return apierrors.IsForbidden(err) && rbacDeniedMessage.MatchString(err.Error())
 }
 
 func unassessedIfAuthz(op string, err error) error {
@@ -652,13 +668,13 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 			return result, nil
 		}
 		result["Reason"] = err.Error()
-		if isAuthzDenied(err) {
+		if isRBACDenied(err) {
 			// Observer cannot create/dry-run — not a policy decision.
 			return result, unassessedIfAuthz("admit workload "+operation, err)
 		}
 		result["Denied"] = true
 		// Webhook fail-closed must surface as an error (CN11.AR03 / CSV).
-		// VAP / PSA policy denials keep nil + Denied (CN03.AR02).
+		// Policy denials (VAP, PSA, quota, LimitRange, validation) keep nil + Denied.
 		if isWebhookUnavailable(err) {
 			return result, fmt.Errorf("admit workload %s denied: %w", operation, err)
 		}
@@ -816,6 +832,7 @@ func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector string, t
 						ImagePullPolicy: corev1.PullIfNotPresent,
 						Command:         []string{"/bin/sh", "-c"},
 						Args:            []string{networkFlowProbeScript(targetURL, dialHost, dialPort)},
+						Resources:       probeResources(),
 						SecurityContext: &corev1.SecurityContext{
 							AllowPrivilegeEscalation: boolPtr(false),
 							RunAsNonRoot:             boolPtr(true),
@@ -1086,6 +1103,15 @@ func (c *KubeClient) pvcNeedsConsumer(claim *corev1.PersistentVolumeClaim) bool 
 	return class.VolumeBindingMode != nil && *class.VolumeBindingMode == storagev1.VolumeBindingWaitForFirstConsumer
 }
 
+// probeResources bounds the short-lived probe pods the tests create, so they
+// are admitted where CCC.K8S.CN13 requires explicit requests and limits.
+func probeResources() corev1.ResourceRequirements {
+	return corev1.ResourceRequirements{
+		Requests: corev1.ResourceList{corev1.ResourceCPU: apiresource.MustParse("50m"), corev1.ResourceMemory: apiresource.MustParse("64Mi")},
+		Limits:   corev1.ResourceList{corev1.ResourceCPU: apiresource.MustParse("100m"), corev1.ResourceMemory: apiresource.MustParse("128Mi")},
+	}
+}
+
 func (c *KubeClient) createPVCConsumer(namespace, claimName string, keepAlive time.Duration) (string, error) {
 	image := firstNonEmpty(c.config.Get("pvc-consumer-image"), c.config.Get("network-probe-image"), digestPinnedBusybox)
 	sleepSecs := int(keepAlive.Seconds()) + 30
@@ -1104,6 +1130,7 @@ func (c *KubeClient) createPVCConsumer(namespace, claimName string, keepAlive ti
 				Name: "consumer", Image: image, ImagePullPolicy: corev1.PullIfNotPresent,
 				Command:      []string{"/bin/sh", "-c", fmt.Sprintf("sleep %d", sleepSecs)},
 				VolumeMounts: []corev1.VolumeMount{{Name: "data", MountPath: "/data"}},
+				Resources:    probeResources(),
 				SecurityContext: &corev1.SecurityContext{
 					AllowPrivilegeEscalation: boolPtr(false),
 					Capabilities:             &corev1.Capabilities{Drop: []corev1.Capability{"ALL"}},

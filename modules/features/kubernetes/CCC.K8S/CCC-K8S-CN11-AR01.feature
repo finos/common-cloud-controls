@@ -14,9 +14,11 @@ Feature: CCC.K8S.CN11.AR01 - Cover every namespace and admission path
   @Behavioural @kubernetes
   Scenario: Cover every namespace and admission path
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{privileged-workload-manifest}"
-    Then "{result}" is an error
+    Then "{result}" is not an error
+    And "{result.Denied}" is true
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "update", and "{privileged-controller-update-manifest}"
-    Then "{result}" is an error
+    Then "{result}" is not an error
+    And "{result.Denied}" is true
     When I call "{kubeClient}" with "GetAdmissionPolicyCoverage" using argument "{uid}"
     Then "{result}" is not an error
     And "{result.Uncovered}" is an array of objects with length "0"

@@ -12,7 +12,8 @@ Feature: CCC.K8S.CN13.AR01 - Require approved CPU and memory bounds
   @Behavioural @kubernetes
   Scenario: Require approved CPU and memory bounds
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{missing-resource-bounds-manifest}"
-    Then "{result}" is an error
+    Then "{result}" is not an error
+    And "{result.Denied}" is true
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{compliant-resource-bounds-manifest}"
     Then "{result}" is not an error
     And "{result.Admitted}" is true

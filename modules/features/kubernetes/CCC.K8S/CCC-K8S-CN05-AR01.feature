@@ -12,4 +12,5 @@ Feature: CCC.K8S.CN05.AR01 - Reject privileged and host-access workloads
   @Behavioural @kubernetes
   Scenario: Reject privileged and host-access workloads
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{privileged-workload-manifest}"
-    Then "{result}" is an error
+    Then "{result}" is not an error
+    And "{result.Denied}" is true
