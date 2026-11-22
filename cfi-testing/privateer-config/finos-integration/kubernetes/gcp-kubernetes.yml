@@ -136,6 +136,231 @@ services:
         - google
         - "<approved-image-project>"
       min-supported-node-image: "cos-containerd-v1.29"
+      # Admission manifests (server-side dry run only). Each negative manifest
+      # violates only the rule its scenario is about; all images are digest-pinned
+      # and every container has bounds accepted by ccc-require-resource-bounds.
+      unapproved-tag-image-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-unapproved-image
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:latest
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      privileged-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-privileged
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                privileged: true
+      privileged-controller-update-manifest: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-privileged-deploy
+          namespace: ccc-test
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: ccc-privileged-deploy
+          template:
+            metadata:
+              labels:
+                app: ccc-privileged-deploy
+            spec:
+              containers:
+                - name: pause
+                  image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+                  resources:
+                    requests: { cpu: 50m, memory: 64Mi }
+                    limits: { cpu: 100m, memory: 128Mi }
+                  securityContext:
+                    privileged: true
+      insecure-security-context-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-insecure-context
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                allowPrivilegeEscalation: true
+                capabilities: { drop: ["ALL"] }
+      static-credential-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-static-creds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              env:
+                - name: GOOGLE_APPLICATION_CREDENTIALS
+                  value: "/var/secrets/not-a-real-key.json"
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      compliant-no-static-cred-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-no-static-creds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      missing-resource-bounds-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-missing-bounds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      compliant-resource-bounds-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-compliant-bounds
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+      quota-exceed-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-quota-exceed
+          namespace: ccc-test
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          # Each container is within ccc-require-resource-bounds; together they
+          # request 2500m CPU against the 2-CPU ccc-quota, so only the quota denies.
+          containers:
+            - { name: pause-1, image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662", resources: { requests: { cpu: 500m, memory: 64Mi }, limits: { cpu: 500m, memory: 128Mi } }, securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: ["ALL"] } } }
+            - { name: pause-2, image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662", resources: { requests: { cpu: 500m, memory: 64Mi }, limits: { cpu: 500m, memory: 128Mi } }, securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: ["ALL"] } } }
+            - { name: pause-3, image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662", resources: { requests: { cpu: 500m, memory: 64Mi }, limits: { cpu: 500m, memory: 128Mi } }, securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: ["ALL"] } } }
+            - { name: pause-4, image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662", resources: { requests: { cpu: 500m, memory: 64Mi }, limits: { cpu: 500m, memory: 128Mi } }, securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: ["ALL"] } } }
+            - { name: pause-5, image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662", resources: { requests: { cpu: 500m, memory: 64Mi }, limits: { cpu: 500m, memory: 128Mi } }, securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: ["ALL"] } } }
+      disallowed-pvc-manifest: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-disallowed-pvc
+          namespace: ccc-test
+        spec:
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests: { storage: 1Gi }
+          storageClassName: ccc-blocked-sc
+      compliant-pvc-manifest: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-compliant-pvc
+          namespace: ccc-test
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests: { storage: 1Gi }
+          storageClassName: ccc-approved-sc
+      webhook-compliant-probe-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-webhook-probe
+          namespace: ccc-admission-webhook-test
+          labels:
+            ccc.finos.org/webhook-probe-object: "true"
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pause
+              image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits: { cpu: 100m, memory: 128Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
       test-identities:
         test-user-no-access:
           user-name: "${GCP_TEST_USER_NO_ACCESS_NAME}"
