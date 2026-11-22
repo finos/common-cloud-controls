@@ -148,8 +148,8 @@ resource "kubernetes_deployment_v1" "network_listener" {
               type = "RuntimeDefault"
             }
           }
-          # Explicit tiny requests: ccc-test LimitRange defaults otherwise inflate
-          # to 50m and pack the single e2 node past allocatable with Calico overhead.
+          # Explicit tiny bounds: ccc-require-resource-bounds rejects pods without
+          # them, and small requests keep the single e2 node within allocatable.
           resources {
             requests = {
               cpu    = "10m"

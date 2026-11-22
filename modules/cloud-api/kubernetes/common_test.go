@@ -2,6 +2,7 @@ package kubernetes
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 	"testing"
@@ -11,10 +12,15 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/client-go/dynamic"
+	dynamicfake "k8s.io/client-go/dynamic/fake"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
 	"k8s.io/client-go/rest"
+	k8stesting "k8s.io/client-go/testing"
 )
 
 func TestNetworkFlowTargetDefaultsBareHostToHealth(t *testing.T) {
@@ -107,6 +113,45 @@ func TestIsWebhookUnavailable(t *testing.T) {
 	}
 	if isWebhookUnavailable(nil) {
 		t.Fatal("nil is not webhook-unavailable")
+	}
+}
+
+// Admission denials are HTTP 403 like RBAC failures, but only RBAC failures
+// mean the test could not assess the control.
+func TestAttemptAdmitWorkloadClassifiesDenials(t *testing.T) {
+	pods := schema.GroupResource{Resource: "pods"}
+	cases := []struct {
+		name                   string
+		apiErr                 error
+		wantErr, denied, admit bool
+	}{
+		{"admitted", nil, false, false, true},
+		{"validating admission policy", apierrors.NewForbidden(pods, "ccc-static-creds", errors.New(`ValidatingAdmissionPolicy 'ccc-deny-static-cloud-credentials' with binding 'ccc-deny-static-cloud-credentials' denied request: static cloud credentials must not be embedded in workloads`)), false, true, false},
+		{"pod security", apierrors.NewForbidden(pods, "ccc-privileged", errors.New(`violates PodSecurity "restricted:latest": privileged (container "pause" must not set securityContext.privileged=true)`)), false, true, false},
+		{"resource quota", apierrors.NewForbidden(pods, "ccc-quota-exceed", errors.New(`exceeded quota: ccc-quota, requested: requests.cpu=32, used: requests.cpu=0, limited: requests.cpu=2`)), false, true, false},
+		{"invalid resources", apierrors.NewInvalid(schema.GroupKind{Kind: "Pod"}, "ccc-quota-exceed", field.ErrorList{field.Invalid(field.NewPath("spec", "containers").Index(0).Child("resources", "requests"), "32", "must be less than or equal to cpu limit of 100m")}), false, true, false},
+		{"webhook unavailable", apierrors.NewInternalError(errors.New(`failed calling webhook "ccc-admission-webhook-probe": failed to call webhook: no endpoints available for service "ccc-admission-webhook-probe"`)), true, true, false},
+		{"rbac forbidden", apierrors.NewForbidden(pods, "", errors.New(`User "system:serviceaccount:ccc:observer" cannot create resource "pods" in API group "" in the namespace "ccc-test"`)), true, false, false},
+		{"unauthorized", apierrors.NewUnauthorized("Unauthorized"), true, false, false},
+	}
+	manifest := "apiVersion: v1\nkind: Pod\nmetadata:\n  name: probe\n  namespace: ccc-test\nspec:\n  containers:\n    - name: pause\n      image: busybox\n"
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			dyn := dynamicfake.NewSimpleDynamicClient(runtime.NewScheme())
+			if tc.apiErr != nil {
+				dyn.PrependReactor("create", "pods", func(k8stesting.Action) (bool, runtime.Object, error) {
+					return true, nil, tc.apiErr
+				})
+			}
+			s := &managedService{ctx: context.Background(), client: fake.NewSimpleClientset(), dynamic: dyn}
+			result, err := s.AttemptAdmitWorkload("cluster", "create", manifest)
+			if (err != nil) != tc.wantErr {
+				t.Fatalf("err = %v, want error: %v", err, tc.wantErr)
+			}
+			if result["Denied"] != tc.denied || result["Admitted"] != tc.admit {
+				t.Fatalf("Denied = %v, Admitted = %v; want %v, %v", result["Denied"], result["Admitted"], tc.denied, tc.admit)
+			}
+		})
 	}
 }
 

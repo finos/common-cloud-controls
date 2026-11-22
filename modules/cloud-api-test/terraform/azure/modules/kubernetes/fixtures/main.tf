@@ -235,33 +235,71 @@ resource "kubernetes_storage_class_v1" "blocked" {
   }
 }
 
-resource "kubernetes_limit_range_v1" "test" {
-  metadata {
-    name      = "ccc-limitrange"
-    namespace = kubernetes_namespace_v1.test.metadata[0].name
-  }
-  spec {
-    limit {
-      type = "Container"
-      default = {
-        cpu    = "100m"
-        memory = "128Mi"
+# Native ValidatingAdmissionPolicy: every container in the test namespace must declare
+# approved CPU/memory requests and a memory limit (CN13.AR01). A LimitRange would
+# silently default missing bounds instead of rejecting the workload. The azure-cli
+# workload identity probe needs ~512Mi, hence the 1Gi memory ceiling.
+resource "kubectl_manifest" "vap_resource_bounds" {
+  yaml_body = yamlencode({
+    apiVersion = "admissionregistration.k8s.io/v1"
+    kind       = "ValidatingAdmissionPolicy"
+    metadata = {
+      name = "ccc-require-resource-bounds"
+    }
+    spec = {
+      failurePolicy = "Fail"
+      matchConstraints = {
+        resourceRules = [{
+          apiGroups   = [""]
+          apiVersions = ["v1"]
+          operations  = ["CREATE", "UPDATE"]
+          resources   = ["pods"]
+        }]
       }
-      default_request = {
-        cpu    = "50m"
-        memory = "64Mi"
-      }
-      max = {
-        # azure-cli WI probe needs ~512Mi; leave headroom for the LimitRange default path.
-        cpu    = "500m"
-        memory = "1Gi"
-      }
-      min = {
-        cpu    = "10m"
-        memory = "16Mi"
+      variables = [{
+        name       = "containers"
+        expression = "object.spec.containers + (has(object.spec.initContainers) ? object.spec.initContainers : [])"
+      }]
+      validations = [
+        {
+          expression = "variables.containers.all(c, has(c.resources) && has(c.resources.requests) && has(c.resources.limits) && 'cpu' in c.resources.requests && 'memory' in c.resources.requests && 'memory' in c.resources.limits)"
+          message    = "every container must set CPU and memory requests and a memory limit"
+        },
+        {
+          expression = "variables.containers.all(c, !has(c.resources) || !has(c.resources.requests) || ((!('cpu' in c.resources.requests) || (quantity(c.resources.requests.cpu).compareTo(quantity('10m')) >= 0 && quantity(c.resources.requests.cpu).compareTo(quantity('500m')) <= 0)) && (!('memory' in c.resources.requests) || (quantity(c.resources.requests.memory).compareTo(quantity('16Mi')) >= 0 && quantity(c.resources.requests.memory).compareTo(quantity('1Gi')) <= 0))))"
+          message    = "container requests must be within the approved range (CPU 10m-500m, memory 16Mi-1Gi)"
+        },
+        {
+          expression = "variables.containers.all(c, !has(c.resources) || !has(c.resources.limits) || ((!('cpu' in c.resources.limits) || quantity(c.resources.limits.cpu).compareTo(quantity('500m')) <= 0) && (!('memory' in c.resources.limits) || quantity(c.resources.limits.memory).compareTo(quantity('1Gi')) <= 0)))"
+          message    = "container limits must be within the approved range (CPU up to 500m, memory up to 1Gi)"
+        },
+      ]
+    }
+  })
+}
+
+resource "kubectl_manifest" "vap_resource_bounds_binding" {
+  yaml_body = yamlencode({
+    apiVersion = "admissionregistration.k8s.io/v1"
+    kind       = "ValidatingAdmissionPolicyBinding"
+    metadata = {
+      name = "ccc-require-resource-bounds"
+    }
+    spec = {
+      policyName        = "ccc-require-resource-bounds"
+      validationActions = ["Deny"]
+      matchResources = {
+        namespaceSelector = {
+          matchExpressions = [{
+            key      = "kubernetes.io/metadata.name"
+            operator = "In"
+            values   = [local.m.test_workload_namespace]
+          }]
+        }
       }
     }
-  }
+  })
+  depends_on = [kubectl_manifest.vap_resource_bounds]
 }
 
 resource "kubernetes_resource_quota_v1" "test" {

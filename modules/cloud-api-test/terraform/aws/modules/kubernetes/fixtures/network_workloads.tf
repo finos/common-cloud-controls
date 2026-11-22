@@ -133,6 +133,17 @@ resource "kubernetes_deployment_v1" "network_listener" {
           image_pull_policy = "IfNotPresent"
           command           = ["/bin/sh", "-c"]
           args              = ["mkdir -p /tmp/www && echo ok >/tmp/www/health && exec httpd -f -p 8080 -h /tmp/www"]
+          # Explicit bounds: ccc-require-resource-bounds rejects pods without them.
+          resources {
+            requests = {
+              cpu    = "10m"
+              memory = "16Mi"
+            }
+            limits = {
+              cpu    = "100m"
+              memory = "64Mi"
+            }
+          }
           port {
             container_port = 8080
             name           = "http"
